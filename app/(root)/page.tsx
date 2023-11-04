@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <main>
-      Bird
-    </main>
+    <>
+      <h1 className="">Home</h1>
+    </>
   )
 }
