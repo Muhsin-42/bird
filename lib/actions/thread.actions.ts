@@ -32,3 +32,35 @@ export async function createThread ({
     //revalidate data
     revalidatePath(path)    
 }
+
+export async function fetchPosts(pageNumber=1,pageSize=20){
+    try {
+        connectToDB();
+
+        // calculate no. of posts to skip.
+        const skipCount = (pageNumber -1) * pageSize;
+
+        // Fetch the posts that have no parents. (ie. don't need replies)
+        const postsQuery = Thread.find({ parentId: { $in: [null,undefined]}})
+                                .sort({ createdAt: 'desc'})
+                                .skip(skipCount)
+                                .limit(pageNumber)
+                                .populate({path: 'author', model: User})
+                                .populate({
+                                    path: 'children',
+                                    populate: {
+                                        path: 'author',
+                                        model: User,
+                                        select: '_id name parentId image'
+                                    }
+                                })
+        const totalPostsCount = await Thread.countDocuments({parentId: { $in: [null, undefined]}})
+        const posts = await postsQuery.exec();
+
+        const isNext = totalPostsCount > skipCount + posts.length;
+
+        return { posts, isNext}
+    } catch (error) {
+        
+    }
+}
