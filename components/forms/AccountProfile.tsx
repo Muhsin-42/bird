@@ -18,7 +18,8 @@ import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import { ChangeEvent, useState } from "react"
 import { Textarea } from "../ui/textarea"
-
+import { isBase64Image } from "@/lib/utils"
+import { useUploadThing } from '@/lib/uploadthing'
 interface Props {
     user: {
         id:string,
@@ -34,16 +35,17 @@ interface Props {
 const AccountProfile = ({user,btnTitle}:Props) =>{
 
   const [files, setFiles] = useState<File[]>([]);
+  const { startUpload } = useUploadThing('media')
 
-    const form = useForm({
-        resolver: zodResolver(UserValidation),
-        defaultValues: {
-            profile_photo: user?.image || '',
-            name: user?.name || '',
-            username: user?.username || '',
-            bio: user?.bio || ''
-        }
-    });
+  const form = useForm({
+      resolver: zodResolver(UserValidation),
+      defaultValues: {
+          profile_photo: user?.image || '',
+          name: user?.name || '',
+          username: user?.username || '',
+          bio: user?.bio || ''
+      }
+  });
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>, fieldChange:(value:string)=>void) =>{
         e.preventDefault();
@@ -67,10 +69,19 @@ const AccountProfile = ({user,btnTitle}:Props) =>{
         }
     }
 
-    function onSubmit(values: z.infer<typeof UserValidation>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof UserValidation>) {
+        const blog = values.profile_photo;
+        const hasImageChanged = isBase64Image(blog);
+
+        if(hasImageChanged){
+          const imgRes = await startUpload(files);
+
+          if(imgRes && imgRes[0].url){
+            values.profile_photo = imgRes[0].url
+          }
+        }
+
+        // TODO: UPDATE USER PROFILE
       }
 
     return (
@@ -104,13 +115,6 @@ const AccountProfile = ({user,btnTitle}:Props) =>{
                     )}
                 </FormLabel>
                 <FormControl className="flex-1 text-base-semibold text-gray-200">
-                  {/* <Input 
-                        type="file" 
-                        accept="image/**"
-                        placeholder="Upload profile pic." 
-                        {...field} 
-                        onChange={(e)=> handleImage(e, field.onChange)} 
-                    /> */}
                     <Input 
                         type="file" 
                         accept="image/**"
