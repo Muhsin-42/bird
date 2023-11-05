@@ -75,7 +75,7 @@ const AccountProfile = ({user,btnTitle}:Props) =>{
 
     async function onSubmit(values: z.infer<typeof UserValidation>) {
         const blob = values.profile_photo;
-        const hasImageChanged = isBase64Image(blog);
+        const hasImageChanged = isBase64Image(blob);
 
         if(hasImageChanged){
           const imgRes = await startUpload(files);
@@ -102,7 +102,7 @@ const AccountProfile = ({user,btnTitle}:Props) =>{
       }
 
     return (
-        <Form {...form}>
+      <Form {...form}>
         <form 
             onSubmit={form.handleSubmit(onSubmit)} 
             className="flex flex-col justify-start gap-10">
