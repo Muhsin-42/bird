@@ -4,7 +4,6 @@ async function Page(){
     const user = await currentUser();
     const userInfo = {};
 
-    console.log('uuuuu ',user?.imageUrl)
     const userData = {
         id: user?.id,
         // objectid:  userInfo?._id || '',
