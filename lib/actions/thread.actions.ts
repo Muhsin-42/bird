@@ -44,7 +44,7 @@ export async function fetchPosts(pageNumber=1,pageSize=20){
         const postsQuery = Thread.find({ parentId: { $in: [null,undefined]}})
                                 .sort({ createdAt: 'desc'})
                                 .skip(skipCount)
-                                .limit(pageNumber)
+                                .limit(pageSize)
                                 .populate({path: 'author', model: User})
                                 .populate({
                                     path: 'children',
@@ -58,9 +58,45 @@ export async function fetchPosts(pageNumber=1,pageSize=20){
         const posts = await postsQuery.exec();
 
         const isNext = totalPostsCount > skipCount + posts.length;
-
+        
         return { posts, isNext}
     } catch (error) {
         
+    }
+}
+
+export async function fetchPostById(postId:string){
+    try {
+        connectToDB();
+        
+        //TODO: Populate community.
+        const post = await Thread.findById(postId)
+                            .populate({
+                                path: 'author',
+                                model: User,
+                                select: "_id id name image"
+                            })
+                            .populate({
+                                path: 'children',
+                                populate: [
+                                    {
+                                        path: 'author',
+                                        model: User,
+                                        select: "_id id name image parentId"
+                                    },
+                                    {
+                                        path: 'children',
+                                        model: Thread,
+                                        populate:{
+                                            path: 'author',
+                                            model: User,
+                                            select: "_id id name parentId image"
+                                        }
+                                    }
+                                ]
+                            }).exec();
+        return post;
+    } catch (error: any) {
+        throw new Error(`Error fetching post ${error?.message}`)
     }
 }
