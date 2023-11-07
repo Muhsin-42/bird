@@ -6,6 +6,7 @@ import NavBar from '@/components/shared/NavBar'
 import LeftSideBar from '@/components/shared/LeftSideBar'
 import RightSideBar from '@/components/shared/RightSideBar'
 import Footer from '@/components/shared/Footer'
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,6 +24,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
+        <NextTopLoader color='#877EFF' />
           <NavBar />
 
           <main className='flex flex-row'>

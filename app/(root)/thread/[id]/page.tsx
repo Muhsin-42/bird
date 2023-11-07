@@ -1,4 +1,5 @@
 import PostCard from "@/components/cards/PostCard"
+import Comment from "@/components/forms/Comment"
 import { fetchPostById } from "@/lib/actions/thread.actions"
 import { fetchUser } from "@/lib/actions/user.actions"
 import { currentUser } from "@clerk/nextjs"
@@ -34,6 +35,14 @@ const Page = async ({ params }: Props) => {
                 author={post.author}
                 community={post.createdAt}
                 comments={post.children}
+                />
+            </div>
+
+            <div>
+                <Comment
+                    threadId={post._id}
+                    currentUserImg={user.imageUrl}
+                    currentUserId={JSON.stringify(userInfo._id)}
                 />
             </div>
         </section>
