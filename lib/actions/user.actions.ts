@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import User from "../models/user.modle";
 import { connectToDB } from "../mongoose"
+import Thread from "../models/Thread.model";
 
 interface Params {
     userId: string,
@@ -60,5 +61,30 @@ export async function fetchUser(userId: string){
                     // });
     } catch (error:any) {
         throw new Error(`Failed to fetch user: ${error?.message}`)
+    }
+}
+
+export async function fetchPostsOfUser(userId: string){
+    
+    try {
+        connectToDB();
+        // TODO: populate Community
+        const posts = await User.findOne({id: userId})
+                            .populate({
+                                path: 'threads',
+                                model: Thread,
+                                populate: {
+                                    path: 'children',
+                                    model: Thread,
+                                    populate: {
+                                        path: 'author',
+                                        model: User,
+                                        select: 'name image id'
+                                    }
+                                }
+                            }) 
+        return posts
+    } catch (error:any) {
+        throw new Error(`Failed to fetch user posts: ${error.message}`)       
     }
 }

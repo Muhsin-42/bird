@@ -45,8 +45,7 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
     }
 
   return (
-    <div>
-        <h1 className='text-white'>Comment Form </h1>
+    <div className='mt-8'>
         <Form {...form}>
         <form 
             onSubmit={form.handleSubmit(onSubmit)} 
@@ -58,6 +57,7 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
             name="thread"
             render={({ field }) => (
               <FormItem className="flex w-full items-center gap-3">
+
                 <FormLabel>
                     <Image
                         src={currentUserImg}
@@ -75,7 +75,7 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
                     {...field} 
                   />
                 </FormControl>
-                <FormMessage />
+                {/* <FormMessage /> */}
               </FormItem>
             )}
           />
