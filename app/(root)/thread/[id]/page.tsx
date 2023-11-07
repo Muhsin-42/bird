@@ -41,10 +41,27 @@ const Page = async ({ params }: Props) => {
             <div>
                 <Comment
                     threadId={post._id}
-                    currentUserImg={user.imageUrl}
+                    currentUserImg={userInfo.image}
                     currentUserId={JSON.stringify(userInfo._id)}
                 />
             </div>
+
+            <div className="mt-10">
+                {post.children.map((comment: any)=>(
+                <PostCard
+                    key={comment?._id}
+                    id={comment?._id}
+                    currentUserId={user?.id || ''}
+                    parentId={comment.parentId}
+                    content={comment.text}
+                    author={comment.author}
+                    community={comment.createdAt}
+                    comments={comment.children}
+                    isComment={true}
+                />
+                ))}
+            </div>
+
         </section>
     )
 }

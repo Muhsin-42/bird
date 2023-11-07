@@ -1,21 +1,33 @@
 import AccountProfile from "@/components/forms/AccountProfile";
 import { currentUser } from "@clerk/nextjs";
+
+interface IUser {
+        id:string,
+        objectId: string, 
+        username: string,
+        name: string, 
+        bio: string,
+        image: string,
+}
 async function Page(){
     const user = await currentUser();
-    const userInfo = {};
 
-    const userData = {
-        id: user?.id,
-        // objectid:  userInfo?._id || '',
-        objectid:  userInfo || '',
-        username: userInfo?.username || user?.username,
-        // username: userInfo || user?.username,
+    // TODO: I guess i need to call the user from DB here.
+    const userInfo = {
+        _id:'',
+        username:'',
+        name:'',
+        bio:'',
+        image:'',
+    };
+
+    const userData:IUser = {
+        id: user?.id || '',
+        objectId:  userInfo?._id || '',
+        username: userInfo?.username || user?.username || '',
         name: userInfo?.name || user?.firstName || '',
-        // name: userInfo || user?.firstName || '',
         bio: userInfo?.bio || '',
-        // bio: userInfo || '',
-        // image: userInfo?.image | user
-        image: userInfo?.image || user?.imageUrl
+        image: userInfo?.image || user?.imageUrl || ''
     }
     return (
         <main className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
