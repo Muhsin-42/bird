@@ -1,5 +1,7 @@
 import AccountProfile from "@/components/forms/AccountProfile";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 interface IUser {
         id:string,
@@ -11,15 +13,10 @@ interface IUser {
 }
 async function Page(){
     const user = await currentUser();
+    if(!user) return null;
 
-    // TODO: I guess i need to call the user from DB here.
-    const userInfo = {
-        _id:'',
-        username:'',
-        name:'',
-        bio:'',
-        image:'',
-    };
+    const userInfo = await fetchUser(user.id);
+    if(userInfo?.onboarded) redirect('/')
 
     const userData:IUser = {
         id: user?.id || '',
