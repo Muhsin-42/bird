@@ -1,11 +1,9 @@
-'use client'
 import {
   OrganizationSwitcher,
   SignInButton,
   SignOutButton,
   SignedIn,
   SignedOut,
-  useAuth,
 } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { LogIn } from "lucide-react";
@@ -14,7 +12,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 const NavBar = () => {
-  const { userId } = useAuth();
 
   return (
     <nav className="topbar">
@@ -42,14 +39,15 @@ const NavBar = () => {
           <SignInButton>
             <button type="button">Sign in with Clerk</button>
           </SignInButton>
-          {!userId && (
+
+          <SignedOut>
             <SignInButton>
               <div className="flex cursor-pointer gap-4 p-4">
                 <LogIn color="white" />
                 <p className="text-light-2 mx-lg:hidden">Login</p>
               </div>
             </SignInButton>
-          )}
+          </SignedOut>
         </div>
 
         {/* <OrganizationSwitcher
