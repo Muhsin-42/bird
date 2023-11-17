@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default async function Search (){
     const user = await currentUser();
-    if(!user) return null;
+    if(!user) return redirect('/sign-in');
 
     const userInfo = await fetchUser(user?.id);
     console.log('userIiii ',userInfo)

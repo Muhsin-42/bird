@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 export default async function Communities (){
     const user = await currentUser();
-    if(!user) return null;
+    if(!user) return redirect('/sign-in');
 
     const userInfo = await fetchUser(user?.id);
     if(!userInfo?.onboard) redirect('/onboarding');
