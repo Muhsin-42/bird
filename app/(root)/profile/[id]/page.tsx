@@ -12,7 +12,7 @@ type Props={
 async function Page ({params}:Props){
     
     const user = await currentUser();
-    if(!user) return null;
+    if(!user) return redirect('/sign-in');
 
     const userInfo = await fetchUser(params.id);
     console.log('usi ',userInfo)

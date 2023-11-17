@@ -1,4 +1,4 @@
-import { OrganizationSwitcher, SignOutButton, SignedIn, SignedOut } from '@clerk/nextjs'
+import { OrganizationSwitcher, SignInButton, SignOutButton, SignedIn, SignedOut } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -31,6 +31,7 @@ const NavBar = () => {
               </div>
             </SignOutButton>
           </SignedIn>
+          <SignInButton/>
         </div>
 
         <OrganizationSwitcher 

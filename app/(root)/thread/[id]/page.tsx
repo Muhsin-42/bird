@@ -15,7 +15,7 @@ const Page = async ({ params }: Props) => {
     if(!params.id) return null;
 
     const user = await currentUser();
-    if(!user) return null;
+    if(!user) return redirect('/sign-in');
 
     const userInfo = await fetchUser(user.id);
 
