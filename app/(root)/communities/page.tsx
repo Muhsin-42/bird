@@ -11,7 +11,7 @@ export default async function Communities (){
 
     return (
         <section>
-            <h1 className="head-text">Search</h1>
+            <h1 className="head-text">Coming soon...</h1>
         </section>
     )
 }

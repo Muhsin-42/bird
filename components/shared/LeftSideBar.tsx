@@ -4,7 +4,8 @@ import { sidebarLinks } from '@/constants'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs'
+import { SignInButton, SignOutButton, SignedIn, useAuth } from '@clerk/nextjs'
+import {LogIn} from 'lucide-react'
 const LeftSideBar = () => {
 
   const { userId } = useAuth();
@@ -53,6 +54,15 @@ const LeftSideBar = () => {
               </div>
             </SignOutButton>
           </SignedIn>
+          {
+            !userId &&
+            <SignInButton>
+              <div className='flex cursor-pointer gap-4 p-4'>
+                  <LogIn color='white' />
+                  <p className='text-light-2 mx-lg:hidden'>Login</p>
+                </div>
+            </SignInButton>
+          }
       </div>
 
     </section>
