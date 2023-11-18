@@ -23,6 +23,7 @@ export async function createThread ({
         text,
         author,
         community: null,
+        lik: 'hehe'
     })
 
     //update user model
@@ -57,10 +58,9 @@ export async function fetchPosts(pageNumber=1,pageSize=20){
                                 })
         const totalPostsCount = await Thread.countDocuments({parentId: { $in: [null, undefined]}})
         const posts = await postsQuery.exec();
-
         const isNext = totalPostsCount > skipCount + posts.length;
         
-        return { posts, isNext}
+        return { posts:JSON.parse(JSON.stringify(posts)), isNext}
     } catch (error) {
         
     }
@@ -96,7 +96,7 @@ export async function fetchPostById(postId:string){
                                     }
                                 ]
                             }).exec();
-        return post;
+        return JSON.parse(JSON.stringify(post));
     } catch (error: any) {
         throw new Error(`Error fetching post ${error?.message}`)
     }
@@ -129,6 +129,33 @@ export async function addCommentToThread(
 
         revalidatePath(path)
     } catch (error: any) {
+        throw new Error(`Error adding comment to thread: ${error.message}`)
+    }
+}
+
+export async function likePost(threadId: string,userId:string,path:string){
+    try {
+        connectToDB();
+
+        const thread = await Thread.findById(threadId);
+
+        if(!thread) throw new Error("Thread not found");
+
+        if(!thread.like){
+            thread.like = [];
+        }
+
+        const index = thread?.like.indexOf(userId);
+        
+        if(index === -1){
+            thread.like.push(userId);
+        }else{
+            thread?.like?.splice(index,1)
+        }
+
+        const thh = await thread.save();
+        revalidatePath(path);
+    } catch (error:any) {
         throw new Error(`Error adding comment to thread: ${error.message}`)
     }
 }

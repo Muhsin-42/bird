@@ -1,4 +1,4 @@
-import PostCard from "@/components/cards/PostCard"
+import PostCard from "@/components/cards/PostCard/PostCard"
 import Comment from "@/components/forms/Comment"
 import { fetchPostById } from "@/lib/actions/thread.actions"
 import { fetchUser } from "@/lib/actions/user.actions"
@@ -29,12 +29,13 @@ const Page = async ({ params }: Props) => {
                 <PostCard
                 key={post?._id}
                 id={post?._id}
-                currentUserId={user?.id || ''}
+                currentUserId={userInfo?._id?.toString() || ''}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}
                 community={post.createdAt}
                 comments={post.children}
+                like={post.like}
                 />
             </div>
 
@@ -51,13 +52,14 @@ const Page = async ({ params }: Props) => {
                 <PostCard
                     key={comment?._id}
                     id={comment?._id}
-                    currentUserId={user?.id || ''}
+                    currentUserId={userInfo?._id?.toString() || ''}
                     parentId={comment.parentId}
                     content={comment.text}
                     author={comment.author}
                     community={comment.createdAt}
                     comments={comment.children}
                     isComment={true}
+                    like={comment?.like}
                 />
                 ))}
             </div>

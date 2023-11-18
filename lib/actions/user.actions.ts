@@ -84,7 +84,7 @@ export async function fetchPostsOfUser(userId: string){
                                     }
                                 }
                             }) 
-        return posts
+        return JSON.parse(JSON.stringify(posts))
     } catch (error:any) {
         throw new Error(`Failed to fetch user posts: ${error.message}`)       
     }

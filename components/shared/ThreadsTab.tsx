@@ -1,5 +1,5 @@
 import { fetchPostsOfUser } from "@/lib/actions/user.actions"
-import PostCard from "../cards/PostCard";
+import PostCard from "../cards/PostCard/PostCard";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -29,6 +29,7 @@ async function ThreadsTab ({currentUserId,accountId,accountType}:Props) {
                         }
                         community={post.createdAt}
                         comments={post.children}
+                        like={post.like}
                     />
             ))}
         </section>
