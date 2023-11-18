@@ -1,5 +1,5 @@
 import { fetchPostsOfUser } from "@/lib/actions/user.actions"
-import PostCard from "../cards/PostCard";
+import PostCard from "../cards/PostCard/PostCard";
 import { redirect } from "next/navigation";
 
 interface Props {
