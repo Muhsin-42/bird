@@ -23,10 +23,10 @@ const ActionsSection = ({
             alt="heart"
             width={24}
             height={24}
-            className="cursor-pointer object-contain"
+            className="cursor-pointer object-contain animate-pulse"
             onClick={handleLike}
           />
-          <span className="text-white">{likeCount}</span>
+          <span className="text-gray-1">{likeCount}</span>
         </div>
 
         <Link href={`/thread/${id}`}>
