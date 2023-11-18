@@ -1,11 +1,16 @@
 'use client'
 import { likePost } from '@/lib/actions/thread.actions';
 import { usePathname } from 'next/navigation';
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const useLike = (like:string[] ,threadId:string,currentUserId:string) => {
     const [isLiked,setIsLiked] = useState(like?.some((ele)=>ele===currentUserId));
     const [likeCount,setLikeCount] = useState(like?.length||0);
+    
+    useEffect(()=>{
+        setIsLiked(like?.some((ele)=>ele===currentUserId));
+        setLikeCount(like?.length||0);
+    },[like])
 
     const pathName = usePathname();
 
