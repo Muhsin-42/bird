@@ -12,7 +12,7 @@ async function ThreadsTab ({currentUserId,accountId,accountType}:Props) {
     let result = await fetchPostsOfUser(accountId);
 
     if(!result) redirect('/');
-
+    console.log('accctype ',accountId,currentUserId)
 
     return (
         <section className="mt-9 flex flex-col gap-10">
@@ -21,15 +21,16 @@ async function ThreadsTab ({currentUserId,accountId,accountType}:Props) {
                         key={post?._id}
                         id={post?._id}
                         currentUserId={currentUserId|| ''}
-                        parentId={post.parentId}
-                        content={post.text}
+                        parentId={post?.parentId}
+                        content={post?.text}
                         author={accountType==='User'
-                            ?   {name: result.name, image: result.image, id: result.id}
-                            :   {name: post.author.name, image: post.author.image, id: post.author.id}
+                            ?   {name: result?.name, image: result?.image, id: result?.id, _id: result?._id}
+                            :   {name: post?.author?.name, image: post?.author?.image, id: post?.author?.id}
                         }
-                        community={post.createdAt}
-                        comments={post.children}
-                        like={post.like}
+                        community={post?.createdAt}
+                        comments={post?.children}
+                        like={post?.like}
+                        isDeleted={post?.deleted||false}
                     />
             ))}
         </section>

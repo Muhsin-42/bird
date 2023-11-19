@@ -23,12 +23,13 @@ export default async function Home() {
                 key={post?._id}
                 id={post?._id}
                 currentUserId={loggedInUser?._id?.toString() || ''}
-                parentId={post.parentId}
-                content={post.text}
-                like={post.like}
-                author={post.author}
-                community={post.createdAt}
-                comments={post.children}
+                parentId={post?.parentId}
+                content={post?.text}
+                like={post?.like}
+                author={post?.author}
+                community={post?.createdAt}
+                comments={post?.children}
+                isDeleted={post?.deleted||false}
               />
             )
           )
