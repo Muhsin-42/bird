@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import ActionsSection from "./ActionsSection";
 import { IPostCard } from "@/interfaces/propInterfaces";
+import PostContent from "@/components/ui/PostContent";
 
 const PostCard = ({
   key,
@@ -49,15 +50,15 @@ const PostCard = ({
                 {author?.name}
               </h4>
             </Link>
-            <p
-              className={`mt-2 text-small-regular text-light-2 ${
-                isDeleted
-                  ? "text-slate-400 font-semibold text-heading4-medium"
-                  : ""
-              }`}
-            >
-              {!isDeleted ? content : "This post was deleted by the author."}
-            </p>
+            {!isDeleted ? (
+              <PostContent content={content} />
+            ) : (
+              <p
+                className={`mt-2 "text-slate-400 font-semibold text-heading4-medium`}
+              >
+                This post was deleted by the author.
+              </p>
+            )}
 
             {!isDeleted && (
               <ActionsSection
