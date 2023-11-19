@@ -43,7 +43,7 @@ export async function fetchPosts(pageNumber=1,pageSize=20){
         const skipCount = (pageNumber -1) * pageSize;
 
         // Fetch the posts that have no parents. (ie. don't need replies)
-        const postsQuery = Thread.find({ parentId: { $in: [null,undefined]}})
+        const postsQuery = Thread.find({ parentId: { $in: [null,undefined]},deleted: {$ne: true}})
                                 .sort({ createdAt: 'desc'})
                                 .skip(skipCount)
                                 .limit(pageSize)
@@ -59,6 +59,7 @@ export async function fetchPosts(pageNumber=1,pageSize=20){
         const totalPostsCount = await Thread.countDocuments({parentId: { $in: [null, undefined]}})
         const posts = await postsQuery.exec();
         const isNext = totalPostsCount > skipCount + posts.length;
+        console.log('posts, ',posts)
         
         return { posts:JSON.parse(JSON.stringify(posts)), isNext}
     } catch (error) {
@@ -157,5 +158,20 @@ export async function likePost(threadId: string,userId:string,path:string){
         revalidatePath(path);
     } catch (error:any) {
         throw new Error(`Error adding comment to thread: ${error.message}`)
+    }
+}
+
+export async function deletePost(threadId:string,path:string){
+    try {
+        connectToDB();
+
+        // const deletedPost = await Thread.findByIdAn(threadId);
+        const postTodDelete = await Thread.findById(threadId);
+        postTodDelete.deleted = true;
+
+        postTodDelete.save();
+        revalidatePath(path);
+    } catch (error: any) {
+        throw new Error(`Error deleting thread: ${error.message}`)
     }
 }

@@ -30,13 +30,7 @@ const ThreadSchema = new mongoose.Schema({
             ref: 'Thread'
         }
     ],
-    // like: { type: String, required: true},
-
-    // likes:  {
-    //     type: [mongoose.Schema.Types.ObjectId],
-    //     ref: 'User',
-    //     default: []
-    // }
+    deleted: { type: Boolean, required:false, default: false}
 })
 
 const Thread = mongoose.models.Thread || mongoose.model('Thread',ThreadSchema)

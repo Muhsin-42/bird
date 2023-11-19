@@ -22,7 +22,7 @@ const Page = async ({ params }: Props) => {
     if(!userInfo?.onboarded) return redirect('/onboarding');
 
     const post = await fetchPostById(params.id)
-
+    console.log('post ',post)
     return (
         <section className="relative">
             <div>
@@ -30,36 +30,38 @@ const Page = async ({ params }: Props) => {
                 key={post?._id}
                 id={post?._id}
                 currentUserId={userInfo?._id?.toString() || ''}
-                parentId={post.parentId}
-                content={post.text}
-                author={post.author}
-                community={post.createdAt}
-                comments={post.children}
-                like={post.like}
+                parentId={post?.parentId}
+                content={post?.text}
+                author={post?.author}
+                community={post?.createdAt}
+                comments={post?.children}
+                like={post?.like}
+                isDeleted={post?.deleted||false}
                 />
             </div>
 
             <div>
                 <Comment
-                    threadId={post._id}
-                    currentUserImg={userInfo.image}
-                    currentUserId={JSON.stringify(userInfo._id)}
+                    threadId={post?._id}
+                    currentUserImg={userInfo?.image}
+                    currentUserId={JSON.stringify(userInfo?._id)}
                 />
             </div>
 
             <div className="mt-10">
-                {post.children.map((comment: any)=>(
+                {post?.children?.map((comment: any)=>(
                 <PostCard
                     key={comment?._id}
                     id={comment?._id}
                     currentUserId={userInfo?._id?.toString() || ''}
-                    parentId={comment.parentId}
-                    content={comment.text}
-                    author={comment.author}
-                    community={comment.createdAt}
-                    comments={comment.children}
+                    parentId={comment?.parentId}
+                    content={comment?.text}
+                    author={comment?.author}
+                    community={comment?.createdAt}
+                    comments={comment?.children}
                     isComment={true}
                     like={comment?.like}
+                    isDeleted={comment?.deleted||false}
                 />
                 ))}
             </div>

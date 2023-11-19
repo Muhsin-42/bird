@@ -15,6 +15,7 @@ async function Page ({params}:Props){
     if(!user) return redirect('/sign-in');
 
     const userInfo = await fetchUser(params.id);
+    const mongoCurrentUser = await fetchUser(user.id);
     console.log('usi ',userInfo)
     if(!userInfo) redirect('/onboarding');
 
@@ -54,7 +55,7 @@ async function Page ({params}:Props){
                     {PROFILE_TABS.map((tab)=>(
                         <TabsContent key={`content-${tab.label}`} value={tab.value} className="w-full text-light-1" >
                             <ThreadsTab
-                                currentUserId={user.id}
+                                currentUserId={mongoCurrentUser?._id}
                                 accountId={userInfo.id}
                                 accountType="User"
                             />
