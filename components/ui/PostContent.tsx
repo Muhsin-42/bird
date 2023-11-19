@@ -5,14 +5,14 @@ const PostContent = ({ content }: { content: string }) => {
     const splitContent = content.split(/\s|\n/)
   return (
   <p className={`mt-2 text-small-regular text-light-2`}>
-    {splitContent?.map((word)=>{
+    {splitContent?.map((word,index)=>{
         let trimmedWord = word.trim();
         if(trimmedWord[0] === '#'){
-            return <span className="text-sky-500 cursor-pointer">{word} </span>
+            return <span key={index} className="text-sky-500 cursor-pointer">{word} </span>
         }else  if(/^(https?:\/\/|www\.)/i.test(trimmedWord)){
-            return <Link target="_blank" href={word} className="text-sky-500 cursor-pointer">{word+' '}</Link>
+            return <Link key={index} target="_blank" href={word} className="text-sky-500 cursor-pointer">{word+' '}</Link>
         }else{
-            return word+' ';
+            return <span key={index}>{word+' '}</span> ;
         }
     })}
     </p>
