@@ -24,7 +24,7 @@ const PostCard = ({
 
   return (
     <article
-      className={`flex w-full flex-col rounded-xl  ${
+      className={`flex w-full flex-col rounded-xl overflow-auto  ${
         isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
       }`}
     >
@@ -39,7 +39,7 @@ const PostCard = ({
                 src={author?.image}
                 alt="Profile Image"
                 fill
-                className="cursor-pointer rounded-full"
+                className="cursor-pointer w-auto rounded-full"
               />
             </Link>
             <div className="thread-card_bar" />

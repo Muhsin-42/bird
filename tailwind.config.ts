@@ -58,6 +58,27 @@ module.exports = {
           fontWeight: "500",
         },
       ],
+      "heading4-bold": [
+        "20px",
+        {
+          lineHeight: "140%",
+          fontWeight: "700",
+        },
+      ],
+      "heading5-medium": [
+        "16px",
+        {
+          lineHeight: "140%",
+          fontWeight: "500",
+        },
+      ],
+      "heading5-bold": [
+        "16px",
+        {
+          lineHeight: "140%",
+          fontWeight: "700",
+        },
+      ],
       "body-bold": [
         "18px",
         {
