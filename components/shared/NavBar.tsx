@@ -36,9 +36,6 @@ const NavBar = () => {
               </div>
             </SignOutButton>
           </SignedIn>
-          <SignInButton>
-            <button type="button">Sign in with Clerk</button>
-          </SignInButton>
 
           <SignedOut>
             <SignInButton>
