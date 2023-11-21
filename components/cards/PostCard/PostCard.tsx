@@ -25,7 +25,7 @@ const PostCard = ({
   return (
     <article
       className={`flex w-full flex-col rounded-xl overflow-auto  ${
-        isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
+        isComment ? "px-0 xs:px-7" : "bg-dark-2 p-5 sm:p-7"
       }`}
     >
       <div className="flex items-start justify-between">
