@@ -29,33 +29,31 @@ const LinkPreview = ({ link }: { link: string }) => {
 
   async function getLinkData() {
     setDataLoading(true);
-    const data = await getLinkPreview(link)
+    await getLinkPreview(link)
       .then((res) => {
+        setDataLoading(false);
         let domain = new URL(link).hostname;
         domain = domain.replace(/^www\./, "");
         const response: any = { ...res, domain };
         setPreviewData(response);
       })
       .catch((error) => {
+        setDataLoading(false);
         console.log("error ", error);
       });
-    setDataLoading(false);
   }
 
   useEffect(() => {
     getLinkData();
   }, []);
 
-  // useEffect(()=>{
-  //     // if()
-  // },[previewData])
-
   return (
     <div className="mt-3 w-full">
       {!dataLoading && previewData && (
         <Link
           href={previewData?.url || ""}
-          className="w-full flex rounded-xl overflow-hidden border-1d bg-dark-1 shadow-inner text-white"
+          target="_blank"
+          className="w-full flex rounded-xl overflow-hidden border-1d bg-dark-1 shadow-inner text-white min-h-[100px]"
         >
           <div className="w-4/12 border-r relative">
             <Image
@@ -67,10 +65,10 @@ const LinkPreview = ({ link }: { link: string }) => {
           </div>
           <div className="flex flex-col w-8/12 px-1 sm:px-3 py-2 justify-center">
             <span className="text-gray-400">{previewData?.domain}</span>
-            <span className="text-small-regular sm:text-heading5-boldd break-words break-all">
+            <span className="text-small-regular sm:text-heading5-bold break-words break-all">
               {previewData?.title}
             </span>
-            <span className="text-gray-400 hidden md:block overflow-hidden overflow-ellipsis h-12">
+            <span className="text-gray-400 hidden sm:block overflow-hidden overflow-ellipsis h-12">
               {previewData?.description}
             </span>
           </div>
