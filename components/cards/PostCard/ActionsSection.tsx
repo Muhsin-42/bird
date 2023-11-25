@@ -20,7 +20,7 @@ const ActionsSection = ({
 
   return (
     <div className={`mt-5 flex flex-col gap-3 ${isComment && "pb-3"}`}>
-      <div className="flex gap-3.5">
+      <div className="flex gap-3.5 justify-betweend">
         <div className="flex gap-1">
           <Image
             src={`/assets/heart${isLiked ? "-filled" : "-gray"}.svg`}
