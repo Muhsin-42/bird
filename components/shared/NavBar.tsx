@@ -16,7 +16,7 @@ const NavBar = () => {
   return (
     <nav className="topbar">
       <Link href={"/"} className="flex items-center gap-4">
-        <Image src={"/assets/logo.svg"} alt="logo" width={28} height={28} />
+        <Image src={"/assets/bird.webp"} alt="logo" width={32} height={32} />
         <p className="text-heading3-bold text-light-1 max-xs max-xs:hidden">
           Bird
         </p>

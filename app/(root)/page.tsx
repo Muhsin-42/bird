@@ -1,4 +1,5 @@
 import PostCard from "@/components/cards/PostCard/PostCard";
+import PostPopBtn from "@/components/shared/PostPopBtn";
 import { fetchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
@@ -37,6 +38,7 @@ export default async function Home() {
         )}
 
       </section>
+      <PostPopBtn/>
     </>
   )
 }
