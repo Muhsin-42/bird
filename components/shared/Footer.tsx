@@ -11,7 +11,7 @@ const Footer = () => {
   const pathName = usePathname();
 
   return (
-    <section className='bottombar'>
+    <footer className='bottombar'>
       <div className='bottombar_container'>
         {sidebarLinks?.map((link)=>{
           const isActive = (pathName.includes(link.route) && link.route.length > 1) || pathName === link.route;
@@ -32,7 +32,7 @@ const Footer = () => {
             )
         })}
       </div>
-    </section>
+    </footer>
   )
 }
 
