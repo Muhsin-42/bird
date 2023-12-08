@@ -30,8 +30,7 @@ Bird is a social media application, designed to facilitate engaging conversation
 5. Start the application using `npm run dev`.
 6. Explore and contribute to Bird!
 
- # Configuration Details
-
+ ### Configuration Details
 Add the following environment variables in your `.env.local` file:
 
 ```env.local
