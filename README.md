@@ -21,10 +21,6 @@ Bird is a social media application, designed to facilitate engaging conversation
 - Secure authentication powered by Clerk
 - Code consistency maintained by ESLint & Prettier
 
-## GitHub Repository
-
-Explore the codebase on [GitHub](https://github.com/Muhsin-42/bird) to contribute and discover more about Bird.
-
 ## Getting Started
 
 1. Clone the repository.
@@ -34,7 +30,12 @@ Explore the codebase on [GitHub](https://github.com/Muhsin-42/bird) to contribut
 5. Start the application using `npm run dev`.
 6. Explore and contribute to Bird!
 
-   # Clerk Configuration
+ # Configuration Details
+
+Add the following environment variables in your `.env.local` file:
+
+```env.local
+# Clerk Configuration
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_public_key
 CLERK_SECRET_KEY=your_clerk_secret_key
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
@@ -48,7 +49,7 @@ MONGODB_URL=your_mongodb_database_url
 # UploadThing Configuration
 UPLOADTHING_SECRET=your_upload_thing_secret_key
 UPLOADTHING_APP_ID=your_upload_thing_app_id
-
+```
 
 Feel free to reach out for any inquiries or contributions.
 
