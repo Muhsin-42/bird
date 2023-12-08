@@ -1,6 +1,7 @@
 # Bird - Social Media Platform
-Live Site : https://bird-eight-tan.vercel.app 
-Bird is a social media application, designed to facilitate engaging conversations through threaded replies.
+Live Site: [Bird ](https://bird-eight-tan.vercel.app)
+
+Bird is a social media application designed to facilitate engaging conversations through threaded replies.
 
 ## Tech Stack
 
