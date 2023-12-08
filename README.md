@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bird - Social Media Platform
+Live Site : https://bird-eight-tan.vercel.app 
+Bird is a social media application, designed to facilitate engaging conversations through threaded replies.
+
+## Tech Stack
+
+- **FrontEnd**: Next.js 14, Tailwind CSS, ShadCn, Context API
+- **Language**: TypeScript
+- **Form Validation**: Zod
+- **Database**: MongoDB
+- **Authentication**: Clerk
+- **Linters & Formatters**: ESLint & Prettier
+
+## Features
+
+- Multi-threaded reply feature for engaging conversations
+- User-friendly interface powered by Next.js and Tailwind CSS
+- TypeScript for type-safe and reliable code
+- Form validation using Zod for data integrity
+- MongoDB for robust and scalable database operations
+- Secure authentication powered by Clerk
+- Code consistency maintained by ESLint & Prettier
+
+## GitHub Repository
+
+Explore the codebase on [GitHub](https://github.com/Muhsin-42/bird) to contribute and discover more about Bird.
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository.
+2. Install dependencies using `npm install`.
+3. Set up MongoDB and configure Clerk for authentication.
+4. Set up .env.local file in root folder.
+5. Start the application using `npm run dev`.
+6. Explore and contribute to Bird!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   # Clerk Configuration
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_public_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# MongoDB Configuration
+MONGODB_URL=your_mongodb_database_url
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# UploadThing Configuration
+UPLOADTHING_SECRET=your_upload_thing_secret_key
+UPLOADTHING_APP_ID=your_upload_thing_app_id
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+Feel free to reach out for any inquiries or contributions.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Happy tweeting! 🐦✨
