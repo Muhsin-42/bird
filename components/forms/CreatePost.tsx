@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import EmojiPicker from "emoji-picker-react";
 import {
   Form,
   FormControl,
@@ -64,6 +65,7 @@ const CreatePost = ({ userId }: props) => {
             <FormItem className="flex w-full flex-col gap-3">
               <FormLabel className="text-light-2 font-semibold">
                 Thread content
+                <EmojiPicker />
               </FormLabel>
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
                 <Textarea
@@ -77,8 +79,12 @@ const CreatePost = ({ userId }: props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="comment-form_btn hover:bg-primary-600 flex gap-2 w-fit px-5" disabled={isLoading}>
-          Post 
+        <Button
+          type="submit"
+          className="comment-form_btn hover:bg-primary-600 flex gap-2 w-fit px-5"
+          disabled={isLoading}
+        >
+          Post
           {isLoading && <LoaderIcon className="animate-spin" />}
         </Button>
       </form>
