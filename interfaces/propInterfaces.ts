@@ -4,6 +4,7 @@ export interface IPostCard {
   currentUserId: string;
   parentId: string | null;
   content: string;
+  image?: string;
   like: string[];
   author: {
     name: string;
@@ -22,7 +23,7 @@ export interface IPostCard {
     };
   }[];
   isComment?: boolean;
-  isDeleted:boolean;
+  isDeleted: boolean;
 }
 
 export interface IActionsSection {
@@ -35,10 +36,10 @@ export interface IActionsSection {
   }[];
   currentUserId: string;
   like: string[];
-    author: {
-        _id?: string;
-        name: string;
-        image: string;
-        id: string;
+  author: {
+    _id?: string;
+    name: string;
+    image: string;
+    id: string;
   };
 }

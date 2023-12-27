@@ -1,8 +1,16 @@
 import Link from "next/link";
 import React from "react";
 import LinkPreview from "../shared/LinkPreview";
+import Image from "next/image";
 
-const PostContent = ({ content }: { content: string }) => {
+const PostContent = ({
+  content,
+  image,
+}: {
+  content: string;
+  image: string;
+}) => {
+  console.log("image", image, content);
   const splitContent = content.split(/\s|\n/);
   const links = splitContent?.filter((word) =>
     /^(https?:\/\/|www\.)/i.test(word.trim())
@@ -10,7 +18,9 @@ const PostContent = ({ content }: { content: string }) => {
 
   return (
     <>
-      <p className={`mt-2 text-small-regular text-light-2 break-words break-all`}>
+      <p
+        className={`mt-2 text-small-regular text-light-2 break-words break-all`}
+      >
         {splitContent?.map((word, index) => {
           let trimmedWord = word.trim();
           if (trimmedWord[0] === "#") {
@@ -27,8 +37,8 @@ const PostContent = ({ content }: { content: string }) => {
                 href={word}
                 className="text-sky-500 cursor-pointer break-words"
               >
-                {word.slice(0,50)}
-                {word?.length > 50 ? "...": ' '}
+                {word.slice(0, 50)}
+                {word?.length > 50 ? "..." : " "}
               </Link>
             );
           } else {
@@ -36,9 +46,19 @@ const PostContent = ({ content }: { content: string }) => {
           }
         })}
       </p>
-      {
-        links?.length > 0 && <LinkPreview link={links[0]} />
-      }
+      {image ? (
+        <div className="flex mt-3">
+          <Image
+            src={image}
+            width={500}
+            height={300}
+            alt="Image"
+            className="w-full rounded-2xl"
+          />
+        </div>
+      ) : (
+        <>{links?.length > 0 && <LinkPreview link={links[0]} />}</>
+      )}
     </>
   );
 };

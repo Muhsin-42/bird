@@ -12,6 +12,7 @@ export default async function Home() {
 
   const loggedInUser = await fetchUser(user.id);
   const result = await fetchPosts(1, 20);
+  console.log("resuuu ", result);
   return (
     <>
       {/* <h1 className="head-text text-left">Home</h1> */}
@@ -29,6 +30,7 @@ export default async function Home() {
                   currentUserId={loggedInUser?._id?.toString() || ""}
                   parentId={post?.parentId}
                   content={post?.text}
+                  image={post?.image}
                   like={post?.like}
                   author={post?.author}
                   community={post?.createdAt}
@@ -40,7 +42,7 @@ export default async function Home() {
           </>
         )}
       </section>
-      <PostPopBtn />
+      {/* <PostPopBtn /> */}
     </>
   );
 }

@@ -17,6 +17,7 @@ const PostCard = ({
   like,
   isComment,
   isDeleted,
+  image,
 }: IPostCard) => {
   const formatContent = () => {
     const _content = content.split("");
@@ -47,11 +48,11 @@ const PostCard = ({
           <div className="flex w-full flex-col ml-3">
             <Link href={`/profile/${author?.id}`} className="w-fit">
               <h4 className="cursor-pointer text-base-semibold text-light-1">
-                {author?.name}
+                {author?.name}d
               </h4>
             </Link>
             {!isDeleted ? (
-              <PostContent content={content} />
+              <PostContent content={content} image={image || ""} />
             ) : (
               <p
                 className={`mt-2 "text-slate-400 font-semibold text-heading4-medium`}
