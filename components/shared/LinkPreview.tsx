@@ -18,11 +18,17 @@ interface IPreviewData {
 const LinkPreview = async ({ link }: { link: string }) => {
   let domain = new URL(link).hostname;
   domain = domain.replace(/^www\./, "");
-  if(!domain) return null;
-  const data: any = await getLinkPreview(link);
+  if (!domain) return null;
+
+  let data: any;
+  try {
+    data = await getLinkPreview(link);
+  } catch (error) {
+    return null;
+  }
   const previewData: IPreviewData = { ...data, domain };
 
-  if(!data) return null;
+  if (!data) return null;
 
   return (
     <div className="mt-3 w-full">

@@ -1,177 +1,184 @@
-'use server'
+"use server";
 import { revalidatePath } from "next/cache";
 import Thread from "../models/Thread.model";
 import User from "../models/user.modle";
-import { connectToDB } from "../mongoose"
+import { connectToDB } from "../mongoose";
 import { string } from "zod";
 
 interface Params {
-    text: string,
-    author: string,
-    communityId: string | null,
-    path: string
+  text: string;
+  author: string;
+  image?: string;
+  communityId: string | null;
+  path: string;
 }
-export async function createThread ({
+export async function createThread({
+  text,
+  author,
+  image,
+  communityId,
+  path,
+}: Params) {
+  connectToDB();
+
+  const createdThread = await Thread.create({
     text,
     author,
-    communityId,
-    path
-}:Params){
+    image,
+    community: null,
+    lik: "hehe",
+  });
+
+  //update user model
+  await User.findByIdAndUpdate(author, {
+    $push: { threads: createdThread._id },
+  });
+
+  //revalidate data
+  revalidatePath(path);
+}
+
+export async function fetchPosts(pageNumber = 1, pageSize = 20) {
+  try {
     connectToDB();
 
-    const createdThread = await Thread.create({
-        text,
-        author,
-        community: null,
-        lik: 'hehe'
-    })
+    // calculate no. of posts to skip.
+    const skipCount = (pageNumber - 1) * pageSize;
 
-    //update user model
-    await User.findByIdAndUpdate(author,{
-        $push: { threads: createdThread._id}
+    // Fetch the posts that have no parents. (ie. don't need replies)
+    const postsQuery = Thread.find({
+      parentId: { $in: [null, undefined] },
+      deleted: { $ne: true },
     })
+      .sort({ createdAt: "desc" })
+      .skip(skipCount)
+      .limit(pageSize)
+      .populate({ path: "author", model: User })
+      .populate({
+        path: "children",
+        populate: {
+          path: "author",
+          model: User,
+          select: "_id name parentId image",
+        },
+      });
+    const totalPostsCount = await Thread.countDocuments({
+      parentId: { $in: [null, undefined] },
+    });
+    const posts = await postsQuery.exec();
+    const isNext = totalPostsCount > skipCount + posts.length;
+    // console.log("posts, ", posts);
 
-    //revalidate data
-    revalidatePath(path)    
+    return { posts: JSON.parse(JSON.stringify(posts)), isNext };
+  } catch (error) {}
 }
 
-export async function fetchPosts(pageNumber=1,pageSize=20){
-    try {
-        connectToDB();
+export async function fetchPostById(postId: string) {
+  try {
+    connectToDB();
 
-        // calculate no. of posts to skip.
-        const skipCount = (pageNumber -1) * pageSize;
-
-        // Fetch the posts that have no parents. (ie. don't need replies)
-        const postsQuery = Thread.find({ parentId: { $in: [null,undefined]},deleted: {$ne: true}})
-                                .sort({ createdAt: 'desc'})
-                                .skip(skipCount)
-                                .limit(pageSize)
-                                .populate({path: 'author', model: User})
-                                .populate({
-                                    path: 'children',
-                                    populate: {
-                                        path: 'author',
-                                        model: User,
-                                        select: '_id name parentId image'
-                                    }
-                                })
-        const totalPostsCount = await Thread.countDocuments({parentId: { $in: [null, undefined]}})
-        const posts = await postsQuery.exec();
-        const isNext = totalPostsCount > skipCount + posts.length;
-        console.log('posts, ',posts)
-        
-        return { posts:JSON.parse(JSON.stringify(posts)), isNext}
-    } catch (error) {
-        
-    }
-}
-
-export async function fetchPostById(postId:string){
-    try {
-        connectToDB();
-        
-        //TODO: Populate community.
-        const post = await Thread.findById(postId)
-                            .populate({
-                                path: 'author',
-                                model: User,
-                                select: "_id id name image"
-                            })
-                            .populate({
-                                path: 'children',
-                                populate: [
-                                    {
-                                        path: 'author',
-                                        model: User,
-                                        select: "_id id name image parentId"
-                                    },
-                                    {
-                                        path: 'children',
-                                        model: Thread,
-                                        populate:{
-                                            path: 'author',
-                                            model: User,
-                                            select: "_id id name parentId image"
-                                        }
-                                    }
-                                ]
-                            }).exec();
-        return JSON.parse(JSON.stringify(post));
-    } catch (error: any) {
-        throw new Error(`Error fetching post ${error?.message}`)
-    }
+    //TODO: Populate community.
+    const post = await Thread.findById(postId)
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id id name image",
+      })
+      .populate({
+        path: "children",
+        populate: [
+          {
+            path: "author",
+            model: User,
+            select: "_id id name image parentId",
+          },
+          {
+            path: "children",
+            model: Thread,
+            populate: {
+              path: "author",
+              model: User,
+              select: "_id id name parentId image",
+            },
+          },
+        ],
+      })
+      .exec();
+    return JSON.parse(JSON.stringify(post));
+  } catch (error: any) {
+    throw new Error(`Error fetching post ${error?.message}`);
+  }
 }
 
 export async function addCommentToThread(
-    threadId: string,
-    commentText: string,
-    userId: string,
-    path: string
-){
+  threadId: string,
+  commentText: string,
+  userId: string,
+  path: string
+) {
+  connectToDB();
+  try {
+    const originalThread = await Thread.findById(threadId);
+
+    if (!originalThread) throw new Error("Thread not found");
+
+    //create new thread
+    const commentThread = new Thread({
+      text: commentText,
+      author: userId,
+      parentId: threadId,
+    });
+
+    // save the new thread
+    const savedComment = await commentThread.save();
+
+    originalThread.children.push(savedComment._id);
+    await originalThread.save();
+
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Error adding comment to thread: ${error.message}`);
+  }
+}
+
+export async function likePost(threadId: string, userId: string, path: string) {
+  try {
     connectToDB();
-    try {
-        const originalThread = await Thread.findById(threadId);
 
-        if(!originalThread) throw new Error("Thread not found");
+    const thread = await Thread.findById(threadId);
 
-        //create new thread
-        const commentThread = new Thread({
-            text: commentText,
-            author: userId,
-            parentId: threadId
-        })
+    if (!thread) throw new Error("Thread not found");
 
-        // save the new thread
-        const savedComment = await commentThread.save();
-
-        originalThread.children.push(savedComment._id);
-        await originalThread.save();
-
-        revalidatePath(path)
-    } catch (error: any) {
-        throw new Error(`Error adding comment to thread: ${error.message}`)
+    if (!thread.like) {
+      thread.like = [];
     }
+
+    const index = thread?.like.indexOf(userId);
+
+    if (index === -1) {
+      thread.like.push(userId);
+    } else {
+      thread?.like?.splice(index, 1);
+    }
+
+    const thh = await thread.save();
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Error adding comment to thread: ${error.message}`);
+  }
 }
 
-export async function likePost(threadId: string,userId:string,path:string){
-    try {
-        connectToDB();
+export async function deletePost(threadId: string, path: string) {
+  try {
+    connectToDB();
 
-        const thread = await Thread.findById(threadId);
+    // const deletedPost = await Thread.findByIdAn(threadId);
+    const postTodDelete = await Thread.findById(threadId);
+    postTodDelete.deleted = true;
 
-        if(!thread) throw new Error("Thread not found");
-
-        if(!thread.like){
-            thread.like = [];
-        }
-
-        const index = thread?.like.indexOf(userId);
-        
-        if(index === -1){
-            thread.like.push(userId);
-        }else{
-            thread?.like?.splice(index,1)
-        }
-
-        const thh = await thread.save();
-        revalidatePath(path);
-    } catch (error:any) {
-        throw new Error(`Error adding comment to thread: ${error.message}`)
-    }
-}
-
-export async function deletePost(threadId:string,path:string){
-    try {
-        connectToDB();
-
-        // const deletedPost = await Thread.findByIdAn(threadId);
-        const postTodDelete = await Thread.findById(threadId);
-        postTodDelete.deleted = true;
-
-        postTodDelete.save();
-        revalidatePath(path);
-    } catch (error: any) {
-        throw new Error(`Error deleting thread: ${error.message}`)
-    }
+    postTodDelete.save();
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Error deleting thread: ${error.message}`);
+  }
 }
