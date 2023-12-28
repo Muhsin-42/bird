@@ -5,6 +5,7 @@ import User from "../models/user.modle";
 import { connectToDB } from "../mongoose";
 import Thread from "../models/Thread.model";
 import { FilterQuery, SortOrder } from "mongoose";
+import { IPostCard } from "@/interfaces/propInterfaces";
 
 interface Params {
   userId: string;
@@ -84,7 +85,8 @@ export async function fetchPostsOfUser(userId: string) {
     if (posts && Array.isArray(posts.threads)) {
       // Sort the threads array by createdAt in descending order (latest thread first)
       posts.threads.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        (a: IPostCard, b: IPostCard) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     }
     return JSON.parse(JSON.stringify(posts));

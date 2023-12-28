@@ -38,17 +38,12 @@ export function formatThreadCount(count: number): string {
   }
 }
 
-export const getTimestamp = (
-  createdAt: Date | null | undefined | string
-): string => {
+export const getTimestamp = (createdAt: string | number | Date): string => {
   createdAt = new Date(createdAt);
-  if (
-    !createdAt ||
-    !(createdAt instanceof Date) ||
-    isNaN(createdAt.getTime())
-  ) {
+  if (!createdAt) {
     return "";
   }
+  createdAt = new Date(createdAt);
 
   const now = new Date();
   const secondsPast = (now.getTime() - createdAt.getTime()) / 1000;
