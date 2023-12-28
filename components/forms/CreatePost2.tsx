@@ -51,7 +51,7 @@ const CreatePost2 = ({ user }: any) => {
   const pathName = usePathname();
   const { isLoading, setIsLoading } = useLoading();
   const [files, setFiles] = useState<File[]>([]);
-  const [gif, setGif] = useState("");
+  const [gif, setGif] = useState({ set: false, preview: "", url: "" });
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
@@ -62,15 +62,20 @@ const CreatePost2 = ({ user }: any) => {
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
     setIsLoading(true);
-    const blob = values.image;
-    const hasImageChanged = isBase64Image(blob || "");
+    console.log("values", values);
+    if (files.length > 0 && !gif.set) {
+      const blob = values.image;
+      const hasImageChanged = isBase64Image(blob || "");
 
-    if (hasImageChanged) {
-      const imgRes = await startUpload(files);
+      if (hasImageChanged) {
+        const imgRes = await startUpload(files);
 
-      if (imgRes && imgRes[0].url) {
-        values.image = imgRes[0].url;
+        if (imgRes && imgRes[0].url) {
+          values.image = imgRes[0].url;
+        }
       }
+    } else if (gif.set) {
+      values.image = gif.url;
     }
 
     await createThread({
@@ -84,6 +89,7 @@ const CreatePost2 = ({ user }: any) => {
     setIsLoading(false);
     form.reset();
     setFiles([]);
+    setGif({ set: false, preview: "", url: "" });
     router.push("/");
   };
 
@@ -148,19 +154,24 @@ const CreatePost2 = ({ user }: any) => {
             )}
           />
 
-          {files && files.length > 0 && (
+          {((files && files.length > 0) || gif.set) && (
             <div className="w-full relative">
               <div
                 className="absolute right-4 top-4 cursor-pointer bg-slate-500 rounded-full p-1 hover:scale-105 "
                 onClick={() => {
                   form.setValue("image", "");
                   setFiles([]);
+                  setGif({ set: false, preview: "", url: "" });
                 }}
               >
                 <X color="white" size={"1.4rem"} />
               </div>
               <Image
-                src={URL.createObjectURL(files[0])}
+                src={
+                  files && files?.length > 0
+                    ? URL.createObjectURL(files[0])
+                    : gif.preview
+                }
                 width={500}
                 height={300}
                 alt="Image"
@@ -183,7 +194,11 @@ const CreatePost2 = ({ user }: any) => {
                           alt="profile pic"
                           width={24}
                           height={24}
-                          className="object-contain"
+                          className={`object-contain ${
+                            (files && files.length > 0) || !!gif.set
+                              ? "opacity-40"
+                              : ""
+                          } `}
                         />
                       </FormLabel>
                       <FormControl className="flex-1 hidden text-base-semibold text-gray-200">
@@ -193,6 +208,7 @@ const CreatePost2 = ({ user }: any) => {
                           placeholder="Upload Image."
                           onChange={(e) => handleImage(e, field.onChange)}
                           onBlur={field.onBlur}
+                          disabled={(files && files.length > 0) || gif.set}
                         />
                       </FormControl>
                       <FormMessage />
@@ -202,8 +218,8 @@ const CreatePost2 = ({ user }: any) => {
               </div>
               <Popover>
                 <PopoverTrigger
-                  disabled={files && files.length > 0}
-                  className="disabled:opacity-50"
+                  disabled={(files && files.length > 0) || gif.set}
+                  className="disabled:opacity-40"
                 >
                   <MdOutlineGifBox size={"1.8rem"} />
                 </PopoverTrigger>
@@ -211,6 +227,13 @@ const CreatePost2 = ({ user }: any) => {
                   <GifPicker
                     theme={Theme.DARK}
                     tenorApiKey={process.env.NEXT_PUBLIC_TENOR_API_KEY || ""}
+                    onGifClick={(gif) => {
+                      setGif({
+                        set: true,
+                        preview: gif?.preview?.url,
+                        url: gif?.url,
+                      });
+                    }}
                   />
                 </PopoverContent>
               </Popover>

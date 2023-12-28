@@ -21,6 +21,8 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
           currentUserId={currentUserId || ""}
           parentId={post?.parentId}
           content={post?.text}
+          image={post?.image}
+          createdAt={post?.createdAt}
           author={
             accountType === "User"
               ? {

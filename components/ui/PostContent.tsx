@@ -53,7 +53,7 @@ const PostContent = ({
             width={500}
             height={300}
             alt="Image"
-            className="w-full rounded-2xl"
+            className="rounded-2xl"
           />
         </div>
       ) : (

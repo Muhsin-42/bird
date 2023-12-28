@@ -27,6 +27,8 @@ const Page = async ({ params }: Props) => {
         <PostCard
           key={post?._id}
           id={post?._id}
+          createdAt={post?.createdAt}
+          image={post?.image}
           currentUserId={userInfo?._id?.toString() || ""}
           parentId={post?.parentId}
           content={post?.text}
@@ -53,6 +55,8 @@ const Page = async ({ params }: Props) => {
             id={comment?._id}
             currentUserId={userInfo?._id?.toString() || ""}
             parentId={comment?.parentId}
+            image={comment?.image}
+            createdAt={comment?.createdAt}
             content={comment?.text}
             author={comment?.author}
             community={comment?.createdAt}

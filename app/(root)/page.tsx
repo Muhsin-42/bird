@@ -31,6 +31,7 @@ export default async function Home() {
                   parentId={post?.parentId}
                   content={post?.text}
                   image={post?.image}
+                  createdAt={post?.createdAt}
                   like={post?.like}
                   author={post?.author}
                   community={post?.createdAt}

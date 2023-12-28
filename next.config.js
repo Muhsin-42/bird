@@ -24,6 +24,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "media.tenor.com",
+      },
+      {
+        protocol: "https",
         hostname: "placehold.co",
       },
       {

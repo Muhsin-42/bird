@@ -4,7 +4,7 @@ export const ThreadValidation = z.object({
   thread: z
     .string()
     .min(3, { message: "Post should be at-least 3 characters." }),
-  image: z.string().url().optional(),
+  image: z.optional(z.string()),
   // accountId: z.string()
 });
 
