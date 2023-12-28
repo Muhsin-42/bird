@@ -38,7 +38,9 @@ export function formatThreadCount(count: number): string {
   }
 }
 
-export const getTimestamp = (createdAt: Date | null | undefined): string => {
+export const getTimestamp = (
+  createdAt: Date | null | undefined | string
+): string => {
   createdAt = new Date(createdAt);
   if (
     !createdAt ||
