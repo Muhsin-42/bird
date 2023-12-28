@@ -4,6 +4,7 @@ import React from "react";
 import ActionsSection from "./ActionsSection";
 import { IPostCard } from "@/interfaces/propInterfaces";
 import PostContent from "@/components/ui/PostContent";
+import { getTimestamp } from "@/lib/utils";
 
 const PostCard = ({
   key,
@@ -18,6 +19,7 @@ const PostCard = ({
   isComment,
   isDeleted,
   image,
+  createdAt,
 }: IPostCard) => {
   const formatContent = () => {
     const _content = content.split("");
@@ -46,11 +48,16 @@ const PostCard = ({
             <div className="thread-card_bar" />
           </div>
           <div className="flex w-full flex-col ml-3">
-            <Link href={`/profile/${author?.id}`} className="w-fit">
-              <h4 className="cursor-pointer text-base-semibold text-light-1">
-                {author?.name}d
-              </h4>
-            </Link>
+            <div className="flex  gap-3 items-end">
+              <Link href={`/profile/${author?.id}`} className="w-fit">
+                <h4 className="cursor-pointer text-small-medium text-light-1">
+                  {author?.name}
+                </h4>
+              </Link>
+              <span className="line-clamp-1 flex text-base-medium text-gray-1 ">
+                {getTimestamp(createdAt)}
+              </span>
+            </div>
             {!isDeleted ? (
               <PostContent content={content} image={image || ""} />
             ) : (

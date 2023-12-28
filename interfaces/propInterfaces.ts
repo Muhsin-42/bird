@@ -6,6 +6,7 @@ export interface IPostCard {
   content: string;
   image?: string;
   like: string[];
+  createdAt: Date | string;
   author: {
     name: string;
     image: string;
