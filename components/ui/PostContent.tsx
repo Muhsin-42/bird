@@ -24,9 +24,13 @@ const PostContent = ({
           let trimmedWord = word.trim();
           if (trimmedWord[0] === "#") {
             return (
-              <span key={index} className="text-sky-500 cursor-pointer">
+              <Link
+                href={`/search?q=${word}`}
+                key={index}
+                className="text-sky-500 cursor-pointer"
+              >
                 {word}{" "}
-              </span>
+              </Link>
             );
           } else if (/^(https?:\/\/|www\.)/i.test(trimmedWord)) {
             return (

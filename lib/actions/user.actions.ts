@@ -64,6 +64,19 @@ export async function fetchUser(userId: string) {
     throw new Error(`Failed to fetch user: ${error?.message}`);
   }
 }
+export async function fetchUserByUsername(username: string) {
+  try {
+    connectToDB();
+
+    return await User.findOne({ username: username });
+    // .populate({
+    //     path: 'communities',
+    //     model: c
+    // });
+  } catch (error: any) {
+    throw new Error(`Failed to fetch user: ${error?.message}`);
+  }
+}
 
 export async function fetchPostsOfUser(userId: string) {
   try {

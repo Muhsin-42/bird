@@ -9,7 +9,6 @@ interface Props {
 }
 async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
   let result = await fetchPostsOfUser(accountId);
-  console.log("rrr ", result);
 
   if (!result) redirect("/");
 

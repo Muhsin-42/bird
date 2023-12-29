@@ -21,10 +21,6 @@ const PostCard = ({
   image,
   createdAt,
 }: IPostCard) => {
-  const formatContent = () => {
-    const _content = content.split("");
-  };
-
   return (
     <article
       className={`flex w-full flex-col rounded-xl overflow-auto  ${
@@ -35,7 +31,7 @@ const PostCard = ({
         <div className="flex w-full flex-1 flex-row gap4">
           <div className="flex flex-col items-center">
             <Link
-              href={`/profile/${author?.id}`}
+              href={`/profile/${author?.username}`}
               className="relative h-11 w-11"
             >
               <Image
@@ -49,7 +45,7 @@ const PostCard = ({
           </div>
           <div className="flex w-full flex-col ml-3">
             <div className="flex  gap-3 items-end">
-              <Link href={`/profile/${author?.id}`} className="w-fit">
+              <Link href={`/profile/${author?.username}`} className="w-fit">
                 <h4 className="cursor-pointer text-small-medium text-light-1">
                   {author?.name}
                 </h4>
