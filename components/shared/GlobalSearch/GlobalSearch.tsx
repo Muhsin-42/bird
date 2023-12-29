@@ -2,11 +2,11 @@
 
 import React, { useEffect } from "react";
 import { Input } from "../../ui/input";
-import { IUser } from "@/interfaces/propInterfaces";
+import { IUserMongo } from "@/interfaces/propInterfaces";
 import useReducerProvider from "./useReducerProvider";
 import SearchDropDown from "./SearchDropDown";
 
-const GlobalSearch = ({ users }: { users: IUser[] }) => {
+const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
   const { state, dispatch } = useReducerProvider({ users });
   const { isFocused, searchKey, filteredUsers } = state;
 

@@ -1,3 +1,20 @@
+export interface IUserGeneral {
+  _id?: string;
+  id: string;
+  username?: string;
+  name: string;
+  bio?: string;
+  image: string;
+}
+export interface IUserMongo {
+  _id: string;
+  id: string;
+  username: string;
+  name: string;
+  bio?: string;
+  image: string;
+}
+
 export interface IPostCard {
   key: string;
   id: string;
@@ -7,12 +24,7 @@ export interface IPostCard {
   image?: string;
   like: string[];
   createdAt: Date | string;
-  author: {
-    name: string;
-    image: string;
-    id: string;
-    _id?: string;
-  };
+  author: IUserGeneral;
   community: {
     id: string;
     name: string;
@@ -43,13 +55,4 @@ export interface IActionsSection {
     image: string;
     id: string;
   };
-}
-
-export interface IUser {
-  _id: string;
-  id: string;
-  username: string;
-  name: string;
-  bio: string;
-  image: string;
 }

@@ -3,35 +3,14 @@ import {
   SignOutButton,
   SignedIn,
   SignedOut,
-  currentUser,
 } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import GlobalSearch from "./GlobalSearch/GlobalSearch";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
-const NavBar = async () => {
-  let user;
-  try {
-    user = await currentUser();
-  } catch (error) {
-    return redirect("/sign-in");
-  }
-  if (!user) return redirect("/sign-in");
-
-  const userInfo = await fetchUser(user?.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
-
-  const result = await fetchUsers({
-    userId: user.id,
-    searchString: "",
-    pageNumber: 1,
-    pageSize: 25,
-    sortBy: "desc",
-  });
-
+import { IUserMongo } from "@/interfaces/propInterfaces";
+const NavBar = async ({ users }: { users: IUserMongo[] }) => {
   return (
     <nav className="topbar bg-slate-400d">
       <Link href={"/"} className="flex items-center gap-4 ">
@@ -41,7 +20,7 @@ const NavBar = async () => {
         </p>
       </Link>
 
-      <GlobalSearch users={result?.users} />
+      <GlobalSearch users={users} />
 
       <div className="flex items-center gap-1">
         <div className="block md:hidden">

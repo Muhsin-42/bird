@@ -1,18 +1,18 @@
-import { IUser } from "@/interfaces/propInterfaces";
+import { IUserGeneral, IUserMongo } from "@/interfaces/propInterfaces";
 import React, { useEffect, useReducer } from "react";
 
-const useReducerProvider = ({ users }: { users: IUser[] }) => {
+const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
   type State = {
     isFocused: boolean;
     searchKey: string;
-    filteredUsers: IUser[];
+    filteredUsers: IUserMongo[];
   };
 
   type Action =
     | { type: "FOCUS" }
     | { type: "BLUR" }
     | { type: "SET_SEARCH_KEY"; value: string }
-    | { type: "SET_FILTERED_USERS"; value: IUser[] };
+    | { type: "SET_FILTERED_USERS"; value: IUserMongo[] };
 
   const initialState: State = {
     isFocused: false,

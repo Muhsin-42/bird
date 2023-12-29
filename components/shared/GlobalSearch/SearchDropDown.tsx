@@ -1,4 +1,4 @@
-import { IUser } from "@/interfaces/propInterfaces";
+import { IUserGeneral } from "@/interfaces/propInterfaces";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ function SearchDropDown({
   users,
   searchKey,
 }: {
-  users: IUser[];
+  users: IUserGeneral[];
   searchKey: string;
 }) {
   return (
@@ -30,12 +30,12 @@ function SearchDropDown({
       )}
       {users &&
         users.length > 0 &&
-        users?.map((user: IUser) => (
+        users?.map((user: IUserGeneral) => (
           <li
             key={user._id}
             className="text-white py-2 px-3 hover:bg-dark-4 rounded-2xl cursor-pointer "
           >
-            <Link href={`/profile/${user?.id}`} className="flex gap-3">
+            <Link href={`/profile/${user?.username}`} className="flex gap-3">
               <div className="flex items-center">
                 <Image
                   src={user?.image}

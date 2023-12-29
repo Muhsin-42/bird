@@ -1,5 +1,5 @@
 import ProfileHeader from "@/components/shared/ProfileHeader";
-import { fetchUser } from "@/lib/actions/user.actions";
+import { fetchUser, fetchUserByUsername } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,7 +13,7 @@ async function Page({ params }: Props) {
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const userInfo = await fetchUser(params.id);
+  const userInfo = await fetchUserByUsername(params.id);
   const mongoCurrentUser = await fetchUser(user.id);
   if (!userInfo) redirect("/onboarding");
 
