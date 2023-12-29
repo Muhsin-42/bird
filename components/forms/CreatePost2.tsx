@@ -62,7 +62,6 @@ const CreatePost2 = ({ user }: any) => {
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
     setIsLoading(true);
-    console.log("values", values);
     if (files.length > 0 && !gif.set) {
       const blob = values.image;
       const hasImageChanged = isBase64Image(blob || "");

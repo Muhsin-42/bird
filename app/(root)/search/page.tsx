@@ -1,15 +1,21 @@
+import PostCard from "@/components/cards/PostCard/PostCard";
 import UserCard from "@/components/cards/UserCard";
+import ListPosts from "@/components/shared/ListPosts";
+import { fetchSearchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-export default async function Search() {
+export default async function Search(request: any) {
+  const { q: query } = request?.searchParams;
+
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
   const userInfo = await fetchUser(user?.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
+  const posts = await fetchSearchPosts(query, 1, 20);
   //fetch users
   const result = await fetchUsers({
     userId: user.id,
@@ -22,20 +28,10 @@ export default async function Search() {
   return (
     <section>
       <h1 className="head-text">Search</h1>
-
-      <div className="mt-14 flex flex-col gap-9">
-        {result?.users?.length === 0 && <p className="no-result">No Users</p>}
-        {result?.users?.map((person) => (
-          <UserCard
-            key={person.id}
-            id={person.id}
-            name={person.name}
-            username={person.username}
-            imgUrl={person.image}
-            personType="User"
-          />
-        ))}
-      </div>
+      <ListPosts
+        currentUserId={userInfo?._id?.toString() || ""}
+        posts={posts?.posts}
+      />
     </section>
   );
 }

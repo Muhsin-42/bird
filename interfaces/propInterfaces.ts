@@ -44,3 +44,12 @@ export interface IActionsSection {
     id: string;
   };
 }
+
+export interface IUser {
+  _id: string;
+  id: string;
+  username: string;
+  name: string;
+  bio: string;
+  image: string;
+}

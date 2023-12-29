@@ -26,7 +26,6 @@ export async function createThread({
     author,
     image,
     community: null,
-    lik: "hehe",
   });
 
   //update user model
@@ -67,7 +66,44 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
     });
     const posts = await postsQuery.exec();
     const isNext = totalPostsCount > skipCount + posts.length;
-    // console.log("posts, ", posts);
+
+    return { posts: JSON.parse(JSON.stringify(posts)), isNext };
+  } catch (error) {}
+}
+export async function fetchSearchPosts(
+  key: string,
+  pageNumber = 1,
+  pageSize = 20
+) {
+  try {
+    connectToDB();
+
+    // calculate no. of posts to skip.
+    const skipCount = (pageNumber - 1) * pageSize;
+
+    // Fetch the posts that have no parents. (ie. don't need replies)
+    const postsQuery = Thread.find({
+      text: { $regex: new RegExp(key, "i") },
+      parentId: { $in: [null, undefined] },
+      deleted: { $ne: true },
+    })
+      .sort({ createdAt: "desc" })
+      .skip(skipCount)
+      .limit(pageSize)
+      .populate({ path: "author", model: User })
+      .populate({
+        path: "children",
+        populate: {
+          path: "author",
+          model: User,
+          select: "_id name parentId image",
+        },
+      });
+    const totalPostsCount = await Thread.countDocuments({
+      parentId: { $in: [null, undefined] },
+    });
+    const posts = await postsQuery.exec();
+    const isNext = totalPostsCount > skipCount + posts.length;
 
     return { posts: JSON.parse(JSON.stringify(posts)), isNext };
   } catch (error) {}
