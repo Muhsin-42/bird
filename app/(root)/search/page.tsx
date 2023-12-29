@@ -1,5 +1,6 @@
 import PostCard from "@/components/cards/PostCard/PostCard";
 import UserCard from "@/components/cards/UserCard";
+import CreatePost2 from "@/components/forms/CreatePost2";
 import ListPosts from "@/components/shared/ListPosts";
 import { fetchSearchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
