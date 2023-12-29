@@ -1,26 +1,47 @@
 import {
-  OrganizationSwitcher,
   SignInButton,
   SignOutButton,
   SignedIn,
   SignedOut,
+  currentUser,
 } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 import { LogIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import GlobalSearch from "./GlobalSearch/GlobalSearch";
+import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
+const NavBar = async () => {
+  let user;
+  try {
+    user = await currentUser();
+  } catch (error) {
+    return redirect("/sign-in");
+  }
+  if (!user) return redirect("/sign-in");
 
-const NavBar = () => {
+  const userInfo = await fetchUser(user?.id);
+  if (!userInfo?.onboarded) redirect("/onboarding");
+
+  const result = await fetchUsers({
+    userId: user.id,
+    searchString: "",
+    pageNumber: 1,
+    pageSize: 25,
+    sortBy: "desc",
+  });
 
   return (
-    <nav className="topbar">
-      <Link href={"/"} className="flex items-center gap-4">
+    <nav className="topbar bg-slate-400d">
+      <Link href={"/"} className="flex items-center gap-4 ">
         <Image src={"/assets/bird.webp"} alt="logo" width={32} height={32} />
         <p className="text-heading3-bold text-light-1 max-xs max-xs:hidden">
           Bird
         </p>
       </Link>
+
+      <GlobalSearch users={result?.users} />
 
       <div className="flex items-center gap-1">
         <div className="block md:hidden">

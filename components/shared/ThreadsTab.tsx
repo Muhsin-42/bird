@@ -9,6 +9,7 @@ interface Props {
 }
 async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
   let result = await fetchPostsOfUser(accountId);
+  console.log("rrr ", result);
 
   if (!result) redirect("/");
 
@@ -18,7 +19,7 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
         <PostCard
           key={post?._id}
           id={post?._id}
-          currentUserId={currentUserId || ""}
+          currentUserId={currentUserId?.toString() || ""}
           parentId={post?.parentId}
           content={post?.text}
           image={post?.image}

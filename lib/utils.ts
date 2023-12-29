@@ -48,7 +48,6 @@ export const getTimestamp = (createdAt: string | number | Date): string => {
   const now = new Date();
   const secondsPast = (now.getTime() - createdAt.getTime()) / 1000;
 
-  console.log("hooo", secondsPast);
   if (secondsPast < 60) {
     return Math.round(secondsPast) + " seconds ago";
   }

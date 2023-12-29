@@ -156,9 +156,6 @@ export async function getActivity(userId: string) {
       return acc.concat(userThread.children);
     }, []);
 
-    console.log("userThre", userThreads);
-    console.log("chilDThids", childThreadIds);
-
     // get all the replies excluding the ones created by the same user.
     const replies = await Thread.find({
       _id: { $in: childThreadIds },
@@ -168,7 +165,6 @@ export async function getActivity(userId: string) {
       model: User,
       select: "name image _id",
     });
-    console.log("reppp ", replies);
 
     return replies;
   } catch (error: any) {
