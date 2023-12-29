@@ -116,8 +116,8 @@ const CreatePost2 = ({ user }: any) => {
     }
   };
   return (
-    <div className="flex gap-4 bg-green-50sw0">
-      <div className="bg-yellow-300s">
+    <div className="flex gap-4">
+      <div className="">
         <Link href={`/profile/${user?._id}`} className="relative h-11 w-11">
           <Image
             src={user?.image}
@@ -132,19 +132,18 @@ const CreatePost2 = ({ user }: any) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-start items-end gap-3 border-b pb-2 border-b-dark-4 w-full bg-dark-1"
+          className="flex flex-col justify-start items-end gap-6 border-b pb-2 border-b-dark-4 w-full "
         >
           <FormField
             control={form.control}
             name="thread"
             render={({ field }) => (
-              <FormItem className="flex w-full flex-col gap-3">
+              <FormItem className="flex w-full flex-col gap-3 ">
                 <FormControl className="no-focus border border-dark-4 bg-dark-1 text-light-1">
                   <Textarea
-                    color="#ffff"
-                    rows={1}
-                    className="account-form_input no-focus bg-dark-dsd  bg-red-600"
-                    placeholder="Write something."
+                    rows={3}
+                    className="account-form_input no-focus !bg-green-500"
+                    placeholder="Enter you name."
                     {...field}
                   />
                 </FormControl>
@@ -179,7 +178,7 @@ const CreatePost2 = ({ user }: any) => {
             </div>
           )}
 
-          <div className="flex justify-between w-full sticky bottom-0 bg-dark-1 items-center">
+          <div className="flex  justify-between w-full sticky bottom-0 bg-dark-1 items-center">
             <div className="flex text-white gap-4">
               <div className="flex ">
                 <FormField
@@ -207,7 +206,7 @@ const CreatePost2 = ({ user }: any) => {
                           placeholder="Upload Image."
                           onChange={(e) => handleImage(e, field.onChange)}
                           onBlur={field.onBlur}
-                          disabled={(files && files.length > 0) || gif.set}
+                          // disabled={(files && files.length > 0) || gif.set}
                         />
                       </FormControl>
                       <FormMessage />
@@ -217,10 +216,10 @@ const CreatePost2 = ({ user }: any) => {
               </div>
               <Popover>
                 <PopoverTrigger
-                  disabled={(files && files.length > 0) || gif.set}
+                  // disabled={(files && files.length > 0) || gif.set}
                   className="disabled:opacity-40"
                 >
-                  <MdOutlineGifBox size={"1.8rem"} />
+                  <MdOutlineGifBox size={"1.7rem"} />
                 </PopoverTrigger>
                 <PopoverContent className="">
                   <GifPicker
@@ -236,15 +235,11 @@ const CreatePost2 = ({ user }: any) => {
                   />
                 </PopoverContent>
               </Popover>
-              {/* </Button> */}
-              {/* <Button
-                type="button"
-                className="flex max-xs:hidden"
-                title="emoji"
-              > */}
               <Popover>
                 <PopoverTrigger>
                   <SmilePlus />
+                  {/* <Button type="button" className="bg-red-500">
+                  </Button> */}
                 </PopoverTrigger>
                 <PopoverContent className="p-0 m-0">
                   <EmojiPicker
@@ -258,12 +253,11 @@ const CreatePost2 = ({ user }: any) => {
                   />
                 </PopoverContent>
               </Popover>
-              {/* </Button> */}
             </div>
             <Button
               type="submit"
               className="comment-form_btn  hover:bg-primary-600 flex gap-2 w-fit px-5"
-              disabled={isLoading}
+              // disabled={isLoading}
             >
               Post
               {isLoading && <LoaderIcon className="animate-spin" />}

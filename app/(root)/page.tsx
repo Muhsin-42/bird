@@ -11,19 +11,19 @@ export default async function Home() {
     user = await currentUser();
   } catch (error) {
     console.error("Failed to fetch current user:", error);
-    return redirect("/error");
+    return redirect("/sign-in");
   }
-  if (!user) return redirect("/error");
+  if (!user) return redirect("/sign-in");
   const loggedInUser = await fetchUser(user.id);
   const result = await fetchPosts(1, 20);
   return (
-    <>
-      <CreatePost2 user={JSON.parse(JSON.stringify(loggedInUser))} />
+    <div>
+      <CreatePost2 user={loggedInUser} />
       <ListPosts
         currentUserId={loggedInUser?._id?.toString() || ""}
         posts={result?.posts}
       />
       {/* <PostPopBtn /> */}
-    </>
+    </div>
   );
 }
