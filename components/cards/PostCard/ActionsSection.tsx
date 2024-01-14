@@ -12,6 +12,7 @@ import { IoCopyOutline } from "react-icons/io5";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
+import useCopyClipboard from "@/hooks/useCopyClipboard";
 const ActionsSection = ({
   isComment,
   id,
@@ -25,6 +26,7 @@ const ActionsSection = ({
   const [deleteModalShow,setDeleteModalShow] = useState(false);
   const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/thread/${author?.name}/${id}`;
   const { toast } = useToast()
+  const {isCopied,copyToClipboard} = useCopyClipboard();
   return (
     <div className={`mt-5 flex flex-col gap-3 ${isComment && "pb-3"}`}>
       <div className="flex gap-3.5 justify-betweend">
@@ -75,6 +77,7 @@ const ActionsSection = ({
             </DropdownItem>
             <DropdownItem key="copy" startContent={<IoCopyOutline size={'1.5rem'} />}
             onClick={() => {
+              copyToClipboard(shareUrl);
               toast({
                 variant: "default",
                 title: "Copied to clipboard.",
