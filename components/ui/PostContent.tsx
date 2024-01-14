@@ -2,11 +2,16 @@ import Link from "next/link";
 import React from "react";
 import LinkPreview from "../shared/LinkPreview";
 import Image from "next/image";
+import { IUserGeneral } from "@/interfaces/propInterfaces";
 
 const PostContent = ({
   content,
   image,
+  author,
+  id
 }: {
+  author: IUserGeneral;
+  id: string;
   content: string;
   image: string;
 }) => {
@@ -45,7 +50,7 @@ const PostContent = ({
               </Link>
             );
           } else {
-            return <span key={index}>{word + " "}</span>;
+            return <Link href={`/thread/${author?.name}/${id}`} key={index}>{word + " "}</Link>;
           }
         })}
       </p>

@@ -55,7 +55,7 @@ const PostCard = ({
               </span>
             </div>
             {!isDeleted ? (
-              <PostContent content={content} image={image || ""} />
+              <PostContent author={author} id={id} content={content} image={image || ""} />
             ) : (
               <p
                 className={`mt-2 "text-slate-400 font-semibold text-heading4-medium`}
