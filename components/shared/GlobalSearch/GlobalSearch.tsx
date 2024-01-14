@@ -28,6 +28,8 @@ const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
             dispatch({ type: "SET_SEARCH_KEY", value: e.target.value })
           }
         />
+        {
+          isFocused &&
         <div
           className={`transition-all duration-300 ease-in-out ${
             isFocused ? "opacity-100 visible" : "opacity-0 invisible"
@@ -35,6 +37,7 @@ const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
         >
           <SearchDropDown users={filteredUsers} searchKey={searchKey} />
         </div>
+        }
       </div>
     </div>
   );
