@@ -8,7 +8,7 @@ const PostContent = ({
   content,
   image,
   author,
-  id
+  id,
 }: {
   author: IUserGeneral;
   id: string;
@@ -22,17 +22,15 @@ const PostContent = ({
 
   return (
     <>
-      <p
-        className={`mt-2 text-small-regular text-light-2 break-words break-all`}
-      >
+      <p className={`mt-2 break-words text-small-regular text-light-2`}>
         {splitContent?.map((word, index) => {
-          let trimmedWord = word.trim();
+          const trimmedWord = word.trim();
           if (trimmedWord[0] === "#") {
             return (
               <Link
                 href={`/search?q=${word}`}
                 key={index}
-                className="text-sky-500 cursor-pointer"
+                className="cursor-pointer text-sky-500"
               >
                 {word}{" "}
               </Link>
@@ -43,19 +41,23 @@ const PostContent = ({
                 key={index}
                 target="_blank"
                 href={word}
-                className="text-sky-500 cursor-pointer break-words"
+                className="cursor-pointer break-words text-sky-500"
               >
                 {word.slice(0, 50)}
                 {word?.length > 50 ? "..." : " "}
               </Link>
             );
           } else {
-            return <Link href={`/thread/${author?.name}/${id}`} key={index}>{word + " "}</Link>;
+            return (
+              <Link href={`/thread/${author?.name}/${id}`} key={index}>
+                {word + " "}
+              </Link>
+            );
           }
         })}
       </p>
       {image ? (
-        <div className="flex mt-3">
+        <div className="mt-3 flex">
           <Image
             src={image}
             width={500}

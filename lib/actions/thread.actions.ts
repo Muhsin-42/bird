@@ -3,7 +3,6 @@ import { revalidatePath } from "next/cache";
 import Thread from "../models/Thread.model";
 import User from "../models/user.modle";
 import { connectToDB } from "../mongoose";
-import { string } from "zod";
 
 interface Params {
   text: string;
@@ -28,12 +27,12 @@ export async function createThread({
     community: null,
   });
 
-  //update user model
+  // update user model
   await User.findByIdAndUpdate(author, {
     $push: { threads: createdThread._id },
   });
 
-  //revalidate data
+  // revalidate data
   revalidatePath(path);
 }
 
@@ -113,7 +112,7 @@ export async function fetchPostById(postId: string) {
   try {
     connectToDB();
 
-    //TODO: Populate community.
+    // TODO: Populate community.
     const post = await Thread.findById(postId)
       .populate({
         path: "author",
@@ -158,7 +157,7 @@ export async function addCommentToThread(
 
     if (!originalThread) throw new Error("Thread not found");
 
-    //create new thread
+    // create new thread
     const commentThread = new Thread({
       text: commentText,
       author: userId,
@@ -197,7 +196,7 @@ export async function likePost(threadId: string, userId: string, path: string) {
       thread?.like?.splice(index, 1);
     }
 
-    const thh = await thread.save();
+    await thread.save();
     revalidatePath(path);
   } catch (error: any) {
     throw new Error(`Error adding comment to thread: ${error.message}`);

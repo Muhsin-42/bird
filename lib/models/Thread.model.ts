@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const ThreadSchema = new mongoose.Schema({
   text: { type: String, required: true },

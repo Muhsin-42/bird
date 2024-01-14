@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Input } from "../../ui/input";
 import { IUserMongo } from "@/interfaces/propInterfaces";
 import useReducerProvider from "./useReducerProvider";
@@ -12,7 +12,7 @@ const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
 
   return (
     <div className="bg-green-500">
-      <div className="my-2 w-7/12 xs:w-4/12 sm:w-7/12 xl:w-6/12 top-0 absolute left-1/2 md:left-[60%] xl:left-1/2  transform -translate-x-1/2">
+      <div className="absolute left-1/2 top-0 my-2 w-7/12 -translate-x-1/2 xs:w-4/12 sm:w-7/12 md:left-[60%] xl:left-1/2  xl:w-6/12">
         <Input
           onFocus={() => dispatch({ type: "FOCUS" })}
           onBlur={() =>
@@ -28,16 +28,15 @@ const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
             dispatch({ type: "SET_SEARCH_KEY", value: e.target.value })
           }
         />
-        {
-          isFocused &&
-        <div
-          className={`transition-all duration-300 ease-in-out ${
-            isFocused ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-        >
-          <SearchDropDown users={filteredUsers} searchKey={searchKey} />
-        </div>
-        }
+        {isFocused && (
+          <div
+            className={`transition-all duration-300 ease-in-out ${
+              isFocused ? "visible opacity-100" : "invisible opacity-0"
+            }`}
+          >
+            <SearchDropDown users={filteredUsers} searchKey={searchKey} />
+          </div>
+        )}
       </div>
     </div>
   );

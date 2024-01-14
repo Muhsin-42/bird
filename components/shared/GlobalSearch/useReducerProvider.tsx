@@ -1,5 +1,5 @@
-import { IUserGeneral, IUserMongo } from "@/interfaces/propInterfaces";
-import React, { useEffect, useReducer } from "react";
+import { IUserMongo } from "@/interfaces/propInterfaces";
+import { useEffect, useReducer } from "react";
 
 const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
   type State = {
@@ -39,7 +39,7 @@ const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
 
   useEffect(() => {
     if (searchKey) {
-      let key = searchKey.toLowerCase();
+      const key = searchKey.toLowerCase();
       const searchFilteredUsers = users?.filter(
         (user: { name: string; username: string }) =>
           user.name?.toLowerCase().includes(key) ||

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,14 +7,11 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "../ui/textarea";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { CommentValidation } from "@/lib/validations/thread";
 import { Input } from "../ui/input";
 import Image from "next/image";
@@ -29,9 +26,9 @@ type Props = {
 };
 
 const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
-  const [submitLoading, setSubmitLoading] = useState(false);
+  // const [submitLoading, setSubmitLoading] = useState(false);
+  // const router = useRouter();
   const { isLoading, setIsLoading } = useLoading();
-  const router = useRouter();
   const pathName = usePathname();
 
   const form = useForm({
@@ -59,7 +56,7 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex justify-between gap-5 items-center"
+          className="flex items-center justify-between gap-5"
         >
           {/* Name */}
           <FormField
@@ -90,7 +87,7 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
           />
           <Button
             type="submit"
-            className="comment-form_btn hover:bg-primary-600 flex gap-2 w-fit px-5"
+            className="comment-form_btn flex w-fit gap-2 px-5 hover:bg-primary-600"
             disabled={isLoading}
           >
             Reply

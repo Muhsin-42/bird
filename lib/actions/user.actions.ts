@@ -68,7 +68,7 @@ export async function fetchUserByUsername(username: string) {
   try {
     connectToDB();
 
-    return await User.findOne({ username: username });
+    return await User.findOne({ username });
     // .populate({
     //     path: 'communities',
     //     model: c
@@ -164,7 +164,7 @@ export async function getActivity(userId: string) {
 
     const userThreads = await Thread.find({ author: userId });
 
-    //collect all the child thread ids(comments) from the children field
+    // collect all the child thread ids(comments) from the children field
     const childThreadIds = userThreads.reduce((acc, userThread) => {
       return acc.concat(userThread.children);
     }, []);

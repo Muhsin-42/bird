@@ -1,37 +1,36 @@
-  import PostCard from "@/components/cards/PostCard/PostCard";
-  import Comment from "@/components/forms/Comment";
-  import { fetchPostById } from "@/lib/actions/thread.actions";
-  import { fetchUser } from "@/lib/actions/user.actions";
-  import { currentUser } from "@clerk/nextjs";
-  import { redirect } from "next/navigation";
-  import type { Metadata } from 'next'
+import PostCard from "@/components/cards/PostCard/PostCard";
+import Comment from "@/components/forms/Comment";
+import { fetchPostById } from "@/lib/actions/thread.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 
-  export function generateMetadata({params}:Props): Metadata {
-    return {
-      title: `${params.slug[0]}`,
-    }
-  }
-
-  type Props = {
-    params: {
-      slug:string[];
-    };
+type Props = {
+  params: {
+    slug: string[];
   };
+};
 
+export function generateMetadata({ params }: Props): Metadata {
+  return {
+    title: `${params.slug[0]}`,
+  };
+}
 
-  const Page = async ({ params }: Props) => {
-    if (!params.slug[1]) return null;
+const Page = async ({ params }: Props) => {
+  if (!params.slug[1]) return null;
 
-    const user = await currentUser();
-    if (!user) return redirect("/sign-in");
+  const user = await currentUser();
+  if (!user) return redirect("/sign-in");
 
-    const userInfo = await fetchUser(user.id);
+  const userInfo = await fetchUser(user.id);
 
-    if (!userInfo?.onboarded) return redirect("/onboarding");
+  if (!userInfo?.onboarded) return redirect("/onboarding");
 
-    const post = await fetchPostById(params.slug[1]);
-    return (
-      <>
+  const post = await fetchPostById(params.slug[1]);
+  return (
+    <>
       <section className="relative">
         <div>
           <PostCard
@@ -78,8 +77,8 @@
           ))}
         </div>
       </section>
-      </>
-    );
-  };
+    </>
+  );
+};
 
-  export default Page;
+export default Page;

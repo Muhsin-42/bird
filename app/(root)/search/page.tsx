@@ -1,9 +1,9 @@
-import PostCard from "@/components/cards/PostCard/PostCard";
-import UserCard from "@/components/cards/UserCard";
-import CreatePost2 from "@/components/forms/CreatePost2";
+// import PostCard from "@/components/cards/PostCard/PostCard";
+// import UserCard from "@/components/cards/UserCard";
+// import CreatePost2 from "@/components/forms/CreatePost2";
 import ListPosts from "@/components/shared/ListPosts";
 import { fetchSearchPosts } from "@/lib/actions/thread.actions";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
@@ -17,14 +17,14 @@ export default async function Search(request: any) {
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   const posts = await fetchSearchPosts(query, 1, 20);
-  //fetch users
-  const result = await fetchUsers({
-    userId: user.id,
-    searchString: "",
-    pageNumber: 1,
-    pageSize: 25,
-    sortBy: "desc",
-  });
+  // fetch users
+  // const result = await fetchUsers({
+  //   userId: user.id,
+  //   searchString: "",
+  //   pageNumber: 1,
+  //   pageSize: 25,
+  //   sortBy: "desc",
+  // });
 
   return (
     <section>
