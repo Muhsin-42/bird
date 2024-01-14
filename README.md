@@ -46,6 +46,10 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 # MongoDB Configuration
 MONGODB_URL=your_mongodb_database_url
 
+#Tenor Api From Google Cloud - refer `gif-picker-react` documentation.
+NEXT_PUBLIC_TENOR_API_KEY= < Tenor Api From Google Cloud >
+
+
 # UploadThing Configuration
 UPLOADTHING_SECRET=your_upload_thing_secret_key
 UPLOADTHING_APP_ID=your_upload_thing_app_id
