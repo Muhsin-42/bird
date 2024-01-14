@@ -33,7 +33,7 @@ const ActionsSection = ({
           <span className="text-gray-1">{likeCount}</span>
         </div>
 
-        <Link href={`/thread/${id}`}>
+        <Link href={`/thread/${author?.name}/${id}`}>
           <Image
             src="/assets/reply.svg"
             alt="reply"
@@ -72,7 +72,7 @@ const ActionsSection = ({
       </div>
 
       {comments?.length > 0 && (
-        <Link href={`/thread/${id}`}>
+        <Link href={`/thread/${author?.name}/${id}`}>
           <p className="mt-1 text-subtle-medium text-gray-1">
             {comments?.length} replies
           </p>
