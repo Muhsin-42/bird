@@ -2,6 +2,7 @@ import Footer from "@/components/shared/Footer";
 import LeftSideBar from "@/components/shared/LeftSideBar";
 import NavBar from "@/components/shared/NavBar";
 import RightSideBar from "@/components/shared/RightSideBar";
+import { Toaster } from "@/components/ui/toaster";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
@@ -31,6 +32,7 @@ const subLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NextTopLoader color="#877EFF" />
+      <Toaster />
       <NavBar users={JSON.parse(JSON.stringify(users.users))} />
 
       <main className="flex flex-row">
