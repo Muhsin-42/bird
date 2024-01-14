@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -154,7 +153,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="text-light-2 font-semibold">Name</FormLabel>
+              <FormLabel className="font-semibold text-light-2">Name</FormLabel>
               <FormControl>
                 <Input
                   type="text"
@@ -173,7 +172,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           name="username"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="text-light-2 font-semibold">
+              <FormLabel className="font-semibold text-light-2">
                 Username
               </FormLabel>
               <FormControl>
@@ -194,7 +193,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           name="bio"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="text-light-2 font-semibold">Bio</FormLabel>
+              <FormLabel className="font-semibold text-light-2">Bio</FormLabel>
               <FormControl>
                 <Textarea
                   className="account-form_textarea no-focus"

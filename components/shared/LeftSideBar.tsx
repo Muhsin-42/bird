@@ -59,7 +59,7 @@ const LeftSideBar = ({ currentUser }: { currentUser: IUserGeneral }) => {
                 width={24}
                 height={24}
               />
-              <p className="text-light-2 mx-lg:hidden">Logout</p>
+              <p className="mx-lg:hidden text-light-2">Logout</p>
             </div>
           </SignOutButton>
         </SignedIn>
@@ -68,7 +68,7 @@ const LeftSideBar = ({ currentUser }: { currentUser: IUserGeneral }) => {
           <SignInButton>
             <div className="flex cursor-pointer gap-4 p-4">
               <LogIn color="white" />
-              <p className="text-light-2 mx-lg:hidden">Login</p>
+              <p className="mx-lg:hidden text-light-2">Login</p>
             </div>
           </SignInButton>
         </SignedOut>

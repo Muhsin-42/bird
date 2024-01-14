@@ -35,9 +35,9 @@ const LinkPreview = async ({ link }: { link: string }) => {
       <Link
         href={previewData?.url || ""}
         target="_blank"
-        className="w-full flex rounded-xl overflow-hidden border-1d bg-dark-1 shadow-inner text-white min-h-[100px]"
+        className="flex min-h-[100px] w-full overflow-hidden rounded-xl border-1 border-dark-4 bg-dark-1 text-white shadow-inner"
       >
-        <div className="w-4/12 border-r relative">
+        <div className="relative w-4/12 border-r">
           <Image
             src={previewData?.images[0] || ""}
             layout="fill"
@@ -45,12 +45,12 @@ const LinkPreview = async ({ link }: { link: string }) => {
             alt="Preview Image"
           />
         </div>
-        <div className="flex flex-col w-8/12 px-1 sm:px-3 py-2 justify-center">
+        <div className="flex w-8/12 flex-col justify-center px-1 py-2 sm:px-3">
           <span className="text-gray-400">{previewData?.domain}</span>
-          <span className="text-small-regular sm:text-heading5-bold break-words break-all">
+          <span className="break-all text-small-regular sm:text-heading5-bold">
             {previewData?.title}
           </span>
-          <span className="text-gray-400 hidden sm:block overflow-hidden overflow-ellipsis h-12">
+          <span className="hidden h-12 overflow-hidden text-ellipsis text-gray-400 sm:block">
             {previewData?.description}
           </span>
         </div>

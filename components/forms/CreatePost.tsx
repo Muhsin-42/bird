@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,7 +18,6 @@ import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
 import { LoaderIcon } from "lucide-react";
 import useLoading from "@/hooks/useLoading";
-import CreatePost2 from "./CreatePost2";
 
 type props = {
   userId: string;
@@ -55,7 +53,7 @@ const CreatePost = ({ userId }: props) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-start items-end gap-10"
+          className="flex flex-col items-end justify-start gap-10"
         >
           {/* Name */}
           <FormField
@@ -63,7 +61,7 @@ const CreatePost = ({ userId }: props) => {
             name="thread"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-3">
-                <FormLabel className="text-light-2 font-semibold">
+                <FormLabel className="font-semibold text-light-2">
                   Thread content
                 </FormLabel>
                 <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
@@ -80,7 +78,7 @@ const CreatePost = ({ userId }: props) => {
           />
           <Button
             type="submit"
-            className="comment-form_btn hover:bg-primary-600 flex gap-2 w-fit px-5"
+            className="comment-form_btn flex w-fit gap-2 px-5 hover:bg-primary-600"
             disabled={isLoading}
           >
             Post

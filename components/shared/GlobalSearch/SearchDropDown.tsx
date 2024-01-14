@@ -12,11 +12,11 @@ function SearchDropDown({
   searchKey: string;
 }) {
   return (
-    <ul className="bg-dark-1 border border-dark-4 shadow-md shadow-white w-full max-h-56 rounded-2xl flex flex-col overflow-y-auto">
+    <ul className="flex max-h-56 w-full flex-col overflow-y-auto rounded-2xl border border-dark-4 bg-dark-1 shadow-md shadow-white">
       {searchKey && (
         <li
           key={Math.random()}
-          className="text-white py-2 px-3 hover:bg-dark-4 rounded-2xl cursor-pointer "
+          className="cursor-pointer rounded-2xl px-3 py-2 text-white hover:bg-dark-4 "
         >
           <Link href={`/search?q=${searchKey}`} className="flex gap-3">
             <div className="flex items-center">
@@ -33,7 +33,7 @@ function SearchDropDown({
         users?.map((user: IUserGeneral) => (
           <li
             key={user._id}
-            className="text-white py-2 px-3 hover:bg-dark-4 rounded-2xl cursor-pointer "
+            className="cursor-pointer rounded-2xl px-3 py-2 text-white hover:bg-dark-4 "
           >
             <Link href={`/profile/${user?.username}`} className="flex gap-3">
               <div className="flex items-center">

@@ -12,10 +12,10 @@ import GlobalSearch from "./GlobalSearch/GlobalSearch";
 import { IUserMongo } from "@/interfaces/propInterfaces";
 const NavBar = async ({ users }: { users: IUserMongo[] }) => {
   return (
-    <nav className="topbar bg-slate-400d">
+    <nav className="topbar">
       <Link href={"/"} className="flex items-center gap-4 ">
         <Image src={"/assets/bird.webp"} alt="logo" width={32} height={32} />
-        <p className="text-heading3-bold text-light-1 max-xs max-xs:hidden">
+        <p className="max-xs text-heading3-bold text-light-1 max-xs:hidden">
           Bird
         </p>
       </Link>
@@ -41,7 +41,7 @@ const NavBar = async ({ users }: { users: IUserMongo[] }) => {
             <SignInButton>
               <div className="flex cursor-pointer gap-4 p-4">
                 <LogIn color="white" />
-                <p className="text-light-2 mx-lg:hidden">Login</p>
+                <p className="mx-lg:hidden text-light-2">Login</p>
               </div>
             </SignInButton>
           </SignedOut>

@@ -10,7 +10,6 @@ import { MdOutlineGifBox } from "react-icons/md";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,14 +20,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { ChangeEvent, useState } from "react";
 import { createThread } from "@/lib/actions/thread.actions";
-import {
-  Gift,
-  ImagePlus,
-  LoaderIcon,
-  SmilePlus,
-  X,
-  XCircle,
-} from "lucide-react";
+import { LoaderIcon, SmilePlus, X } from "lucide-react";
 import useLoading from "@/hooks/useLoading";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,10 +32,6 @@ import {
 import { Input } from "../ui/input";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
-
-interface IProps {
-  userId: string;
-}
 
 const CreatePost2 = ({ user }: any) => {
   const { startUpload } = useUploadThing("media");
@@ -132,7 +120,7 @@ const CreatePost2 = ({ user }: any) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-start items-end gap-6 border-b pb-2 border-b-dark-4 w-full "
+          className="flex w-full flex-col items-end justify-start gap-6 border-b border-b-dark-4 pb-2 "
         >
           <FormField
             control={form.control}
@@ -153,9 +141,9 @@ const CreatePost2 = ({ user }: any) => {
           />
 
           {((files && files.length > 0) || gif.set) && (
-            <div className="w-full relative">
+            <div className="relative w-full">
               <div
-                className="absolute right-4 top-4 cursor-pointer bg-slate-500 rounded-full p-1 hover:scale-105 "
+                className="absolute right-4 top-4 cursor-pointer rounded-full bg-slate-500 p-1 hover:scale-105 "
                 onClick={() => {
                   form.setValue("image", "");
                   setFiles([]);
@@ -178,15 +166,15 @@ const CreatePost2 = ({ user }: any) => {
             </div>
           )}
 
-          <div className="flex  justify-between w-full sticky bottom-0 bg-dark-1 items-center">
-            <div className="flex text-white gap-4">
+          <div className="sticky  bottom-0 flex w-full items-center justify-between bg-dark-1">
+            <div className="flex gap-4 text-white">
               <div className="flex ">
                 <FormField
                   control={form.control}
                   name="image"
                   render={({ field }) => (
-                    <FormItem className="flex it ems-center gap-4">
-                      <FormLabel className="account-form_image-labeld cursor-pointer">
+                    <FormItem className="flex items-center gap-4">
+                      <FormLabel className=" cursor-pointer">
                         <Image
                           src={"/assets/profile.svg"}
                           alt="profile pic"
@@ -199,7 +187,7 @@ const CreatePost2 = ({ user }: any) => {
                           } `}
                         />
                       </FormLabel>
-                      <FormControl className="flex-1 hidden text-base-semibold text-gray-200">
+                      <FormControl className="hidden flex-1 text-base-semibold text-gray-200">
                         <Input
                           type="file"
                           accept="image/**"
@@ -238,10 +226,8 @@ const CreatePost2 = ({ user }: any) => {
               <Popover>
                 <PopoverTrigger>
                   <SmilePlus />
-                  {/* <Button type="button" className="bg-red-500">
-                  </Button> */}
                 </PopoverTrigger>
-                <PopoverContent className="p-0 m-0">
+                <PopoverContent className="m-0 p-0">
                   <EmojiPicker
                     theme={Theme.DARK}
                     onEmojiClick={(emo) => {
@@ -256,7 +242,7 @@ const CreatePost2 = ({ user }: any) => {
             </div>
             <Button
               type="submit"
-              className="comment-form_btn  hover:bg-primary-600 flex gap-2 w-fit px-5"
+              className="comment-form_btn  flex w-fit gap-2 px-5 hover:bg-primary-600"
               // disabled={isLoading}
             >
               Post
