@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import ShareComponent from "./ShareComponent";
+
 const ActionsSection = ({
   isComment,
   id,
@@ -17,7 +18,7 @@ const ActionsSection = ({
   const { isLiked, likeCount, handleLike } = useLike(like, id, currentUserId);
   const [deleteHover, setDeleteHover] = useState(false);
   const [deleteModalShow, setDeleteModalShow] = useState(false);
-  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/thread/${author?.name}/${id}`;
+  const shareUrl = window.location.href;
 
   return (
     <div className={`mt-5 flex flex-col gap-3 ${isComment && "pb-3"}`}>

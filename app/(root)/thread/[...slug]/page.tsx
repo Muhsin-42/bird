@@ -5,6 +5,7 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { IPost } from "@/interfaces/interface";
 
 type Props = {
   params: {
@@ -12,9 +13,14 @@ type Props = {
   };
 };
 
-export function generateMetadata({ params }: Props): Metadata {
+let post: IPost;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  post = await fetchPostById(params.slug[1]);
+  console.log("ppp ", post);
+
   return {
-    title: `${params.slug[0]}`,
+    title: `${params.slug[0]} - ${post?.text} `,
   };
 }
 
@@ -28,7 +34,6 @@ const Page = async ({ params }: Props) => {
 
   if (!userInfo?.onboarded) return redirect("/onboarding");
 
-  const post = await fetchPostById(params.slug[1]);
   return (
     <>
       <section className="relative">
@@ -42,7 +47,7 @@ const Page = async ({ params }: Props) => {
             parentId={post?.parentId}
             content={post?.text}
             author={post?.author}
-            community={post?.createdAt}
+            community={post?.community}
             comments={post?.children}
             like={post?.like}
             isDeleted={post?.deleted || false}

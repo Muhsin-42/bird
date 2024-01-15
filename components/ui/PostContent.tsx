@@ -15,7 +15,7 @@ const PostContent = ({
   content: string;
   image: string;
 }) => {
-  const splitContent = content.split(/\s|\n/);
+  const splitContent = content?.split(/\s|\n/);
   const links = splitContent?.filter((word) =>
     /^(https?:\/\/|www\.)/i.test(word.trim())
   );
