@@ -5,7 +5,16 @@ import ListPosts from "@/components/shared/ListPosts";
 import { fetchSearchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export function generateMetadata(request: any): Metadata {
+  const { q: query } = request?.searchParams;
+
+  return {
+    title: `Search - ${query}`,
+  };
+}
 
 export default async function Search(request: any) {
   const { q: query } = request?.searchParams;
