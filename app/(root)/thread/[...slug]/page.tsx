@@ -5,7 +5,6 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { IPost } from "@/interfaces/interface";
 
 type Props = {
   params: {
@@ -13,11 +12,8 @@ type Props = {
   };
 };
 
-let post: IPost;
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  post = await fetchPostById(params.slug[1]);
-  console.log("ppp ", post);
+  const post = await fetchPostById(params.slug[1]);
 
   return {
     title: `${params.slug[0]} - ${post?.text} `,
@@ -31,8 +27,9 @@ const Page = async ({ params }: Props) => {
   if (!user) return redirect("/sign-in");
 
   const userInfo = await fetchUser(user.id);
-
   if (!userInfo?.onboarded) return redirect("/onboarding");
+
+  const post = await fetchPostById(params.slug[1]);
 
   return (
     <>

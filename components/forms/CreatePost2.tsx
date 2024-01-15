@@ -32,6 +32,7 @@ import {
 import { Input } from "../ui/input";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
+import conf from "@/conf/config";
 
 const CreatePost2 = ({ user }: any) => {
   const { startUpload } = useUploadThing("media");
@@ -212,7 +213,7 @@ const CreatePost2 = ({ user }: any) => {
                 <PopoverContent className="">
                   <GifPicker
                     theme={Theme.DARK}
-                    tenorApiKey={process.env.NEXT_PUBLIC_TENOR_API_KEY || ""}
+                    tenorApiKey={conf.TENOR_API_KEY}
                     onGifClick={(gif) => {
                       setGif({
                         set: true,
