@@ -20,6 +20,7 @@ const PostCard = ({
   isDeleted,
   image,
   createdAt,
+  bookmark,
 }: IPostCard) => {
   return (
     <article
@@ -71,6 +72,7 @@ const PostCard = ({
 
             {!isDeleted && (
               <ActionsSection
+                bookmark={bookmark}
                 comments={comments}
                 isComment={isComment}
                 id={id}

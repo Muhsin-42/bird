@@ -7,16 +7,23 @@ import Link from "next/link";
 import React, { useState } from "react";
 import ShareComponent from "./ShareComponent";
 import conf from "@/conf/config";
-
+import useBookmark from "@/hooks/useBookmark";
+import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 const ActionsSection = ({
   isComment,
   id,
   comments,
   currentUserId,
   like,
+  bookmark,
   author,
 }: IActionsSection) => {
   const { isLiked, likeCount, handleLike } = useLike(like, id, currentUserId);
+  const { isBookmarked, bookmarkCount, handleBookmark } = useBookmark(
+    bookmark,
+    id,
+    currentUserId
+  );
   const [deleteHover, setDeleteHover] = useState(false);
   const [deleteModalShow, setDeleteModalShow] = useState(false);
   const shareUrl = `${conf.BASE_URL}/thread/${author?.name}/${id}`;
@@ -47,6 +54,24 @@ const ActionsSection = ({
         </Link>
 
         <ShareComponent shareUrl={shareUrl} />
+
+        <div className="flex items-center gap-1">
+          {isBookmarked ? (
+            <GoBookmarkFill
+              className={"cursor-pointer text-[#5C5C7B]"}
+              size={"1.2rem"}
+              onClick={handleBookmark}
+            />
+          ) : (
+            <GoBookmark
+              className={"cursor-pointer text-[#5C5C7B]"}
+              size={"1.2rem"}
+              onClick={handleBookmark}
+            />
+          )}
+          <span className="text-gray-1">{bookmarkCount}</span>
+          {/* <span className="text-gray-1">55</span> */}
+        </div>
 
         {author?._id === currentUserId && (
           <Image

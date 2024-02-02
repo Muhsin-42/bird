@@ -18,7 +18,7 @@ export function generateMetadata(request: any): Metadata {
 
 export default async function Search(request: any) {
   const { q: query } = request?.searchParams;
-
+  console.log("query ", query);
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 

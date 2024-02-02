@@ -25,6 +25,7 @@ const ListPosts = ({ posts, currentUserId }: IListPosts) => {
                 image={post?.image}
                 createdAt={post?.createdAt}
                 like={post?.like}
+                bookmark={post?.bookmark}
                 author={post?.author}
                 community={post?.createdAt}
                 comments={post?.children}

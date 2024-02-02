@@ -132,7 +132,7 @@ const CreatePost2 = ({ user }: any) => {
                   <Textarea
                     rows={3}
                     className="account-form_input no-focus !bg-green-500"
-                    placeholder="Enter you name."
+                    placeholder="What's in your mind?"
                     {...field}
                   />
                 </FormControl>

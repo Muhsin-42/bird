@@ -47,6 +47,7 @@ const Page = async ({ params }: Props) => {
             community={post?.community}
             comments={post?.children}
             like={post?.like}
+            bookmark={post?.bookmark}
             isDeleted={post?.deleted || false}
           />
         </div>
@@ -74,6 +75,7 @@ const Page = async ({ params }: Props) => {
               comments={comment?.children}
               isComment={true}
               like={comment?.like}
+              bookmark={comment?.bookmark}
               isDeleted={comment?.deleted || false}
             />
           ))}
