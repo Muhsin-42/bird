@@ -32,7 +32,10 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem key="twitter" startContent={<XIcon size={"1.5rem"} />}>
-          <TwitterShareButton title="Twitter url" url={shareUrl}>
+          <TwitterShareButton
+            title="Check out this post @ Bird 🐦"
+            url={shareUrl}
+          >
             Share on Twitter
           </TwitterShareButton>
         </DropdownItem>
@@ -41,7 +44,10 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
           key="Whatsapp"
           startContent={<WhatsappIcon size={"1.5rem"} />}
         >
-          <WhatsappShareButton title="Twitter url" url={shareUrl}>
+          <WhatsappShareButton
+            title="Check out this post @ Bird 🐦"
+            url={shareUrl}
+          >
             Share on Whatsapp
           </WhatsappShareButton>
         </DropdownItem>

@@ -28,7 +28,7 @@ const PostContent = ({
           if (trimmedWord[0] === "#") {
             return (
               <Link
-                href={`/search?q=${word}`}
+                href={`/search?q=${word.slice(1)}`}
                 key={index}
                 className="cursor-pointer text-sky-500"
               >

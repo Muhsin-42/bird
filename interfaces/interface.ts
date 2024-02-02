@@ -5,6 +5,7 @@ interface IPostCommon {
   text: string;
   author: IUserGeneral;
   like: string[];
+  bookmark?: string[];
   deleted: boolean;
   createdAt: string;
   parentId: string | null;

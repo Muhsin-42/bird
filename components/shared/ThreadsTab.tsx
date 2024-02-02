@@ -40,6 +40,7 @@ async function ThreadsTab({ currentUserId, accountId, accountType }: Props) {
           community={post?.createdAt}
           comments={post?.children}
           like={post?.like}
+          bookmark={post?.bookmark}
           isDeleted={post?.deleted || false}
         />
       ))}

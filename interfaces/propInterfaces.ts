@@ -23,6 +23,7 @@ export interface IPostCard {
   content: string;
   image?: string;
   like: string[];
+  bookmark: string[];
   createdAt: Date | string;
   author: IUserGeneral;
   community: {
@@ -49,6 +50,7 @@ export interface IActionsSection {
   }[];
   currentUserId: string;
   like: string[];
+  bookmark: string[];
   author: {
     _id?: string;
     name: string;

@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import Thread from "../models/Thread.model";
 import User from "../models/user.modle";
 import { connectToDB } from "../mongoose";
-
+import mongoose from "mongoose";
 interface Params {
   text: string;
   author: string;
@@ -198,6 +198,41 @@ export async function likePost(threadId: string, userId: string, path: string) {
 
     await thread.save();
     revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Error adding comment to thread: ${error.message}`);
+  }
+}
+
+export async function bookmarkPost(
+  threadId: string,
+  userId: string,
+  path: string
+) {
+  try {
+    connectToDB();
+    const thread = await Thread.findById(threadId);
+
+    if (!thread) throw new Error("Thread not found");
+
+    if (!thread.bookmark) {
+      thread.bookmark = [];
+    }
+
+    const index = thread?.bookmark.indexOf(userId);
+
+    if (index === -1) {
+      await Thread.findByIdAndUpdate(
+        threadId,
+        { $push: { bookmark: userId } },
+        { new: true }
+      );
+    } else {
+      await Thread.findByIdAndUpdate(threadId, {
+        $pull: { bookmark: new mongoose.Types.ObjectId(userId) },
+      });
+    }
+
+    // revalidatePath(path);
   } catch (error: any) {
     throw new Error(`Error adding comment to thread: ${error.message}`);
   }
