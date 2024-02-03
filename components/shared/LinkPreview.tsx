@@ -40,9 +40,12 @@ const LinkPreview = async ({ link }: { link: string }) => {
         <div className="relative w-4/12 border-r">
           <Image
             src={previewData?.images[0] || ""}
-            layout="fill"
-            objectFit="cover"
+            fill
+            sizes="(max-width: 600px) 100vw, 500px"
             alt="Preview Image"
+            style={{
+              objectFit: "cover",
+            }}
           />
         </div>
         <div className="flex w-8/12 flex-col justify-center px-1 py-2 sm:px-3">

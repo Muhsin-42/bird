@@ -4,6 +4,7 @@ import Thread from "../models/Thread.model";
 import User from "../models/user.modle";
 import { connectToDB } from "../mongoose";
 import mongoose from "mongoose";
+// import mongoose from "mongoose";
 interface Params {
   text: string;
   author: string;
@@ -214,27 +215,33 @@ export async function bookmarkPost(
 
     if (!thread) throw new Error("Thread not found");
 
-    if (!thread.bookmark) {
-      thread.bookmark = [];
-    }
+    if (!thread.bookmark) thread.bookmark = [];
 
     const index = thread?.bookmark.indexOf(userId);
 
     if (index === -1) {
+      console.log("pushing....");
+      // thread.bookmark.push(userId);
       await Thread.findByIdAndUpdate(
         threadId,
         { $push: { bookmark: userId } },
         { new: true }
       );
     } else {
+      // const ele = thread?.like?.splice(index, 1);
+      // console.log("removing....", index);
+      // console.log("thread ", thread);
       await Thread.findByIdAndUpdate(threadId, {
         $pull: { bookmark: new mongoose.Types.ObjectId(userId) },
       });
     }
 
     // revalidatePath(path);
+    // const d = await thread.save();
+    // console.log("updated ", d);
+    revalidatePath(path);
   } catch (error: any) {
-    throw new Error(`Error adding comment to thread: ${error.message}`);
+    throw new Error(`Error Bookmarking thread: ${error.message}`);
   }
 }
 
