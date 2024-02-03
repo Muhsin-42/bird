@@ -20,7 +20,7 @@ export default async function Home() {
   const result = await fetchPosts(1, 20);
   return (
     <div>
-      <CreatePost2 user={loggedInUser} />
+      <CreatePost2 user={JSON.parse(JSON.stringify(loggedInUser))} />
       <ListPosts
         currentUserId={loggedInUser?._id?.toString() || ""}
         posts={result?.posts}

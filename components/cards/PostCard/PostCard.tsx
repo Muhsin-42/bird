@@ -7,7 +7,6 @@ import PostContent from "@/components/ui/PostContent";
 import { getTimestamp } from "@/lib/utils";
 
 const PostCard = ({
-  key,
   id,
   currentUserId,
   parentId,

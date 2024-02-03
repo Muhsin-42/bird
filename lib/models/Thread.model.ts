@@ -33,9 +33,8 @@ const ThreadSchema = new mongoose.Schema({
   ],
   bookmark: [
     {
-      // type: mongoose.Schema.Types.ObjectId,
-      type: String,
-      // ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   ],
   deleted: { type: Boolean, required: false, default: false },
