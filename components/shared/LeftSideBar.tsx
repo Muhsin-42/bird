@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { sidebarLinks } from "@/constants";
+import { sidebarLinks } from "@/constants/constants";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -27,9 +27,8 @@ const LeftSideBar = ({ currentUser }: { currentUser: IUserGeneral }) => {
             (pathName.includes(link.route) && link.route.length > 1) ||
             pathName === link.route;
 
-          // if (link.route === "/profile")
-          //   link.route = `/profile/${currentUser.username}`;
-          if (link.route === "/profile") link.route = `/profile/sam_miller`;
+          if (link.route === "/profile")
+            link.route = `/profile/${currentUser?.username}`;
 
           return (
             <Link

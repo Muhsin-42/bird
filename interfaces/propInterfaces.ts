@@ -13,6 +13,7 @@ export interface IUserMongo {
   name: string;
   bio?: string;
   image: string;
+  threads: string[];
 }
 
 export interface IPostCard {
