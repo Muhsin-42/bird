@@ -36,7 +36,7 @@ export async function updateUser({
         image,
         onboarded: true,
       },
-      { upsert: true } // If the value do not exist Insert/Create. If does exist then Update.
+      { upsert: true }
     );
 
     if (path === "/profile/edit") {
@@ -81,19 +81,15 @@ export async function fetchUserByUsername(username: string) {
 export async function fetchPostsOfUser(userId: string) {
   try {
     connectToDB();
-    // TODO: populate Community
     const posts = await User.findOne({ id: userId }).populate({
       path: "threads",
       model: Thread,
       populate: {
-        path: "children",
-        model: Thread,
-        populate: {
-          path: "author",
-          model: User,
-          select: "name image id",
-        },
+        path: "author",
+        model: User,
+        select: "name image id",
       },
+      match: { deleted: false },
     });
     if (posts && Array.isArray(posts.threads)) {
       // Sort the threads array by createdAt in descending order (latest thread first)

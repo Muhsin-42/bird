@@ -109,6 +109,91 @@ export async function fetchSearchPosts(
   } catch (error) {}
 }
 
+export async function fetchBookmarkedPosts(userId: string) {
+  try {
+    connectToDB();
+    const posts = await User.findOne({ id: userId }).populate({
+      path: "bookmark",
+      model: Thread,
+      populate: {
+        path: "author",
+        model: User,
+        select: "name image id",
+      },
+      match: { deleted: false },
+    });
+    if (posts && Array.isArray(posts.bookmark)) posts.bookmark.reverse();
+
+    return JSON.parse(JSON.stringify(posts));
+  } catch (error: any) {
+    throw new Error(`Failed to fetch bookmark posts: ${error.message}`);
+  }
+}
+export async function fetchLikedPosts(userId: string) {
+  try {
+    connectToDB();
+    const posts = await User.findOne({ id: userId }).populate({
+      path: "like",
+      model: Thread,
+      populate: {
+        path: "author",
+        model: User,
+        select: "name image id",
+      },
+      match: { deleted: false },
+    });
+    if (posts && Array.isArray(posts.bookmark)) posts.bookmark.reverse();
+
+    return JSON.parse(JSON.stringify(posts));
+  } catch (error: any) {
+    throw new Error(`Failed to fetch bookmark posts: ${error.message}`);
+  }
+}
+export async function fetchProfilePosts(userId: string) {
+  try {
+    connectToDB();
+    const posts = await User.findOne({ id: userId }).populate([
+      {
+        path: "like",
+        model: Thread,
+        populate: {
+          path: "author",
+          model: User,
+          select: "name image id",
+        },
+        match: { deleted: false },
+      },
+      {
+        path: "bookmark",
+        model: Thread,
+        populate: {
+          path: "author",
+          model: User,
+          select: "name image id",
+        },
+        match: { deleted: false },
+      },
+      {
+        path: "threads",
+        model: Thread,
+        populate: {
+          path: "author",
+          model: User,
+          select: "name image id",
+        },
+        match: { deleted: false },
+      },
+    ]);
+    if (posts && Array.isArray(posts.bookmark)) posts.bookmark.reverse();
+    if (posts && Array.isArray(posts.like)) posts.like.reverse();
+    if (posts && Array.isArray(posts.threads)) posts.threads.reverse();
+
+    return JSON.parse(JSON.stringify(posts));
+  } catch (error: any) {
+    throw new Error(`Failed to fetch bookmark posts: ${error.message}`);
+  }
+}
+
 export async function fetchPostById(postId: string) {
   try {
     connectToDB();
@@ -193,8 +278,18 @@ export async function likePost(threadId: string, userId: string, path: string) {
 
     if (index === -1) {
       thread.like.push(userId);
+      await User.findByIdAndUpdate(
+        userId,
+        { $push: { like: threadId } },
+        { $upsert: true }
+      );
     } else {
       thread?.like?.splice(index, 1);
+      await User.findByIdAndUpdate(
+        userId,
+        { $pull: { like: threadId } },
+        { $upsert: true }
+      );
     }
 
     await thread.save();
@@ -220,25 +315,25 @@ export async function bookmarkPost(
     const index = thread?.bookmark.indexOf(userId);
 
     if (index === -1) {
-      console.log("pushing....");
-      // thread.bookmark.push(userId);
-      await Thread.findByIdAndUpdate(
-        threadId,
-        { $push: { bookmark: userId } },
-        { new: true }
+      await Thread.findByIdAndUpdate(threadId, { $push: { bookmark: userId } });
+
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          $push: { bookmark: threadId },
+        },
+        { $upsert: true }
       );
     } else {
-      // const ele = thread?.like?.splice(index, 1);
-      // console.log("removing....", index);
-      // console.log("thread ", thread);
       await Thread.findByIdAndUpdate(threadId, {
         $pull: { bookmark: new mongoose.Types.ObjectId(userId) },
       });
+
+      await User.findByIdAndUpdate(userId, {
+        $pull: { bookmark: threadId },
+      });
     }
 
-    // revalidatePath(path);
-    // const d = await thread.save();
-    // console.log("updated ", d);
     revalidatePath(path);
   } catch (error: any) {
     throw new Error(`Error Bookmarking thread: ${error.message}`);
