@@ -23,7 +23,7 @@ const DeleteModal = ({
     onClose();
   };
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-600 bg-opacity-25">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-600/25">
       <div
         ref={popupRef}
         className="fixed left-2/4 top-1/4 z-50 flex h-fit w-11/12 -translate-x-2/4 flex-col rounded-2xl bg-black px-8 py-5 shadow-xl shadow-primary-500 sm:w-6/12 md:w-5/12 xl:w-4/12 "

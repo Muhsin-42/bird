@@ -15,9 +15,7 @@ const NavBar = async ({ users }: { users: IUserMongo[] }) => {
     <nav className="topbar">
       <Link href={"/"} className="flex items-center gap-4 ">
         <Image src={"/assets/bird.webp"} alt="logo" width={32} height={32} />
-        <p className="max-xs text-heading3-bold text-light-1 max-xs:hidden">
-          Bird
-        </p>
+        <p className="text-heading3-bold text-light-1 max-xs:hidden">Bird</p>
       </Link>
 
       <GlobalSearch users={users} />
