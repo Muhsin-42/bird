@@ -1,0 +1,37 @@
+# // its version yaml file syntax not the version of docker or project
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./next.config.js
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: .
+          target: /app
+          action: sync
+      environment:
+        NEXT_PUBLIC_BASE_URL: http://localhost:3000
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ZW5nYWdlZC1nb3JpbGxhLTk1LmNsZXJrLmFjY291bnRzLmRldiQ
+        CLERK_SECRET_KEY: sk_test_mbQkRAScuH7VCfctd9EwEojbbyFyMMkyV6kV1T1LSy
+        NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+        NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
+        NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: /onboarding
+        NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: /
+        MONGODB_URL: mongodb+srv://muhsin:muhsin123@cluster0.z0ozloj.mongodb.net/?retryWrites=true&w=majority
+        UPLOADTHING_SECRET: sk_live_b9ac2b4951a3748596907b4d6da0374c458a6e68c47e6a8e65c30335f8812271
+        UPLOADTHING_APP_ID: 0au6o82ds5
+        NEXT_PUBLIC_TENOR_API_KEY: AIzaSyARPbzUvlHFhhDqFQkIIEIvKL9Z9AeIwpk
+
+volumes:
+  birdvol:
