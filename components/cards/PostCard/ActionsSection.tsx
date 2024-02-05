@@ -24,10 +24,6 @@ const ActionsSection = ({
     id,
     currentUserId
   );
-  if (id === "65bc69763dc9e0d27311e5a6") {
-    console.log("like => ", like);
-    console.log("bookmark => ", bookmark);
-  }
   const [deleteHover, setDeleteHover] = useState(false);
   const [deleteModalShow, setDeleteModalShow] = useState(false);
   const shareUrl = `${conf.BASE_URL}/thread/${author?.name}/${id}`;
