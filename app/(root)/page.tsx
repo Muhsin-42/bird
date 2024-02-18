@@ -16,14 +16,14 @@ export default async function Home() {
     return redirect("/sign-in");
   }
   if (!user) return redirect("/sign-in");
-  const loggedInUser = await fetchUser(user.id);
-  const result = await fetchPosts(1, 20);
+  const { data: loggedInUser } = await fetchUser(user.id);
+  const { data } = await fetchPosts(1, 20);
   return (
     <div>
       <CreatePost2 user={JSON.parse(JSON.stringify(loggedInUser))} />
       <ListPosts
         currentUserId={loggedInUser?._id?.toString() || ""}
-        posts={result?.posts}
+        posts={data?.posts}
       />
       {/* <PostPopBtn /> */}
     </div>

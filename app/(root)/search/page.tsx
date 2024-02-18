@@ -1,6 +1,3 @@
-// import PostCard from "@/components/cards/PostCard/PostCard";
-// import UserCard from "@/components/cards/UserCard";
-// import CreatePost2 from "@/components/forms/CreatePost2";
 import ListPosts from "@/components/shared/ListPosts";
 import { fetchSearchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
@@ -22,10 +19,10 @@ export default async function Search(request: any) {
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const userInfo = await fetchUser(user?.id);
+  const { data: userInfo } = await fetchUser(user?.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const posts = await fetchSearchPosts(query, 1, 20);
+  const { data: posts } = await fetchSearchPosts(query, 1, 20);
   // fetch users
   // const result = await fetchUsers({
   //   userId: user.id,

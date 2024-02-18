@@ -10,10 +10,8 @@ async function Page({ params }: Props) {
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const userInfo = await fetchUserByUsername(params.id);
-  const mongoCurrentUser = await fetchUser(user.id);
-  // console.log("userInfo ", userInfo);
-  // console.log("mongo cur ", mongoCurrentUser);
+  const { data: userInfo } = await fetchUserByUsername(params.id);
+  const { data: mongoCurrentUser } = await fetchUser(user.id);
   if (!userInfo) redirect("/onboarding");
 
   return (

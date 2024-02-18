@@ -39,16 +39,20 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    setIsLoading(true);
-    await addCommentToThread(
-      threadId,
-      values.thread,
-      currentUserId.toString(),
-      pathName
-    );
-    setIsLoading(false);
-
-    form.reset();
+    try {
+      setIsLoading(true);
+      const res = await addCommentToThread(
+        threadId,
+        values.thread,
+        currentUserId.toString(),
+        pathName
+      );
+      setIsLoading(false);
+      console.log("rsssss = ", res);
+      form.reset();
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -18,10 +18,10 @@ const subLayout = async ({ children }: { children: React.ReactNode }) => {
   }
   if (!user) return redirect("/sign-in");
 
-  const userInfo = await fetchUser(user?.id);
+  const { data: userInfo } = await fetchUser(user?.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const users = await fetchUsers({
+  const { data: users } = await fetchUsers({
     userId: user.id,
     searchString: "",
     pageNumber: 1,

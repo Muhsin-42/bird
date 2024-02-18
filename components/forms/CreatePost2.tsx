@@ -31,7 +31,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "../ui/input";
-import { isBase64Image } from "@/lib/utils";
+import { isBase64Image } from "@/lib/utils/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 import conf from "@/conf/config";
 
@@ -51,35 +51,41 @@ const CreatePost2 = ({ user }: any) => {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    setIsLoading(true);
-    if (files.length > 0 && !gif.set) {
-      const blob = values.image;
-      const hasImageChanged = isBase64Image(blob || "");
+    try {
+      setIsLoading(true);
+      if (files.length > 0 && !gif.set) {
+        const blob = values.image;
+        const hasImageChanged = isBase64Image(blob || "");
 
-      if (hasImageChanged) {
-        const imgRes = await startUpload(files);
+        if (hasImageChanged) {
+          const imgRes = await startUpload(files);
 
-        if (imgRes && imgRes[0].url) {
-          values.image = imgRes[0].url;
+          if (imgRes && imgRes[0].url) {
+            values.image = imgRes[0].url;
+          }
         }
+      } else if (gif.set) {
+        values.image = gif.url;
       }
-    } else if (gif.set) {
-      values.image = gif.url;
+
+      const data = await createThread({
+        text: values.thread,
+        author: user?._id,
+        image: values.image,
+        path: pathName,
+      });
+
+      console.log("data ", data);
+
+      setIsLoading(false);
+      form.reset();
+      setFiles([]);
+      setGif({ set: false, preview: "", url: "" });
+      router.push("/");
+    } catch (error) {
+      setIsLoading(false);
+      throw new Error("Error Creating Thread " + error);
     }
-
-    await createThread({
-      text: values.thread,
-      author: user?._id,
-      image: values.image,
-      communityId: null,
-      path: pathName,
-    });
-
-    setIsLoading(false);
-    form.reset();
-    setFiles([]);
-    setGif({ set: false, preview: "", url: "" });
-    router.push("/");
   };
 
   const handleImage = (

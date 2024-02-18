@@ -8,10 +8,10 @@ export default async function Activity() {
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const userInfo = await fetchUser(user?.id);
+  const { data: userInfo } = await fetchUser(user?.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const activity = await getActivity(userInfo._id);
+  const { data: activity } = await getActivity(userInfo._id);
 
   return (
     <section>
@@ -21,7 +21,10 @@ export default async function Activity() {
         {activity.length > 0 ? (
           <>
             {activity.map((activity) => (
-              <Link key={activity._id} href={`/thread/${activity?.author?.name}/${activity.parentId}`}>
+              <Link
+                key={activity._id}
+                href={`/thread/${activity?.author?.name}/${activity.parentId}`}
+              >
                 <article className="activity-card">
                   <Image
                     src={activity.author.image}

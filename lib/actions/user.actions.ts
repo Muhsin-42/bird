@@ -1,108 +1,17 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import User from "../models/user.modle";
-import { connectToDB } from "../mongoose";
-import Thread from "../models/Thread.model";
-import { FilterQuery, SortOrder } from "mongoose";
-import { IPostCard } from "@/interfaces/propInterfaces";
+import { SortOrder } from "mongoose";
+import { GET, PUT } from "./controllers/user.controller";
+import { IPutUser } from "@/interfaces/actions/user.interface";
 
-interface Params {
-  userId: string;
-  username: string;
-  name: string;
-  bio: string;
-  image: string;
-  path: string;
-}
+/* ======================
+          GET 
+========================= */
+export const fetchUser = async (userId: string) =>
+  await GET.user({ id: userId });
 
-export async function updateUser({
-  userId,
-  username,
-  name,
-  bio,
-  image,
-  path,
-}: Params): Promise<void> {
-  connectToDB();
-
-  try {
-    await User.findOneAndUpdate(
-      { id: userId },
-      {
-        username: username.toLowerCase(),
-        name,
-        bio,
-        image,
-        onboarded: true,
-      },
-      { upsert: true }
-    );
-
-    if (path === "/profile/edit") {
-      revalidatePath(path);
-      /*
-                revalidatePath() allows you to revalidate data associated with a specific path.
-                This is useful where we want to update the cached data without waiting for the revalidate period to expire 
-            */
-    }
-  } catch (error: any) {
-    throw new Error(`Failed to create/update user: ${error.message}`);
-  }
-}
-
-export async function fetchUser(userId: string) {
-  try {
-    connectToDB();
-
-    return await User.findOne({ id: userId });
-    // .populate({
-    //     path: 'communities',
-    //     model: c
-    // });
-  } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error?.message}`);
-  }
-}
-export async function fetchUserByUsername(username: string) {
-  try {
-    connectToDB();
-
-    return await User.findOne({ username });
-    // .populate({
-    //     path: 'communities',
-    //     model: c
-    // });
-  } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error?.message}`);
-  }
-}
-
-export async function fetchPostsOfUser(userId: string) {
-  try {
-    connectToDB();
-    const posts = await User.findOne({ id: userId }).populate({
-      path: "threads",
-      model: Thread,
-      populate: {
-        path: "author",
-        model: User,
-        select: "name image id",
-      },
-      match: { deleted: false },
-    });
-    if (posts && Array.isArray(posts.threads)) {
-      // Sort the threads array by createdAt in descending order (latest thread first)
-      posts.threads.sort(
-        (a: IPostCard, b: IPostCard) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-    }
-    return JSON.parse(JSON.stringify(posts));
-  } catch (error: any) {
-    throw new Error(`Failed to fetch user posts: ${error.message}`);
-  }
-}
+export const fetchUserByUsername = async (username: string) =>
+  await GET.user({ username });
 
 export async function fetchUsers({
   userId,
@@ -117,66 +26,27 @@ export async function fetchUsers({
   pageSize?: number;
   sortBy?: SortOrder;
 }) {
-  try {
-    connectToDB();
-
-    const skipCount = (pageNumber - 1) * pageSize;
-
-    const regex = new RegExp(searchString, "i");
-
-    const query: FilterQuery<typeof User> = {
-      id: { $ne: userId },
-    };
-
-    if (searchString?.trim() !== "") {
-      query.$or = [
-        { username: { $regex: regex } },
-        { name: { $regex: regex } },
-      ];
-    }
-
-    const sortOption = { createdAt: sortBy };
-
-    const usersQuery = User.find(query)
-      .sort(sortOption)
-      .skip(skipCount)
-      .limit(pageSize);
-
-    const totalUsersCount = await User.countDocuments(query);
-
-    const users = await usersQuery.exec();
-
-    const isNext = totalUsersCount > skipCount + users.length;
-
-    return { users, isNext };
-  } catch (error: any) {
-    throw new Error(`Failed to fetch users ${error?.message}`);
-  }
+  return await GET.users({
+    userId,
+    searchString,
+    pageNumber,
+    pageSize,
+    sortBy,
+  });
 }
 
-export async function getActivity(userId: string) {
-  try {
-    connectToDB();
+export const getActivity = async (userId: string) => await GET.activity(userId);
 
-    const userThreads = await Thread.find({ author: userId });
-
-    // collect all the child thread ids(comments) from the children field
-    const childThreadIds = userThreads.reduce((acc, userThread) => {
-      return acc.concat(userThread.children);
-    }, []);
-
-    // get all the replies excluding the ones created by the same user.
-    const replies = await Thread.find({
-      _id: { $in: childThreadIds },
-      author: { $ne: userId },
-    }).populate({
-      path: "author",
-      model: User,
-      select: "name image _id",
-    });
-
-    return replies;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch activity ${error?.message}`);
-  }
+/* =========================
+          PUT 
+========================= */
+export async function updateUser({
+  userId,
+  username,
+  name,
+  bio,
+  image,
+  path,
+}: IPutUser) {
+  await PUT.user({ userId, username, name, bio, image, path });
 }

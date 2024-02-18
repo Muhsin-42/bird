@@ -35,7 +35,6 @@ export const PROFILE_TABS = [
   { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
   { value: "like", label: "Liked", icon: "/assets/heart-gray.svg" },
   { value: "bookmark", label: "Bookmarks", icon: "/assets/tag.svg" },
-  // { value: "tagged", label: "Tagged", icon: "/assets/tag.svg" },
 ] as const;
 export const communityTabs = [
   { value: "threads", label: "Threads", icon: "/assets/reply.svg" },

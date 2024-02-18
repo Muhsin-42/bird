@@ -4,7 +4,7 @@ import React from "react";
 import ActionsSection from "./ActionsSection";
 import { IPostCard } from "@/interfaces/propInterfaces";
 import PostContent from "@/components/ui/PostContent";
-import { getTimestamp } from "@/lib/utils";
+import { getTimestamp } from "@/lib/utils/utils";
 
 const PostCard = ({
   id,
