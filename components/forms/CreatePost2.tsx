@@ -20,7 +20,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { ChangeEvent, useState } from "react";
 import { createThread } from "@/lib/actions/thread.actions";
-import { LoaderIcon, SmilePlus, X } from "lucide-react";
+import { SmilePlus, X } from "lucide-react";
+import { FaPaperPlane } from "react-icons/fa";
 import useLoading from "@/hooks/useLoading";
 import Image from "next/image";
 import Link from "next/link";
@@ -107,7 +108,7 @@ const CreatePost2 = ({ user }: any) => {
   return (
     <div className="flex gap-4">
       <div className="">
-        <Link href={`/profile/${user?._id}`} className="relative h-11 w-11">
+        <Link href={`/profile/${user?._id}`} className="relative size-11">
           <Image
             src={user?.image}
             alt="Profile Image"
@@ -243,11 +244,19 @@ const CreatePost2 = ({ user }: any) => {
             </div>
             <Button
               type="submit"
-              className="comment-form_btn  flex w-fit gap-2 px-5 hover:bg-primary-600"
-              // disabled={isLoading}
+              className="comment-form_btn  group flex w-fit gap-2 px-5 hover:bg-primary-600"
+              disabled={isLoading}
             >
-              Post
-              {isLoading && <LoaderIcon className="animate-spin" />}
+              {isLoading ? (
+                <>
+                  Posting <span className="loader-primary"></span>
+                </>
+              ) : (
+                <>
+                  Post
+                  <FaPaperPlane className="opacity-70 transition delay-150 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                </>
+              )}
             </Button>
           </div>
         </form>

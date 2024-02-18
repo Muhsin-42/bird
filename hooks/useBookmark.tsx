@@ -2,7 +2,7 @@
 import { bookmarkPost } from "@/lib/actions/thread.actions";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { toast } from "sonner";
 const useBookmark = (
   bookmark: string[],
   threadId: string,
@@ -21,14 +21,19 @@ const useBookmark = (
   const pathName = usePathname();
 
   async function handleBookmark() {
-    if (isBookmarked) {
-      setIsBookmarked(false);
-      setBookmarkCount((prev) => prev - 1);
-    } else {
-      setBookmarkCount((prev) => prev + 1);
-      setIsBookmarked(true);
+    try {
+      if (isBookmarked) {
+        setIsBookmarked(false);
+        setBookmarkCount((prev) => prev - 1);
+      } else {
+        setBookmarkCount((prev) => prev + 1);
+        setIsBookmarked(true);
+        toast.success("Post is Boookmarked.", { duration: 1500 });
+      }
+      await bookmarkPost(threadId, currentUserId, pathName);
+    } catch (error) {
+      toast.error("Something Went Wrong! Try Again!");
     }
-    await bookmarkPost(threadId, currentUserId, pathName);
   }
 
   return { isBookmarked, bookmarkCount, handleBookmark };
