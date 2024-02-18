@@ -13,11 +13,10 @@ import {
   XIcon,
 } from "react-share";
 import { IoCopyOutline } from "react-icons/io5";
-import { useToast } from "@/components/ui/use-toast";
 import useCopyClipboard from "@/hooks/useCopyClipboard";
+import { toast } from "sonner";
 
 const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
-  const { toast } = useToast();
   const { copyToClipboard } = useCopyClipboard();
   return (
     <Dropdown className="border border-dark-4 bg-background text-foreground dark">
@@ -56,10 +55,7 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
           startContent={<IoCopyOutline size={"1.5rem"} />}
           onClick={() => {
             copyToClipboard(shareUrl);
-            toast({
-              variant: "default",
-              title: "Copied to clipboard.",
-            });
+            toast.success("Url Copied to clipboard.", { duration: 1500 });
           }}
         >
           Copy to Clipboard

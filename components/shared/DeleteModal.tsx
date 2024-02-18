@@ -4,6 +4,7 @@ import useLoading from "@/hooks/useLoading";
 import { deletePost } from "@/lib/actions/thread.actions";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 const DeleteModal = ({
   onClose,
   show,
@@ -19,6 +20,7 @@ const DeleteModal = ({
   const handleDelete = async () => {
     setIsLoading(true);
     await deletePost(id, path);
+    toast.success("Post is Deleted", { duration: 1500 });
     setIsLoading(false);
     onClose();
   };
@@ -37,11 +39,17 @@ const DeleteModal = ({
         </p>
         <button
           type="button"
-          className="my-2 rounded-full bg-red-500 py-2 font-bold text-white"
+          className="my-2 flex justify-center gap-3 rounded-full bg-red-500 py-2 font-bold text-white"
           onClick={handleDelete}
           disabled={isLoading}
         >
-          Delete
+          {isLoading ? (
+            <>
+              Deleting <span className="loader-primary"></span>
+            </>
+          ) : (
+            <>Delete</>
+          )}
         </button>
         <button
           type="button"
