@@ -13,7 +13,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await fetchPostById(params.slug[1]);
+  const { data: post } = await fetchPostById(params.slug[1]);
 
   return {
     title: `${params.slug[0]} - ${post?.text} `,
@@ -26,10 +26,10 @@ const Page = async ({ params }: Props) => {
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const userInfo = await fetchUser(user.id);
+  const { data: userInfo } = await fetchUser(user.id);
   if (!userInfo?.onboarded) return redirect("/onboarding");
 
-  const post = await fetchPostById(params.slug[1]);
+  const { data: post } = await fetchPostById(params.slug[1]);
 
   return (
     <>

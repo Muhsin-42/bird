@@ -13,13 +13,22 @@ const ProfileTabs = async ({
   userInfo: IUserMongo;
   mongoCurrentUser: IUserMongo;
 }) => {
-  const profilePosts = await fetchProfilePosts(userInfo.id);
+  const isLoggedInUser =
+    String(mongoCurrentUser?._id) === String(userInfo?._id);
+  const { data: profilePosts } = await fetchProfilePosts(
+    userInfo.id,
+    isLoggedInUser
+  );
+
+  const tabsToRender = PROFILE_TABS.filter(
+    (tab) => tab.value !== "bookmark" || isLoggedInUser
+  );
 
   return (
     <div className="mt-9">
       <Tabs defaultValue="threads" className="w-full">
         <TabsList className="tab">
-          {PROFILE_TABS.map((tab) => (
+          {tabsToRender.map((tab) => (
             <TabsTrigger key={tab.label} value={tab.value} className="tab">
               <Image
                 src={tab.icon}
@@ -36,7 +45,7 @@ const ProfileTabs = async ({
             </TabsTrigger>
           ))}
         </TabsList>
-        {PROFILE_TABS.map((tab) => (
+        {tabsToRender.map((tab) => (
           <TabsContent
             key={tab.value}
             value={tab.value}
