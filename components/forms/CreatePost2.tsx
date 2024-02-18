@@ -244,7 +244,7 @@ const CreatePost2 = ({ user }: any) => {
             </div>
             <Button
               type="submit"
-              className="comment-form_btn  group flex w-fit gap-2 px-5 hover:bg-primary-600"
+              className="btn-primary  group flex w-fit gap-2 px-5"
               disabled={isLoading}
             >
               {isLoading ? (

@@ -78,7 +78,7 @@ const CreatePost = ({ userId }: props) => {
           />
           <Button
             type="submit"
-            className="comment-form_btn flex w-fit gap-2 px-5 hover:bg-primary-600"
+            className="btn-primary flex w-fit gap-2 px-5 hover:bg-primary-600"
             disabled={isLoading}
           >
             Post
