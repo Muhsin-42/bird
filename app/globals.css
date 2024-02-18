@@ -176,6 +176,10 @@
   @apply mt-10 flex items-center gap-4 border-y border-y-dark-4 py-5 max-xs:flex-col !important;
 }
 
-.comment-form_btn {
-  @apply rounded-3xl bg-primary-500 px-8 py-2 font-semibold !text-small-regular text-light-1;
+.btn-primary {
+  @apply rounded-3xl bg-primary-500 px-8 py-2 font-semibold !text-small-regular text-light-1 hover:!bg-primary-600;
+}
+
+.btn-secondary {
+  @apply rounded-3xl bg-white px-8 py-2 font-semibold !text-small-regular text-dark-4 hover:!bg-slate-100;
 }

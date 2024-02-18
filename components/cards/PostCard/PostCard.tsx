@@ -32,7 +32,7 @@ const PostCard = ({
           <div className="flex flex-col items-center">
             <Link
               href={`/profile/${author?.username}`}
-              className="relative h-11 w-11"
+              className="relative size-11"
             >
               <Image
                 src={author?.image}
