@@ -3,7 +3,6 @@ import { GET } from "./thread.controller";
 import { IPutFollow } from "@/interfaces/actions/following.interface";
 import Following from "@/lib/models/following.model";
 import User from "@/lib/models/user.modle";
-import { ObjectId } from "mongodb";
 
 const PUT = {
   follow: async ({ currentUserId, userId }: IPutFollow) => {
@@ -29,7 +28,7 @@ const PUT = {
           );
         }
       } else {
-        const isFollowed = creator.following.some((id: ObjectId) => {
+        const isFollowed = creator.following.some((id: string) => {
           return id.toString() === userId;
         });
         if (isFollowed) {
