@@ -14,6 +14,11 @@ export interface IUserMongo {
   bio?: string;
   image: string;
   threads: string[];
+  followingId?: {
+    _id: string;
+    following: string[];
+    followers: string[];
+  };
 }
 
 export interface IPostCard {

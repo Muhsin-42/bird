@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   threads: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thread" }],
   bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thread" }],
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thread" }],
+  followingId: { type: mongoose.Schema.Types.ObjectId, ref: "Following" },
+
   onboarded: {
     type: Boolean,
     default: false,

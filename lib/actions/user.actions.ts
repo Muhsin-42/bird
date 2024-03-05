@@ -40,13 +40,5 @@ export const getActivity = async (userId: string) => await GET.activity(userId);
 /* =========================
           PUT 
 ========================= */
-export async function updateUser({
-  userId,
-  username,
-  name,
-  bio,
-  image,
-  path,
-}: IPutUser) {
-  await PUT.user({ userId, username, name, bio, image, path });
-}
+export const updateUser = async (userProps: IPutUser) =>
+  await PUT.user(userProps);
