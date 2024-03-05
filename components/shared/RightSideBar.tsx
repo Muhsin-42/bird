@@ -1,4 +1,4 @@
-import { IUserGeneral } from "@/interfaces/propInterfaces";
+import { IUserMongo } from "@/interfaces/propInterfaces";
 import React from "react";
 import UserRow from "./UserRow";
 
@@ -6,8 +6,8 @@ const RightSideBar = ({
   users,
   currentUser,
 }: {
-  users: IUserGeneral[];
-  currentUser: IUserGeneral;
+  users: IUserMongo[];
+  currentUser: IUserMongo;
 }) => {
   return (
     <section className="custom-scrollbar  rightsidebar ">
