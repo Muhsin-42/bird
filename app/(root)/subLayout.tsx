@@ -40,7 +40,10 @@ const subLayout = async ({ children }: { children: React.ReactNode }) => {
         <section className="main-container">
           <div className="w-full max-w-4xl">{children}</div>
         </section>
-        <RightSideBar users={JSON.parse(JSON.stringify(users?.users))} />
+        <RightSideBar
+          currentUser={userInfo}
+          users={JSON.parse(JSON.stringify(users?.users))}
+        />
       </main>
 
       <Footer />

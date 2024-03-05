@@ -183,3 +183,7 @@
 .btn-secondary {
   @apply rounded-3xl bg-white px-8 py-2 font-semibold !text-small-regular text-dark-4 hover:!bg-slate-100;
 }
+
+.btn-transparent {
+  @apply rounded-3xl bg-dark-4 px-8 py-2 font-semibold  text-light-1 border border-dark-4 hover:!bg-red-500/10 text-body1-bold hover:text-red-400 hover:border-red-500;
+}

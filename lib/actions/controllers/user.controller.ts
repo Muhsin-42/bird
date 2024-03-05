@@ -4,6 +4,7 @@ import {
   IPutUser,
 } from "@/interfaces/actions/user.interface";
 import Thread from "@/lib/models/Thread.model";
+import Following from "@/lib/models/following.model";
 import User from "@/lib/models/user.modle";
 import { ApiError } from "@/lib/utils/ApiErrors";
 import { asyncHandler } from "@/lib/utils/asyncHandler";
@@ -24,7 +25,13 @@ const GET = {
           "Invalid input: username or _id must be provided"
         );
 
-      const user = await User.findOne(query);
+      const user = await User.findOne(query).populate({
+        path: "followingId",
+        model: Following,
+        select: "followers following",
+      });
+      console.log("uuuu ", user);
+
       // if (!user) throw new ApiError(404, "User not found");
 
       return user;
