@@ -114,7 +114,7 @@ const CreatePost2 = ({ user }: any) => {
   return (
     <div className="flex gap-4">
       <div className="">
-        <Link href={`/profile/${user?._id}`} className="relative size-11">
+        <Link href={`/profile/${user?.username}`} className="relative size-11">
           <Image
             src={user?.image}
             alt="Profile Image"
