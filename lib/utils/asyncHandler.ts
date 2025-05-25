@@ -10,8 +10,8 @@ export async function asyncHandler<T>(
     connectToDB();
     const result = await operation();
     // return new ApiResponse(successStatusCode, result);
-    const response = new ApiResponse(successStatusCode, result);
-    return response.toJSON();
+    return new ApiResponse(successStatusCode, result);
+    // return response.toJSON();
   } catch (error: any) {
     throw new ApiError(500, `Failed to perform operation: ${error.message}`);
   }
