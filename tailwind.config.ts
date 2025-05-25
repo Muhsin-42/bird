@@ -1,3 +1,5 @@
+import { nextui } from '@nextui-org/react'
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -6,6 +8,7 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     container: {
@@ -56,6 +59,27 @@ module.exports = {
         {
           lineHeight: "140%",
           fontWeight: "500",
+        },
+      ],
+      "heading4-bold": [
+        "20px",
+        {
+          lineHeight: "140%",
+          fontWeight: "700",
+        },
+      ],
+      "heading5-medium": [
+        "16px",
+        {
+          lineHeight: "140%",
+          fontWeight: "500",
+        },
+      ],
+      "heading5-bold": [
+        "16px",
+        {
+          lineHeight: "140%",
+          fontWeight: "700",
         },
       ],
       "body-bold": [
@@ -174,6 +198,7 @@ module.exports = {
     extend: {
       colors: {
         "primary-500": "#877EFF",
+        "primary-600": "#736af8",
         "secondary-500": "#FFB620",
         blue: "#0095F6",
         "logout-btn": "#FF5A5A",
@@ -188,6 +213,10 @@ module.exports = {
         "light-4": "#5C5C7B",
         "gray-1": "#697C89",
         glassmorphism: "rgba(16, 16, 18, 0.60)",
+      },
+      shadow: {
+        "primary-500": "#877EFF",
+        "primary-600": "#736af8",
       },
       boxShadow: {
         "count-badge": "0px 0px 6px 2px rgba(219, 188, 159, 0.30)",
@@ -212,5 +241,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),nextui()],
 };
