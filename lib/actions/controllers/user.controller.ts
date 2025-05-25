@@ -30,7 +30,6 @@ const GET = {
         model: Following,
         select: "followers following",
       });
-      console.log("uuuu ", user);
 
       // if (!user) throw new ApiError(404, "User not found");
 
@@ -118,6 +117,8 @@ const PUT = {
       );
 
       if (path === "/profile/edit") revalidatePath(path);
+
+      return { updated: true };
     }, 201);
   },
 };

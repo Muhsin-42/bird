@@ -3,6 +3,7 @@
 import { SortOrder } from "mongoose";
 import { GET, PUT } from "./controllers/user.controller";
 import { IPutUser } from "@/interfaces/actions/user.interface";
+// import User from "@/lib/models/user.modle";
 
 /* ======================
           GET 
