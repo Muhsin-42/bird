@@ -21,6 +21,8 @@ import { isBase64Image } from "@/lib/utils/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 import { updateUser } from "@/lib/actions/user.actions";
 import { usePathname, useRouter } from "next/navigation";
+import useLoading from "@/hooks/useLoading";
+import { LoaderIcon } from "lucide-react";
 interface Props {
   user: {
     id: string;
@@ -38,6 +40,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathName = usePathname();
+  const { isLoading, setIsLoading } = useLoading();
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -75,6 +78,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   };
 
   async function onSubmit(values: z.infer<typeof UserValidation>) {
+    setIsLoading(true);
     const blob = values.profile_photo;
     const hasImageChanged = isBase64Image(blob);
 
@@ -95,11 +99,9 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       path: pathName,
     });
 
-    if (pathName === "/profile/edit") {
-      router.back();
-    } else {
-      router.push("/");
-    }
+    if (pathName === "/profile/edit") router.back();
+    else router.push("/");
+    setIsLoading(false);
   }
 
   return (
@@ -205,8 +207,9 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-primary-500">
-          Submit
+        <Button type="submit" disabled={isLoading} className="bg-primary-500">
+          {isLoading ? <LoaderIcon className="mr-2 size-4 animate-spin" /> : ""}
+          {isLoading ? "Creating your profile..." : "Create Profile"}
         </Button>
       </form>
     </Form>
