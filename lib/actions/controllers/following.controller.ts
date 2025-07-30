@@ -22,7 +22,7 @@ const PUT = {
         } else {
           await Following.updateOne(
             { user: currentUserId },
-            { $push: { following: userId } }
+            { $addToSet: { following: userId } }
           );
         }
       } else {
@@ -46,7 +46,7 @@ const PUT = {
 
       if (receiver) {
         const isFollowed = receiver.followers.some(
-          (id: string) => id === currentUserId
+          (id: string) => id.toString() === currentUserId
         );
         if (isFollowed) {
           await Following.updateOne(
@@ -56,7 +56,7 @@ const PUT = {
         } else {
           await Following.updateOne(
             { user: userId },
-            { $push: { followers: currentUserId } }
+            { $addToSet: { followers: currentUserId } }
           );
         }
       } else {
