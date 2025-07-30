@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import type {
   IGetUserProps,
   IGetUsersProps,
+  IGetFollowListProps,
   IPutUser,
 } from '@/interfaces/actions/user.interface';
 import Following from '@/lib/models/following.model';
@@ -97,6 +98,66 @@ const GET = {
       });
 
       return replies;
+    }, 200);
+  },
+
+  followers: async ({ userId, pageNumber = 1, pageSize = 20 }: IGetFollowListProps) => {
+    return asyncHandler(async () => {
+      const skipCount = (pageNumber - 1) * pageSize;
+
+      const user = await User.findOne({ id: userId }).populate({
+        path: 'followingId',
+        model: Following,
+        populate: {
+          path: 'followers',
+          model: User,
+          select: 'id name username image',
+          options: {
+            skip: skipCount,
+            limit: pageSize,
+          },
+        },
+      });
+
+      if (!user || !user.followingId) {
+        return { followers: [], isNext: false };
+      }
+
+      const totalFollowersCount = user.followingId.followers.length;
+      const followers = user.followingId.followers;
+      const isNext = totalFollowersCount > skipCount + followers.length;
+
+      return { followers, isNext };
+    }, 200);
+  },
+
+  following: async ({ userId, pageNumber = 1, pageSize = 20 }: IGetFollowListProps) => {
+    return asyncHandler(async () => {
+      const skipCount = (pageNumber - 1) * pageSize;
+
+      const user = await User.findOne({ id: userId }).populate({
+        path: 'followingId',
+        model: Following,
+        populate: {
+          path: 'following',
+          model: User,
+          select: 'id name username image',
+          options: {
+            skip: skipCount,
+            limit: pageSize,
+          },
+        },
+      });
+
+      if (!user || !user.followingId) {
+        return { following: [], isNext: false };
+      }
+
+      const totalFollowingCount = user.followingId.following.length;
+      const following = user.followingId.following;
+      const isNext = totalFollowingCount > skipCount + following.length;
+
+      return { following, isNext };
     }, 200);
   },
 };

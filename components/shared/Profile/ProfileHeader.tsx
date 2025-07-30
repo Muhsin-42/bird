@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   accountId: string;
@@ -39,22 +40,28 @@ const ProfileHeader = ({
             </h2>
             <p className="text-base-medium text-gray-1">@{username}</p>
             <div className=" flex gap-6">
-              <div className="flex items-center gap-1">
+              <Link 
+                href={`/profile/${username}/followers`}
+                className="flex items-center gap-1 hover:underline cursor-pointer"
+              >
                 <span className="text-base-semibold text-light-1">
                   {followersCount}
                 </span>
                 <span className="text-small-regular text-gray-1">
                   Followers
                 </span>
-              </div>
-              <div className="flex items-center gap-1">
+              </Link>
+              <Link 
+                href={`/profile/${username}/following`}
+                className="flex items-center gap-1 hover:underline cursor-pointer"
+              >
                 <span className="text-base-semibold text-light-1">
                   {followingCount}
                 </span>
                 <span className="text-small-regular text-gray-1">
                   Following
                 </span>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

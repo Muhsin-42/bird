@@ -21,3 +21,9 @@ export interface IGetUsersProps {
   pageSize?: number;
   sortBy?: SortOrder;
 }
+
+export interface IGetFollowListProps {
+  userId: string;
+  pageNumber?: number;
+  pageSize?: number;
+}
