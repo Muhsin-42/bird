@@ -1,21 +1,23 @@
-
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState } from 'react';
 
 const useCopyClipboard = () => {
-    const [isCopied, setIsCopied] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
-    function copyToClipboard (text:string) {
-        if (typeof window !== 'undefined') {
-            navigator.clipboard.writeText(text).then(function() {
-                setIsCopied(true);
-                setTimeout(()=>{
-                    setIsCopied(false);
-                },1000)
-            }, function(err) {       });
-        }
+  function copyToClipboard(text: string) {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(text).then(
+        () => {
+          setIsCopied(true);
+          setTimeout(() => {
+            setIsCopied(false);
+          }, 1000);
+        },
+        (err) => {}
+      );
     }
+  }
 
-    return {isCopied,copyToClipboard}
-}
+  return { isCopied, copyToClipboard };
+};
 
-export default useCopyClipboard
+export default useCopyClipboard;

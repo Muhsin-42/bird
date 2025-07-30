@@ -1,7 +1,8 @@
-import { getLinkPreview } from "link-preview-js";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { getLinkPreview } from 'link-preview-js';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
 interface IPreviewData {
   url: string;
   title: string;
@@ -17,7 +18,7 @@ interface IPreviewData {
 
 const LinkPreview = async ({ link }: { link: string }) => {
   let domain = new URL(link).hostname;
-  domain = domain.replace(/^www\./, "");
+  domain = domain.replace(/^www\./, '');
   if (!domain) return null;
 
   let data: any;
@@ -33,18 +34,18 @@ const LinkPreview = async ({ link }: { link: string }) => {
   return (
     <div className="mt-3 w-full">
       <Link
-        href={previewData?.url || ""}
-        target="_blank"
         className="flex min-h-[100px] w-full overflow-hidden rounded-xl border-1 border-dark-4 bg-dark-1 text-white shadow-inner"
+        href={previewData?.url || ''}
+        target="_blank"
       >
         <div className="relative w-4/12 border-r">
           <Image
-            src={previewData?.images[0] || ""}
+            alt="Preview Image"
             fill
             sizes="(max-width: 600px) 100vw, 500px"
-            alt="Preview Image"
+            src={previewData?.images[0] || ''}
             style={{
-              objectFit: "cover",
+              objectFit: 'cover',
             }}
           />
         </div>

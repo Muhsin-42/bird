@@ -1,6 +1,6 @@
-"use server";
-import { DELETE, GET, POST, PUT } from "./controllers/thread.controller";
-import { IPostThread } from "@/interfaces/actions/thread.interface";
+'use server';
+import type { IPostThread } from '@/interfaces/actions/thread.interface';
+import { DELETE, GET, POST, PUT } from './controllers/thread.controller';
 
 /* ======================
           GET 

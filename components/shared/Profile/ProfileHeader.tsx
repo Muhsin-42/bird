@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 interface Props {
   accountId: string;
@@ -22,10 +22,10 @@ const ProfileHeader = ({
         <div className="flex gap-3">
           <div className="relative size-20 object-cover">
             <Image
-              src={imgUrl}
               alt="Profile Image"
               className="rounded-full"
               fill
+              src={imgUrl}
             />
           </div>
 

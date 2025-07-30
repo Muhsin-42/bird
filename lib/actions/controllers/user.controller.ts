@@ -1,15 +1,15 @@
-import {
+import type { FilterQuery } from 'mongoose';
+import { revalidatePath } from 'next/cache';
+import type {
   IGetUserProps,
   IGetUsersProps,
   IPutUser,
-} from "@/interfaces/actions/user.interface";
-import Thread from "@/lib/models/Thread.model";
-import Following from "@/lib/models/following.model";
-import User from "@/lib/models/user.modle";
-import { ApiError } from "@/lib/utils/ApiErrors";
-import { asyncHandler } from "@/lib/utils/asyncHandler";
-import { FilterQuery } from "mongoose";
-import { revalidatePath } from "next/cache";
+} from '@/interfaces/actions/user.interface';
+import Following from '@/lib/models/following.model';
+import Thread from '@/lib/models/Thread.model';
+import User from '@/lib/models/user.modle';
+import { ApiError } from '@/lib/utils/ApiErrors';
+import { asyncHandler } from '@/lib/utils/asyncHandler';
 
 const GET = {
   user: async ({ username, _id, id }: IGetUserProps) => {
@@ -22,13 +22,13 @@ const GET = {
       else
         throw new ApiError(
           400,
-          "Invalid input: username or _id must be provided"
+          'Invalid input: username or _id must be provided'
         );
 
       const user = await User.findOne(query).populate({
-        path: "followingId",
+        path: 'followingId',
         model: Following,
-        select: "followers following",
+        select: 'followers following',
       });
 
       // if (!user) throw new ApiError(404, "User not found");
@@ -39,21 +39,21 @@ const GET = {
 
   users: async ({
     userId,
-    searchString = "",
+    searchString = '',
     pageNumber = 1,
     pageSize = 20,
-    sortBy = "desc",
+    sortBy = 'desc',
   }: IGetUsersProps) => {
     return asyncHandler(async () => {
       const skipCount = (pageNumber - 1) * pageSize;
 
-      const regex = new RegExp(searchString, "i");
+      const regex = new RegExp(searchString, 'i');
 
       const query: FilterQuery<typeof User> = {
         id: { $ne: userId },
       };
 
-      if (searchString?.trim() !== "") {
+      if (searchString?.trim() !== '') {
         query.$or = [
           { username: { $regex: regex } },
           { name: { $regex: regex } },
@@ -91,9 +91,9 @@ const GET = {
         _id: { $in: childThreadIds },
         author: { $ne: userId },
       }).populate({
-        path: "author",
+        path: 'author',
         model: User,
-        select: "name image _id",
+        select: 'name image _id',
       });
 
       return replies;
@@ -116,7 +116,7 @@ const PUT = {
         { upsert: true }
       );
 
-      if (path === "/profile/edit") revalidatePath(path);
+      if (path === '/profile/edit') revalidatePath(path);
 
       return { updated: true };
     }, 201);

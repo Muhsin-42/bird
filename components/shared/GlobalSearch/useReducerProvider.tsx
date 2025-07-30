@@ -1,5 +1,5 @@
-import { IUserMongo } from "@/interfaces/propInterfaces";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer } from 'react';
+import type { IUserMongo } from '@/interfaces/propInterfaces';
 
 const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
   type State = {
@@ -9,26 +9,26 @@ const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
   };
 
   type Action =
-    | { type: "FOCUS" }
-    | { type: "BLUR" }
-    | { type: "SET_SEARCH_KEY"; value: string }
-    | { type: "SET_FILTERED_USERS"; value: IUserMongo[] };
+    | { type: 'FOCUS' }
+    | { type: 'BLUR' }
+    | { type: 'SET_SEARCH_KEY'; value: string }
+    | { type: 'SET_FILTERED_USERS'; value: IUserMongo[] };
 
   const initialState: State = {
     isFocused: false,
-    searchKey: "",
+    searchKey: '',
     filteredUsers: [],
   };
 
   const reducer = (state: State, action: Action): State => {
     switch (action.type) {
-      case "FOCUS":
+      case 'FOCUS':
         return { ...state, isFocused: true };
-      case "BLUR":
+      case 'BLUR':
         return { ...state, isFocused: false };
-      case "SET_SEARCH_KEY":
+      case 'SET_SEARCH_KEY':
         return { ...state, searchKey: action.value };
-      case "SET_FILTERED_USERS":
+      case 'SET_FILTERED_USERS':
         return { ...state, filteredUsers: action.value };
       default:
         return state;
@@ -45,9 +45,9 @@ const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
           user.name?.toLowerCase().includes(key) ||
           user.username?.toLowerCase().includes(key)
       );
-      dispatch({ type: "SET_FILTERED_USERS", value: searchFilteredUsers });
+      dispatch({ type: 'SET_FILTERED_USERS', value: searchFilteredUsers });
     } else {
-      dispatch({ type: "SET_FILTERED_USERS", value: users });
+      dispatch({ type: 'SET_FILTERED_USERS', value: users });
     }
   }, [searchKey, users]);
 

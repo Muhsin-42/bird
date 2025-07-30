@@ -1,31 +1,33 @@
-'use client'
-import { likePost } from '@/lib/actions/thread.actions';
+'use client';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { likePost } from '@/lib/actions/thread.actions';
 
-const useLike = (like:string[] ,threadId:string,currentUserId:string) => {
-    const [isLiked,setIsLiked] = useState(like?.some((ele)=>ele===currentUserId));
-    const [likeCount,setLikeCount] = useState(like?.length||0);
-    
-    useEffect(()=>{
-        setIsLiked(like?.some((ele)=>ele===currentUserId));
-        setLikeCount(like?.length||0);
-    },[like])
+const useLike = (like: string[], threadId: string, currentUserId: string) => {
+  const [isLiked, setIsLiked] = useState(
+    like?.some((ele) => ele === currentUserId)
+  );
+  const [likeCount, setLikeCount] = useState(like?.length || 0);
 
-    const pathName = usePathname();
+  useEffect(() => {
+    setIsLiked(like?.some((ele) => ele === currentUserId));
+    setLikeCount(like?.length || 0);
+  }, [like]);
 
-    async function handleLike (){
-        if(isLiked){
-            setIsLiked(false)
-            setLikeCount(prev=>prev-1);
-        }else{
-            setLikeCount(prev=>prev+1);
-            setIsLiked(true)
-        }
-        await likePost(threadId,currentUserId,pathName);
+  const pathName = usePathname();
+
+  async function handleLike() {
+    if (isLiked) {
+      setIsLiked(false);
+      setLikeCount((prev) => prev - 1);
+    } else {
+      setLikeCount((prev) => prev + 1);
+      setIsLiked(true);
     }
-    
-    return {isLiked,likeCount,handleLike}
-}
+    await likePost(threadId, currentUserId, pathName);
+  }
 
-export default useLike
+  return { isLiked, likeCount, handleLike };
+};
+
+export default useLike;

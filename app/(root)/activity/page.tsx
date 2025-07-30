@@ -1,15 +1,15 @@
-import { fetchUser, getActivity } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import Image from "next/image";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { currentUser } from '@clerk/nextjs';
+import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { fetchUser, getActivity } from '@/lib/actions/user.actions';
 
 export default async function Activity() {
   const user = await currentUser();
-  if (!user) return redirect("/sign-in");
+  if (!user) return redirect('/sign-in');
 
   const { data: userInfo } = await fetchUser(user?.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  if (!userInfo?.onboarded) redirect('/onboarding');
 
   const { data: activity } = await getActivity(userInfo._id);
 
@@ -22,21 +22,21 @@ export default async function Activity() {
           <>
             {activity.map((activity) => (
               <Link
-                key={activity._id}
                 href={`/thread/${activity?.author?.name}/${activity.parentId}`}
+                key={activity._id}
               >
                 <article className="activity-card">
                   <Image
-                    src={activity.author.image}
                     alt="Profile Picture"
-                    width={20}
-                    height={20}
                     className="rounded-full object-contain"
+                    height={20}
+                    src={activity.author.image}
+                    width={20}
                   />
                   <p className="!text-small-regular text-light-1">
                     <span className="mr-1 text-primary-500">
                       {activity?.author?.name}
-                    </span>{" "}
+                    </span>{' '}
                     replied to your thread.
                   </p>
                 </article>

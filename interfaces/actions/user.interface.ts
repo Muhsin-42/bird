@@ -1,4 +1,4 @@
-import { SortOrder } from "mongoose";
+import type { SortOrder } from 'mongoose';
 
 export interface IPutUser {
   userId: string;

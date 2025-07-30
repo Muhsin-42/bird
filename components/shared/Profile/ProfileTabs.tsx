@@ -1,10 +1,10 @@
-import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PROFILE_TABS } from "@/constants/constants";
-import Image from "next/image";
-import ThreadsTab from "@/components/shared/Profile/ThreadsTab";
-import { IUserMongo } from "@/interfaces/propInterfaces";
-import { fetchProfilePosts } from "@/lib/actions/thread.actions";
+import Image from 'next/image';
+import React from 'react';
+import ThreadsTab from '@/components/shared/Profile/ThreadsTab';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PROFILE_TABS } from '@/constants/constants';
+import type { IUserMongo } from '@/interfaces/propInterfaces';
+import { fetchProfilePosts } from '@/lib/actions/thread.actions';
 
 const ProfileTabs = async ({
   userInfo,
@@ -21,25 +21,25 @@ const ProfileTabs = async ({
   );
 
   const tabsToRender = PROFILE_TABS.filter(
-    (tab) => tab.value !== "bookmark" || isLoggedInUser
+    (tab) => tab.value !== 'bookmark' || isLoggedInUser
   );
 
   return (
     <div className="mt-9">
-      <Tabs defaultValue="threads" className="w-full">
+      <Tabs className="w-full" defaultValue="threads">
         <TabsList className="tab">
           {tabsToRender.map((tab) => (
-            <TabsTrigger key={tab.label} value={tab.value} className="tab">
+            <TabsTrigger className="tab" key={tab.label} value={tab.value}>
               <Image
-                src={tab.icon}
                 alt={tab.label}
-                height={24}
-                width={24}
                 className="object-contain"
+                height={24}
+                src={tab.icon}
+                width={24}
               />
               <p className="max-sm:hidden">{tab.label}</p>
 
-              <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
+              <p className="!text-tiny-medium ml-1 rounded-sm bg-light-4 px-2 py-1 text-light-2">
                 {profilePosts[tab.value]?.length}
               </p>
             </TabsTrigger>
@@ -47,16 +47,16 @@ const ProfileTabs = async ({
         </TabsList>
         {tabsToRender.map((tab) => (
           <TabsContent
+            className="w-full text-light-1"
             key={tab.value}
             value={tab.value}
-            className="w-full text-light-1"
           >
             <ThreadsTab
-              currentUserId={mongoCurrentUser?._id}
               accountId={userInfo.id}
               accountType="User"
-              section={tab.value}
+              currentUserId={mongoCurrentUser?._id}
               profilePosts={profilePosts}
+              section={tab.value}
             />
           </TabsContent>
         ))}

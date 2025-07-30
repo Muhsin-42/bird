@@ -1,23 +1,23 @@
-"use client";
-import React from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
+'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoaderIcon } from 'lucide-react';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import type * as z from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { usePathname } from "next/navigation";
-import { CommentValidation } from "@/lib/validations/thread";
-import { Input } from "../ui/input";
-import Image from "next/image";
-import { addCommentToThread } from "@/lib/actions/thread.actions";
-import useLoading from "@/hooks/useLoading";
-import { LoaderIcon } from "lucide-react";
+} from '@/components/ui/form';
+import useLoading from '@/hooks/useLoading';
+import { addCommentToThread } from '@/lib/actions/thread.actions';
+import { CommentValidation } from '@/lib/validations/thread';
+import { Input } from '../ui/input';
 
 type Props = {
   threadId: string;
@@ -34,7 +34,7 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
   const form = useForm({
     resolver: zodResolver(CommentValidation),
     defaultValues: {
-      thread: "",
+      thread: '',
     },
   });
 
@@ -48,7 +48,7 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
         pathName
       );
       setIsLoading(false);
-      console.log("rsssss = ", res);
+      console.log('rsssss = ', res);
       form.reset();
     } catch (error) {
       setIsLoading(false);
@@ -59,8 +59,8 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
     <div className="mt-8">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
           className="flex items-center justify-between gap-5"
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           {/* Name */}
           <FormField
@@ -70,18 +70,18 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
               <FormItem className="flex w-full items-center gap-3">
                 <FormLabel>
                   <Image
-                    src={currentUserImg}
                     alt="profile"
-                    width={48}
-                    height={48}
                     className="rounded-full object-cover"
+                    height={48}
+                    src={currentUserImg}
+                    width={48}
                   />
                 </FormLabel>
                 <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
                   <Input
-                    type="text"
                     className="no-focus text-light-1 outline-none"
                     placeholder="Comment..."
+                    type="text"
                     {...field}
                   />
                 </FormControl>
@@ -90,9 +90,9 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
             )}
           />
           <Button
-            type="submit"
             className="btn-primary flex w-fit gap-2 px-5 hover:bg-primary-600"
             disabled={isLoading}
+            type="submit"
           >
             Reply
             {isLoading && <LoaderIcon className="animate-spin" />}

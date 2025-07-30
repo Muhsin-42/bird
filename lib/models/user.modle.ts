@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   id: { type: String, required: true },
@@ -6,10 +6,10 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   image: String,
   bio: String,
-  threads: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thread" }],
-  bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thread" }],
-  like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thread" }],
-  followingId: { type: mongoose.Schema.Types.ObjectId, ref: "Following" },
+  threads: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }],
+  bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }],
+  like: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }],
+  followingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Following' },
 
   onboarded: {
     type: Boolean,
@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema({
   communities: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Community",
+      ref: 'Community',
     },
   ],
 });
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 export default User;
 /* 
     `mongoose.models.User` will not exist in DB in the first run hence it will call

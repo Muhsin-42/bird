@@ -1,10 +1,10 @@
-import PostCard from "@/components/cards/PostCard/PostCard";
-import Comment from "@/components/forms/Comment";
-import { fetchPostById } from "@/lib/actions/thread.actions";
-import { fetchUser } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-import type { Metadata } from "next";
+import { currentUser } from '@clerk/nextjs';
+import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import PostCard from '@/components/cards/PostCard/PostCard';
+import Comment from '@/components/forms/Comment';
+import { fetchPostById } from '@/lib/actions/thread.actions';
+import { fetchUser } from '@/lib/actions/user.actions';
 
 type Props = {
   params: {
@@ -24,10 +24,10 @@ const Page = async ({ params }: Props) => {
   if (!params.slug[1]) return null;
 
   const user = await currentUser();
-  if (!user) return redirect("/sign-in");
+  if (!user) return redirect('/sign-in');
 
   const { data: userInfo } = await fetchUser(user.id);
-  if (!userInfo?.onboarded) return redirect("/onboarding");
+  if (!userInfo?.onboarded) return redirect('/onboarding');
 
   const { data: post } = await fetchPostById(params.slug[1]);
 
@@ -36,47 +36,47 @@ const Page = async ({ params }: Props) => {
       <section className="relative">
         <div>
           <PostCard
-            key={post?._id}
-            id={post?._id}
-            createdAt={post?.createdAt}
-            image={post?.image}
-            currentUserId={userInfo?._id?.toString() || ""}
-            parentId={post?.parentId}
-            content={post?.text}
             author={post?.author}
-            community={post?.community}
-            comments={post?.children}
-            like={post?.like}
             bookmark={post?.bookmark}
-            isDeleted={post?.deleted || false}
+            comments={post?.children}
+            community={post?.community}
+            content={post?.text}
+            createdAt={post?.createdAt}
+            currentUserId={userInfo?._id?.toString() || ''}
+            id={post?._id}
+            image={post?.image}
+            isDeleted={post?.deleted}
+            key={post?._id}
+            like={post?.like}
+            parentId={post?.parentId}
           />
         </div>
 
         <div>
           <Comment
-            threadId={post?._id}
-            currentUserImg={userInfo?.image}
             currentUserId={userInfo?._id?.toString()}
+            currentUserImg={userInfo?.image}
+            threadId={post?._id}
           />
         </div>
 
         <div className="mt-10">
           {post?.children?.map((comment: any) => (
             <PostCard
-              key={comment?._id}
-              id={comment?._id}
-              currentUserId={userInfo?._id?.toString() || ""}
-              parentId={comment?.parentId}
-              image={comment?.image}
-              createdAt={comment?.createdAt}
-              content={comment?.text}
               author={comment?.author}
-              community={comment?.createdAt}
-              comments={comment?.children}
-              isComment={true}
-              like={comment?.like}
               bookmark={comment?.bookmark}
-              isDeleted={comment?.deleted || false}
+              comments={comment?.children}
+              community={comment?.createdAt}
+              content={comment?.text}
+              createdAt={comment?.createdAt}
+              currentUserId={userInfo?._id?.toString() || ''}
+              id={comment?._id}
+              image={comment?.image}
+              isComment={true}
+              isDeleted={comment?.deleted}
+              key={comment?._id}
+              like={comment?.like}
+              parentId={comment?.parentId}
             />
           ))}
         </div>

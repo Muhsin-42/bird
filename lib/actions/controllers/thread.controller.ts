@@ -1,41 +1,41 @@
-import { IPostThread } from "@/interfaces/actions/thread.interface";
-import Thread from "@/lib/models/Thread.model";
-import User from "@/lib/models/user.modle";
-import { ApiError } from "@/lib/utils/ApiErrors";
-import { asyncHandler } from "@/lib/utils/asyncHandler";
-import mongoose from "mongoose";
-import { revalidatePath } from "next/cache";
+import mongoose from 'mongoose';
+import { revalidatePath } from 'next/cache';
+import type { IPostThread } from '@/interfaces/actions/thread.interface';
+import Thread from '@/lib/models/Thread.model';
+import User from '@/lib/models/user.modle';
+import { ApiError } from '@/lib/utils/ApiErrors';
+import { asyncHandler } from '@/lib/utils/asyncHandler';
 
 const GET = {
   post: async (postId: string) => {
     return asyncHandler(async () => {
       const post = await Thread.findById(postId)
         .populate({
-          path: "author",
+          path: 'author',
           model: User,
-          select: "_id id name image",
+          select: '_id id name image',
         })
         .populate({
-          path: "children",
+          path: 'children',
           populate: [
             {
-              path: "author",
+              path: 'author',
               model: User,
-              select: "_id id name image parentId",
+              select: '_id id name image parentId',
             },
             {
-              path: "children",
+              path: 'children',
               model: Thread,
               populate: {
-                path: "author",
+                path: 'author',
                 model: User,
-                select: "_id id name parentId image",
+                select: '_id id name parentId image',
               },
             },
           ],
         })
         .exec();
-      if (!post) throw new ApiError(404, "Post not found");
+      if (!post) throw new ApiError(404, 'Post not found');
 
       return JSON.parse(JSON.stringify(post));
     }, 200);
@@ -50,16 +50,16 @@ const GET = {
         parentId: { $in: [null, undefined] },
         deleted: { $ne: true },
       })
-        .sort({ createdAt: "desc" })
+        .sort({ createdAt: 'desc' })
         .skip(skipCount)
         .limit(pageSize)
-        .populate({ path: "author", model: User })
+        .populate({ path: 'author', model: User })
         .populate({
-          path: "children",
+          path: 'children',
           populate: {
-            path: "author",
+            path: 'author',
             model: User,
-            select: "_id name parentId image",
+            select: '_id name parentId image',
           },
         });
       const totalPostsCount = await Thread.countDocuments({
@@ -75,22 +75,22 @@ const GET = {
     return asyncHandler(async () => {
       const populateOptions = [
         {
-          path: "like",
+          path: 'like',
           model: Thread,
           populate: {
-            path: "author",
+            path: 'author',
             model: User,
-            select: "name image id",
+            select: 'name image id',
           },
           match: { deleted: false },
         },
         {
-          path: "threads",
+          path: 'threads',
           model: Thread,
           populate: {
-            path: "author",
+            path: 'author',
             model: User,
-            select: "name image id",
+            select: 'name image id',
           },
           match: { deleted: false },
         },
@@ -109,12 +109,12 @@ const GET = {
 
       if (isLoggedInUser) {
         populateOptions.push({
-          path: "bookmark",
+          path: 'bookmark',
           model: Thread,
           populate: {
-            path: "author",
+            path: 'author',
             model: User,
-            select: "name image id",
+            select: 'name image id',
           },
           match: { deleted: false },
         });
@@ -137,20 +137,20 @@ const GET = {
 
       // Fetch the posts that have no parents. (ie. don't need replies)
       const postsQuery = Thread.find({
-        text: { $regex: new RegExp(key, "i") },
+        text: { $regex: new RegExp(key, 'i') },
         parentId: { $in: [null, undefined] },
         deleted: { $ne: true },
       })
-        .sort({ createdAt: "desc" })
+        .sort({ createdAt: 'desc' })
         .skip(skipCount)
         .limit(pageSize)
-        .populate({ path: "author", model: User })
+        .populate({ path: 'author', model: User })
         .populate({
-          path: "children",
+          path: 'children',
           populate: {
-            path: "author",
+            path: 'author',
             model: User,
-            select: "_id name parentId image",
+            select: '_id name parentId image',
           },
         });
       const totalPostsCount = await Thread.countDocuments({
@@ -191,7 +191,7 @@ const POST = {
     return asyncHandler(async () => {
       const originalThread = await Thread.findById(threadId);
 
-      if (!originalThread) throw new Error("Thread not found");
+      if (!originalThread) throw new Error('Thread not found');
 
       // create new thread
       const commentThread = new Thread({
@@ -216,7 +216,7 @@ const PUT = {
     return asyncHandler(async () => {
       const thread = await Thread.findById(threadId);
 
-      if (!thread) throw new Error("Thread not found");
+      if (!thread) throw new Error('Thread not found');
 
       if (!thread.like) {
         thread.like = [];
@@ -248,7 +248,7 @@ const PUT = {
     return asyncHandler(async () => {
       const thread = await Thread.findById(threadId);
 
-      if (!thread) throw new Error("Thread not found");
+      if (!thread) throw new Error('Thread not found');
 
       if (!thread.bookmark) thread.bookmark = [];
 

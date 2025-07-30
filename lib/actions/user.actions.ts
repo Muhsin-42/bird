@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { SortOrder } from "mongoose";
-import { GET, PUT } from "./controllers/user.controller";
-import { IPutUser } from "@/interfaces/actions/user.interface";
+import type { SortOrder } from 'mongoose';
+import type { IPutUser } from '@/interfaces/actions/user.interface';
+import { GET, PUT } from './controllers/user.controller';
 // import User from "@/lib/models/user.modle";
 
 /* ======================
@@ -16,10 +16,10 @@ export const fetchUserByUsername = async (username: string) =>
 
 export async function fetchUsers({
   userId,
-  searchString = "",
+  searchString = '',
   pageNumber = 1,
   pageSize = 20,
-  sortBy = "desc",
+  sortBy = 'desc',
 }: {
   userId: string;
   searchString?: string;
