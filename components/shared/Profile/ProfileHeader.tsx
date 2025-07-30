@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 interface Props {
   accountId: string;
@@ -7,6 +7,8 @@ interface Props {
   username: string;
   imgUrl: string;
   bio: string;
+  followersCount?: number;
+  followingCount?: number;
 }
 const ProfileHeader = ({
   accountId,
@@ -15,6 +17,8 @@ const ProfileHeader = ({
   username,
   imgUrl,
   bio,
+  followersCount = 0,
+  followingCount = 0,
 }: Props) => {
   return (
     <div className="flex w-full flex-col justify-start">
@@ -34,12 +38,31 @@ const ProfileHeader = ({
               {name}
             </h2>
             <p className="text-base-medium text-gray-1">@{username}</p>
+            <div className=" flex gap-6">
+              <div className="flex items-center gap-1">
+                <span className="text-base-semibold text-light-1">
+                  {followersCount}
+                </span>
+                <span className="text-small-regular text-gray-1">
+                  Followers
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-base-semibold text-light-1">
+                  {followingCount}
+                </span>
+                <span className="text-small-regular text-gray-1">
+                  Following
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* TODO: Community */}
       </div>
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
+
       <div className="mt-12 h-0.5 w-full bg-dark-3" />
     </div>
   );

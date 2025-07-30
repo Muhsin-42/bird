@@ -15,6 +15,9 @@ async function Page({ params }: Props) {
   const { data: mongoCurrentUser } = await fetchUser(user.id);
   if (!userInfo) redirect('/onboarding');
 
+  const followersCount = userInfo?.followingId?.followers?.length || 0;
+  const followingCount = userInfo?.followingId?.following?.length || 0;
+
   return (
     <section>
       <ProfileHeader
@@ -24,6 +27,8 @@ async function Page({ params }: Props) {
         imgUrl={userInfo.image}
         name={userInfo.name}
         username={userInfo.username}
+        followersCount={followersCount}
+        followingCount={followingCount}
       />
       <ProfileTabs mongoCurrentUser={mongoCurrentUser} userInfo={userInfo} />
     </section>

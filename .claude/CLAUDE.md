@@ -31,7 +31,7 @@ This is a Next.js application built with TypeScript, Tailwind CSS, and MongoDB (
 
 Enforces strict type safety, accessibility, and code quality for JS/TS projects using Biome.
 
-## Claude Development Rules
+## Claude Development Rules MUST BE FOLLOWED
 
 1. Think and Plan: First think through the problem, read the codebase for relevant files, and write a plan to tasks/todo.md
 2. Create Todo List: The plan should have a list of todo items that you can check off as you complete them
@@ -51,7 +51,6 @@ Enforces strict type safety, accessibility, and code quality for JS/TS projects 
 - Prefer arrow functions over function expressions
 - Use `const` for variables assigned once
 - Use `===` and `!==` for comparisons
-- No `any` or `unknown` types in TypeScript
 
 ### Accessibility
 
