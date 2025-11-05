@@ -106,11 +106,9 @@ export async function getCached<T>(key: string): Promise<T | null> {
 
     const value = await redis.get(key);
     if (!value) {
-      console.log(`[Cache] ❌ MISS - ${key}`);
       return null;
     }
 
-    console.log(`[Cache] ✅ HIT - ${key}`);
     return JSON.parse(value) as T;
   } catch (error) {
     console.error(`[Cache] Error getting key ${key}:`, error);
@@ -134,10 +132,8 @@ export async function setCached<T>(
 
     if (ttl) {
       await redis.setex(key, ttl, serialized);
-      console.log(`[Cache] 💾 SET - ${key} (TTL: ${ttl}s)`);
     } else {
       await redis.set(key, serialized);
-      console.log(`[Cache] 💾 SET - ${key}`);
     }
   } catch (error) {
     console.error(`[Cache] Error setting key ${key}:`, error);
@@ -154,7 +150,6 @@ export async function deleteCached(...keys: string[]): Promise<void> {
     if (keys.length === 0) return;
 
     await redis.del(...keys);
-    console.log(`[Cache] 🗑️  DELETE - ${keys.join(", ")}`);
   } catch (error) {
     console.error("[Cache] Error deleting keys:", error);
   }
