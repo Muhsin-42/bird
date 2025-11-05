@@ -1,15 +1,22 @@
+'use client';
 import Image from "next/image";
 import Link from "next/link";
+import clsx from 'clsx';
+import useFollow from '@/hooks/useFollow';
+import { Button } from '../../ui/button';
 
 interface Props {
-  accountId: string;
-  authUserId: string;
+  accountId: string; // clerk id of the user profile
+  authUserId: string; // clerk id of the user who is logged in
   name: string;
   username: string;
   imgUrl: string;
   bio: string;
+  mongoCurrentUser: string;
+  mongoLoggedInUser: string;
   followersCount?: number;
   followingCount?: number;
+  following?: string[];
 }
 const ProfileHeader = ({
   accountId,
@@ -20,7 +27,12 @@ const ProfileHeader = ({
   bio,
   followersCount = 0,
   followingCount = 0,
+  following = [],
+  mongoCurrentUser,
+  mongoLoggedInUser,
 }: Props) => {
+  const { handleFollow, isFollowed } = useFollow(mongoCurrentUser, following);
+  const isOwnProfile = accountId === authUserId;
   return (
     <div className="flex w-full flex-col justify-start">
       <div className="flex items-center justify-between">
@@ -66,7 +78,24 @@ const ProfileHeader = ({
           </div>
         </div>
 
-        {/* TODO: Community */}
+        {!isOwnProfile && (
+          <div className="group">
+            <Button
+              className={clsx(isFollowed ? 'btn-transparent' : 'btn-secondary')}
+              onClick={() => {
+                console.log({mongoCurrentUser, mongoLoggedInUser});
+                handleFollow(mongoCurrentUser, mongoLoggedInUser)}}
+              type="button"
+            >
+              <span className="group-hover:hidden">
+                {isFollowed ? 'Following' : 'Follow'}
+              </span>
+              <span className="hidden group-hover:block">
+                {isFollowed ? 'Unfollow' : 'Follow'}
+              </span>
+            </Button>
+          </div>
+        )}
       </div>
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
 

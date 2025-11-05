@@ -30,7 +30,14 @@
     }
   },
   "files": {
-    "includes": ["src/**/*.{ts,tsx,js,jsx,json,css,html}"]
+    "includes": [
+      "app/**/*.{ts,tsx,js,jsx,json,css,html}",
+      "components/**/*.{ts,tsx,js,jsx,json,css,html}",
+      "lib/**/*.{ts,tsx,js,jsx,json,css,html}",
+      "hooks/**/*.{ts,tsx,js,jsx,json,css,html}",
+      "interfaces/**/*.{ts,tsx,js,jsx,json,css,html}",
+      "constants/**/*.{ts,tsx,js,jsx,json,css,html}"
+    ]
   },
   "formatter": {
     "enabled": true,

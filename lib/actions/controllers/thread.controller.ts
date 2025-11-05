@@ -1,43 +1,49 @@
-import mongoose from 'mongoose';
-import { revalidatePath } from 'next/cache';
-import type { IPostThread } from '@/interfaces/actions/thread.interface';
-import Thread from '@/lib/models/Thread.model';
-import User from '@/lib/models/user.modle';
-import { ApiError } from '@/lib/utils/ApiErrors';
-import { asyncHandler } from '@/lib/utils/asyncHandler';
+import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
+import type { IPostThread } from "@/interfaces/actions/thread.interface";
+import { CacheWrappers, invalidateCache } from "@/lib/cache";
+import Thread from "@/lib/models/Thread.model";
+import User from "@/lib/models/user.modle";
+import { ApiError } from "@/lib/utils/ApiErrors";
+import { asyncHandler } from "@/lib/utils/asyncHandler";
 
 const GET = {
   post: async (postId: string) => {
     return asyncHandler(async () => {
-      const post = await Thread.findById(postId)
-        .populate({
-          path: 'author',
-          model: User,
-          select: '_id id name image',
-        })
-        .populate({
-          path: 'children',
-          populate: [
-            {
-              path: 'author',
-              model: User,
-              select: '_id id name image parentId',
-            },
-            {
-              path: 'children',
-              model: Thread,
-              populate: {
-                path: 'author',
+      // Wrap post fetch with cache
+      const post = await CacheWrappers.thread(postId, async () => {
+        const result = await Thread.findById(postId)
+          .populate({
+            path: "author",
+            model: User,
+            select: "_id id name image",
+          })
+          .populate({
+            path: "children",
+            populate: [
+              {
+                path: "author",
                 model: User,
-                select: '_id id name parentId image',
+                select: "_id id name image parentId",
               },
-            },
-          ],
-        })
-        .exec();
-      if (!post) throw new ApiError(404, 'Post not found');
+              {
+                path: "children",
+                model: Thread,
+                populate: {
+                  path: "author",
+                  model: User,
+                  select: "_id id name parentId image",
+                },
+              },
+            ],
+          })
+          .exec();
+        if (!result) throw new ApiError(404, "Post not found");
 
-      return JSON.parse(JSON.stringify(post));
+        return JSON.parse(JSON.stringify(result));
+      });
+
+      return post;
     }, 200);
   },
   posts: async (pageNumber = 1, pageSize = 20) => {
@@ -45,89 +51,109 @@ const GET = {
       // calculate no. of posts to skip.
       const skipCount = (pageNumber - 1) * pageSize;
 
-      // Fetch the posts that have no parents. (ie. don't need replies)
-      const postsQuery = Thread.find({
-        parentId: { $in: [null, undefined] },
-        deleted: { $ne: true },
-      })
-        .sort({ createdAt: 'desc' })
-        .skip(skipCount)
-        .limit(pageSize)
-        .populate({ path: 'author', model: User })
-        .populate({
-          path: 'children',
-          populate: {
-            path: 'author',
-            model: User,
-            select: '_id name parentId image',
-          },
+      // Cache only first page for performance
+      const fetchPosts = async () => {
+        // Fetch the posts that have no parents. (ie. don't need replies)
+        const postsQuery = Thread.find({
+          parentId: { $in: [null, undefined] },
+          deleted: { $ne: true },
+        })
+          .sort({ createdAt: "desc" })
+          .skip(skipCount)
+          .limit(pageSize)
+          .populate({ path: "author", model: User })
+          .populate({
+            path: "children",
+            populate: {
+              path: "author",
+              model: User,
+              select: "_id name parentId image",
+            },
+          });
+        const totalPostsCount = await Thread.countDocuments({
+          parentId: { $in: [null, undefined] },
         });
-      const totalPostsCount = await Thread.countDocuments({
-        parentId: { $in: [null, undefined] },
-      });
-      const posts = await postsQuery.exec();
-      const isNext = totalPostsCount > skipCount + posts.length;
+        const posts = await postsQuery.exec();
+        const isNext = totalPostsCount > skipCount + posts.length;
 
-      return { posts: JSON.parse(JSON.stringify(posts)), isNext };
+        return { posts: JSON.parse(JSON.stringify(posts)), isNext };
+      };
+
+      // Use cache only for first page
+      if (pageNumber === 1) {
+        return await CacheWrappers.threadsList(fetchPosts);
+      }
+
+      return await fetchPosts();
     }, 200);
   },
   profilePosts: async (userId: string, isLoggedInUser: boolean) => {
     return asyncHandler(async () => {
-      const populateOptions = [
-        {
-          path: 'like',
-          model: Thread,
-          populate: {
-            path: 'author',
-            model: User,
-            select: 'name image id',
+      // Cache profile posts (only for non-logged-in user view for simplicity)
+      const fetchProfilePosts = async () => {
+        const populateOptions = [
+          {
+            path: "like",
+            model: Thread,
+            populate: {
+              path: "author",
+              model: User,
+              select: "name image id",
+            },
+            match: { deleted: false },
           },
-          match: { deleted: false },
-        },
-        {
-          path: 'threads',
-          model: Thread,
-          populate: {
-            path: 'author',
-            model: User,
-            select: 'name image id',
+          {
+            path: "threads",
+            model: Thread,
+            populate: {
+              path: "author",
+              model: User,
+              select: "name image id",
+            },
+            match: { deleted: false },
           },
-          match: { deleted: false },
-        },
-      ];
-      const projection = {
-        _id: 1,
-        id: 1,
-        bio: 1,
-        image: 1,
-        like: 1,
-        name: 1,
-        onboarded: 1,
-        threads: 1,
-        ...(isLoggedInUser && { bookmark: 1 }),
+        ];
+        const projection = {
+          _id: 1,
+          id: 1,
+          bio: 1,
+          image: 1,
+          like: 1,
+          name: 1,
+          onboarded: 1,
+          threads: 1,
+          ...(isLoggedInUser && { bookmark: 1 }),
+        };
+
+        if (isLoggedInUser) {
+          populateOptions.push({
+            path: "bookmark",
+            model: Thread,
+            populate: {
+              path: "author",
+              model: User,
+              select: "name image id",
+            },
+            match: { deleted: false },
+          });
+        }
+        const posts = await User.findOne({ id: userId }, projection).populate(
+          populateOptions
+        );
+        if (posts?.bookmark && Array.isArray(posts.bookmark))
+          posts.bookmark.reverse();
+        if (posts && Array.isArray(posts.like)) posts.like.reverse();
+        if (posts && Array.isArray(posts.threads)) posts.threads.reverse();
+
+        return JSON.parse(JSON.stringify(posts));
       };
 
-      if (isLoggedInUser) {
-        populateOptions.push({
-          path: 'bookmark',
-          model: Thread,
-          populate: {
-            path: 'author',
-            model: User,
-            select: 'name image id',
-          },
-          match: { deleted: false },
-        });
+      // Cache only if not logged-in user (since logged-in user view includes bookmarks which change frequently)
+      if (!isLoggedInUser) {
+        return await CacheWrappers.profilePosts(userId, fetchProfilePosts);
       }
-      const posts = await User.findOne({ id: userId }, projection).populate(
-        populateOptions
-      );
-      if (posts && posts.bookmark && Array.isArray(posts.bookmark))
-        posts.bookmark.reverse();
-      if (posts && Array.isArray(posts.like)) posts.like.reverse();
-      if (posts && Array.isArray(posts.threads)) posts.threads.reverse();
 
-      return JSON.parse(JSON.stringify(posts));
+      return await fetchProfilePosts();
     }, 200);
   },
   searchPosts: async (key: string, pageNumber = 1, pageSize = 20) => {
@@ -137,20 +163,20 @@ const GET = {
 
       // Fetch the posts that have no parents. (ie. don't need replies)
       const postsQuery = Thread.find({
-        text: { $regex: new RegExp(key, 'i') },
+        text: { $regex: new RegExp(key, "i") },
         parentId: { $in: [null, undefined] },
         deleted: { $ne: true },
       })
-        .sort({ createdAt: 'desc' })
+        .sort({ createdAt: "desc" })
         .skip(skipCount)
         .limit(pageSize)
-        .populate({ path: 'author', model: User })
+        .populate({ path: "author", model: User })
         .populate({
-          path: 'children',
+          path: "children",
           populate: {
-            path: 'author',
+            path: "author",
             model: User,
-            select: '_id name parentId image',
+            select: "_id name parentId image",
           },
         });
       const totalPostsCount = await Thread.countDocuments({
@@ -175,9 +201,15 @@ const POST = {
       });
 
       // update user model
-      await User.findByIdAndUpdate(author, {
+      const user = await User.findByIdAndUpdate(author, {
         $push: { threads: createdThread._id },
       });
+
+      // Invalidate caches after creating new thread
+      await invalidateCache.allThreads();
+      if (user?.id) {
+        await invalidateCache.profilePosts(user.id);
+      }
 
       revalidatePath(path);
     }, 201);
@@ -191,7 +223,7 @@ const POST = {
     return asyncHandler(async () => {
       const originalThread = await Thread.findById(threadId);
 
-      if (!originalThread) throw new Error('Thread not found');
+      if (!originalThread) throw new Error("Thread not found");
 
       // create new thread
       const commentThread = new Thread({
@@ -206,6 +238,13 @@ const POST = {
       originalThread.children.push(savedComment._id);
       await originalThread.save();
 
+      // Invalidate thread cache and activity cache after adding comment
+      await invalidateCache.thread(threadId);
+      const threadAuthor = await User.findById(originalThread.author);
+      if (threadAuthor?.id) {
+        await invalidateCache.activity(threadAuthor.id);
+      }
+
       revalidatePath(path);
     }, 201);
   },
@@ -216,7 +255,7 @@ const PUT = {
     return asyncHandler(async () => {
       const thread = await Thread.findById(threadId);
 
-      if (!thread) throw new Error('Thread not found');
+      if (!thread) throw new Error("Thread not found");
 
       if (!thread.like) {
         thread.like = [];
@@ -241,6 +280,14 @@ const PUT = {
       }
 
       await thread.save();
+
+      // Invalidate thread cache and user's profile posts cache after like/unlike
+      await invalidateCache.thread(threadId);
+      const user = await User.findById(userId);
+      if (user?.id) {
+        await invalidateCache.profilePosts(user.id);
+      }
+
       revalidatePath(path);
     }, 200);
   },
@@ -248,7 +295,7 @@ const PUT = {
     return asyncHandler(async () => {
       const thread = await Thread.findById(threadId);
 
-      if (!thread) throw new Error('Thread not found');
+      if (!thread) throw new Error("Thread not found");
 
       if (!thread.bookmark) thread.bookmark = [];
 
@@ -276,6 +323,13 @@ const PUT = {
         });
       }
 
+      // Invalidate thread cache and user's profile posts cache after bookmark/unbookmark
+      await invalidateCache.thread(threadId);
+      const user = await User.findById(userId);
+      if (user?.id) {
+        await invalidateCache.profilePosts(user.id);
+      }
+
       revalidatePath(path);
     }, 200);
   },
@@ -287,7 +341,16 @@ const DELETE = {
       const postTodDelete = await Thread.findById(threadId);
       postTodDelete.deleted = true;
 
-      postTodDelete.save();
+      await postTodDelete.save();
+
+      // Invalidate caches after deleting thread
+      await invalidateCache.thread(threadId);
+      await invalidateCache.allThreads();
+      const threadAuthor = await User.findById(postTodDelete.author);
+      if (threadAuthor?.id) {
+        await invalidateCache.profilePosts(threadAuthor.id);
+      }
+
       revalidatePath(path);
     }, 200);
   },

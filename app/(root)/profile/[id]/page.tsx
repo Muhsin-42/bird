@@ -17,18 +17,21 @@ async function Page({ params }: Props) {
 
   const followersCount = userInfo?.followingId?.followers?.length || 0;
   const followingCount = userInfo?.followingId?.following?.length || 0;
-
+  
   return (
     <section>
       <ProfileHeader
         accountId={userInfo.id}
         authUserId={user.id}
+        mongoCurrentUser={userInfo._id?.toString()}
+        mongoLoggedInUser={mongoCurrentUser?._id?.toString()}
         bio={userInfo.bio}
         imgUrl={userInfo.image}
         name={userInfo.name}
         username={userInfo.username}
         followersCount={followersCount}
         followingCount={followingCount}
+        following={userInfo.followingId?.following?.map((ele: string) => ele.toString())}
       />
       <ProfileTabs mongoCurrentUser={mongoCurrentUser} userInfo={userInfo} />
     </section>

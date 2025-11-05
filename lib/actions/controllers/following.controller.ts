@@ -1,8 +1,9 @@
-import type { IPutFollow } from '@/interfaces/actions/following.interface';
-import Following from '@/lib/models/following.model';
-import User from '@/lib/models/user.modle';
-import { asyncHandler } from '@/lib/utils/asyncHandler';
-import { GET } from './thread.controller';
+import type { IPutFollow } from "@/interfaces/actions/following.interface";
+import { invalidateCache } from "@/lib/cache";
+import Following from "@/lib/models/following.model";
+import User from "@/lib/models/user.modle";
+import { asyncHandler } from "@/lib/utils/asyncHandler";
+import { GET } from "./thread.controller";
 
 const PUT = {
   follow: async ({ currentUserId, userId }: IPutFollow) => {
@@ -75,6 +76,16 @@ const PUT = {
             }
           );
         }
+      }
+
+      // Invalidate followers/following cache for both users after follow/unfollow
+      const currentUser = await User.findById(currentUserId);
+      const targetUser = await User.findById(userId);
+      if (currentUser?.id) {
+        await invalidateCache.followData(currentUser.id);
+      }
+      if (targetUser?.id) {
+        await invalidateCache.followData(targetUser.id);
       }
     }, 201);
   },
