@@ -5,7 +5,7 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-export const revalidate = true;
+export const revalidate = 0;
 
 export default async function Home() {
   let user;
