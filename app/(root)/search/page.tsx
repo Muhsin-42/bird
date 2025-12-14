@@ -5,16 +5,20 @@ import { currentUser } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-export function generateMetadata(request: any): Metadata {
-  const { q: query } = request?.searchParams;
+type SearchProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export async function generateMetadata({ searchParams }: SearchProps): Promise<Metadata> {
+  const { q: query } = await searchParams;
 
   return {
     title: `Search - ${query}`,
   };
 }
 
-export default async function Search(request: any) {
-  const { q: query } = request?.searchParams;
+export default async function Search({ searchParams }: SearchProps) {
+  const { q: query } = await searchParams;
   console.log("query ", query);
   const user = await currentUser();
   if (!user) return redirect("/sign-in");

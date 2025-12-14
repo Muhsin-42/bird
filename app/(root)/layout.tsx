@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Bird",
-  description: "NextJs 14 Social Media App.",
+  description: "NextJs 16 Social Media App.",
 };
 
 export default function RootLayout({
