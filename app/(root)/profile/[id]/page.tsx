@@ -4,13 +4,14 @@ import { fetchUser, fetchUserByUsername } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 async function Page({ params }: Props) {
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
 
-  const { data: userInfo } = await fetchUserByUsername(params.id);
+  const { id } = await params;
+  const { data: userInfo } = await fetchUserByUsername(id);
   const { data: mongoCurrentUser } = await fetchUser(user.id);
   if (!userInfo) redirect("/onboarding");
 

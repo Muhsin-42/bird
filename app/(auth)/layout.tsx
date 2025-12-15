@@ -4,7 +4,7 @@ import React from "react";
 import "../globals.css";
 export const metadata = {
   title: "Bird",
-  description: "Bird - A Next.js 14 Social Media App.",
+  description: "Bird - A Next.js 16 Social Media App.",
 };
 
 const inter = Inter({ subsets: ["latin"] });

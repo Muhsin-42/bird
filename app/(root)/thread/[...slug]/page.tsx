@@ -7,21 +7,23 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { data: post } = await fetchPostById(params.slug[1]);
+  const { slug } = await params;
+  const { data: post } = await fetchPostById(slug[1]);
 
   return {
-    title: `${params.slug[0]} - ${post?.text} `,
+    title: `${slug[0]} - ${post?.text} `,
   };
 }
 
 const Page = async ({ params }: Props) => {
-  if (!params.slug[1]) return null;
+  const { slug } = await params;
+  if (!slug[1]) return null;
 
   const user = await currentUser();
   if (!user) return redirect("/sign-in");
@@ -29,7 +31,7 @@ const Page = async ({ params }: Props) => {
   const { data: userInfo } = await fetchUser(user.id);
   if (!userInfo?.onboarded) return redirect("/onboarding");
 
-  const { data: post } = await fetchPostById(params.slug[1]);
+  const { data: post } = await fetchPostById(slug[1]);
 
   return (
     <>
