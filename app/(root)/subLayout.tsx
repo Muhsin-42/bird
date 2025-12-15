@@ -1,19 +1,19 @@
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import NextTopLoader from "nextjs-toploader";
+import type React from "react";
+import { Toaster } from "sonner";
 import Footer from "@/components/shared/Footer";
 import LeftSideBar from "@/components/shared/LeftSideBar";
 import NavBar from "@/components/shared/NavBar";
 import RightSideBar from "@/components/shared/RightSideBar";
-import { Toaster } from "sonner";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-import NextTopLoader from "nextjs-toploader";
-import React from "react";
 
 const subLayout = async ({ children }: { children: React.ReactNode }) => {
-  let user;
+  let user = null;
   try {
     user = await currentUser();
-  } catch (error) {
+  } catch (_error) {
     return redirect("/sign-in");
   }
   if (!user) return redirect("/sign-in");

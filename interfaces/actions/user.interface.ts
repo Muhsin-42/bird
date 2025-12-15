@@ -1,4 +1,4 @@
-import { SortOrder } from "mongoose";
+import type { SortOrder } from "mongoose";
 
 export interface IPutUser {
   userId: string;
@@ -20,4 +20,10 @@ export interface IGetUsersProps {
   pageNumber?: number;
   pageSize?: number;
   sortBy?: SortOrder;
+}
+
+export interface IGetFollowListProps {
+  userId: string;
+  pageNumber?: number;
+  pageSize?: number;
 }

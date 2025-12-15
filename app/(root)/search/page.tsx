@@ -1,15 +1,17 @@
+import { currentUser } from "@clerk/nextjs/server";
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import ListPosts from "@/components/shared/ListPosts";
 import { fetchSearchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 type SearchProps = {
   searchParams: Promise<{ q?: string }>;
 };
 
-export async function generateMetadata({ searchParams }: SearchProps): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: SearchProps): Promise<Metadata> {
   const { q: query } = await searchParams;
 
   return {
@@ -26,7 +28,7 @@ export default async function Search({ searchParams }: SearchProps) {
   const { data: userInfo } = await fetchUser(user?.id);
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const { data: posts } = await fetchSearchPosts(query, 1, 20);
+  const { data: posts } = await fetchSearchPosts(query || "", 1, 20);
   // fetch users
   // const result = await fetchUsers({
   //   userId: user.id,

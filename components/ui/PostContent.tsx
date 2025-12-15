@@ -1,8 +1,7 @@
-import Link from "next/link";
-import React from "react";
-import LinkPreview from "../shared/LinkPreview";
 import Image from "next/image";
-import { IUserGeneral } from "@/interfaces/propInterfaces";
+import Link from "next/link";
+import type { IUserGeneral } from "@/interfaces/propInterfaces";
+import LinkPreview from "../shared/LinkPreview";
 
 const PostContent = ({
   content,
@@ -22,52 +21,52 @@ const PostContent = ({
 
   return (
     <>
-      <p className={`mt-2 break-words text-small-regular text-light-2`}>
+      <p className={"mt-2 break-words text-light-2 text-small-regular"}>
         {splitContent?.map((word, index) => {
           const trimmedWord = word.trim();
           if (trimmedWord[0] === "#") {
             return (
               <Link
+                className="cursor-pointer text-sky-500"
                 href={`/search?q=${word.slice(1)}`}
                 key={index}
-                className="cursor-pointer text-sky-500"
               >
                 {word}{" "}
               </Link>
             );
-          } else if (/^(https?:\/\/|www\.)/i.test(trimmedWord)) {
+          }
+          if (/^(https?:\/\/|www\.)/i.test(trimmedWord)) {
             return (
               <Link
+                className="cursor-pointer break-words text-sky-500"
+                href={word}
                 key={index}
                 target="_blank"
-                href={word}
-                className="cursor-pointer break-words text-sky-500"
               >
                 {word.slice(0, 50)}
                 {word?.length > 50 ? "..." : " "}
               </Link>
             );
-          } else {
-            return (
-              <Link href={`/thread/${author?.name}/${id}`} key={index}>
-                {word + " "}
-              </Link>
-            );
           }
+          return (
+            <Link href={`/thread/${author?.name}/${id}`} key={index}>
+              {`${word} `}
+            </Link>
+          );
         })}
       </p>
       {image ? (
         <div className="mt-3 flex">
           <Image
-            src={image}
-            width={500}
-            height={300}
             alt="Image"
             className="rounded-2xl"
+            height={300}
+            src={image}
+            width={500}
           />
         </div>
       ) : (
-        <>{links?.length > 0 && <LinkPreview link={links[0]} />}</>
+        links?.length > 0 && <LinkPreview link={links[0]} />
       )}
     </>
   );

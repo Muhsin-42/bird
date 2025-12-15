@@ -1,5 +1,5 @@
-import conf from "@/conf/config";
 import mongoose from "mongoose";
+import conf from "@/conf/config";
 
 let isConnected = false;
 

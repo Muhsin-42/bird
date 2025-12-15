@@ -1,10 +1,9 @@
 "use client";
-import { IUserMongo } from "@/interfaces/propInterfaces";
-import Image from "next/image";
-import React from "react";
-import { Button } from "../ui/button";
-import useFollow from "@/hooks/useFollow";
 import clsx from "clsx";
+import Image from "next/image";
+import useFollow from "@/hooks/useFollow";
+import type { IUserMongo } from "@/interfaces/propInterfaces";
+import { Button } from "../ui/button";
 
 const UserRow = ({
   currentUser,
@@ -22,11 +21,11 @@ const UserRow = ({
     <div className="flex justify-between gap-10 text-light-1">
       <div className="flex gap-2">
         <Image
-          src={user.image}
           alt="logo"
-          width={48}
-          height={48}
           className="rounded-full"
+          height={48}
+          src={user.image}
+          width={48}
         />
         <div className="flex flex-col">
           <span>{user?.name}</span>
@@ -36,9 +35,9 @@ const UserRow = ({
 
       <div className="group">
         <Button
-          type="button"
-          onClick={() => handleFollow(currentUser._id!, user?._id!)}
           className={clsx(isFollowed ? "btn-transparent" : "btn-secondary")}
+          onClick={() => handleFollow(currentUser._id!, user?._id!)}
+          type="button"
         >
           <span className="group-hover:hidden">
             {isFollowed ? "Following" : "Follow"}

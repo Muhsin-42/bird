@@ -1,5 +1,5 @@
-import { IUserMongo } from "@/interfaces/propInterfaces";
 import { useEffect, useReducer } from "react";
+import type { IUserMongo } from "@/interfaces/propInterfaces";
 
 const useReducerProvider = ({ users }: { users: IUserMongo[] }) => {
   type State = {

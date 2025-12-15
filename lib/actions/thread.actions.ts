@@ -1,12 +1,12 @@
 "use server";
+import type { IPostThread } from "@/interfaces/actions/thread.interface";
 import { DELETE, GET, POST, PUT } from "./controllers/thread.controller";
-import { IPostThread } from "@/interfaces/actions/thread.interface";
 
 /* ======================
           GET 
 ========================= */
 
-export async function fetchPosts(pageNumber = 1, pageSize = 20) {
+export async function fetchPosts(_pageNumber = 1, _pageSize = 20) {
   return GET.posts();
 }
 

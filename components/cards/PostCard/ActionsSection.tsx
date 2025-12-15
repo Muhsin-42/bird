@@ -1,14 +1,15 @@
 "use client";
-import DeleteModal from "@/components/shared/DeleteModal";
-import useLike from "@/hooks/useLike";
-import { IActionsSection } from "@/interfaces/propInterfaces";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import ShareComponent from "./ShareComponent";
+import { useState } from "react";
+import { GoBookmark, GoBookmarkFill } from "react-icons/go";
+import DeleteModal from "@/components/shared/DeleteModal";
 import conf from "@/conf/config";
 import useBookmark from "@/hooks/useBookmark";
-import { GoBookmark, GoBookmarkFill } from "react-icons/go";
+import useLike from "@/hooks/useLike";
+import type { IActionsSection } from "@/interfaces/propInterfaces";
+import ShareComponent from "./ShareComponent";
+
 const ActionsSection = ({
   isComment,
   id,
@@ -33,23 +34,23 @@ const ActionsSection = ({
       <div className="flex gap-4">
         <div className="flex gap-1">
           <Image
-            src={`/assets/heart${isLiked ? "-filled" : "-gray"}.svg`}
             alt="heart"
-            width={24}
-            height={24}
             className="animate-pulse cursor-pointer object-contain"
+            height={24}
             onClick={handleLike}
+            src={`/assets/heart${isLiked ? "-filled" : "-gray"}.svg`}
+            width={24}
           />
           <span className="text-gray-1">{likeCount}</span>
         </div>
 
         <Link href={`/thread/${author?.name}/${id}`}>
           <Image
-            src="/assets/reply.svg"
             alt="reply"
-            width={24}
-            height={24}
             className="cursor-pointer object-contain"
+            height={24}
+            src="/assets/reply.svg"
+            width={24}
           />
         </Link>
 
@@ -59,14 +60,14 @@ const ActionsSection = ({
           {isBookmarked ? (
             <GoBookmarkFill
               className={"cursor-pointer text-[#5C5C7B]"}
-              size={"1.2rem"}
               onClick={handleBookmark}
+              size={"1.2rem"}
             />
           ) : (
             <GoBookmark
               className={"cursor-pointer text-[#5C5C7B]"}
-              size={"1.2rem"}
               onClick={handleBookmark}
+              size={"1.2rem"}
             />
           )}
           <span className="text-gray-1">{bookmarkCount}</span>
@@ -74,21 +75,21 @@ const ActionsSection = ({
 
         {author?._id === currentUserId && (
           <Image
-            onMouseOver={() => setDeleteHover(true)}
-            onMouseLeave={() => setDeleteHover(false)}
-            onClick={() => setDeleteModalShow(true)}
-            src={`/assets/delete${!deleteHover ? "-gray" : ""}.svg`}
             alt="share"
-            width={20}
-            height={20}
             className="cursor-pointer object-contain"
+            height={20}
+            onClick={() => setDeleteModalShow(true)}
+            onMouseLeave={() => setDeleteHover(false)}
+            onMouseOver={() => setDeleteHover(true)}
+            src={`/assets/delete${deleteHover ? "" : "-gray"}.svg`}
+            width={20}
           />
         )}
       </div>
 
       {comments?.length > 0 && (
         <Link href={`/thread/${author?.name}/${id}`}>
-          <p className="mt-1 text-subtle-medium text-gray-1">
+          <p className="mt-1 text-gray-1 text-subtle-medium">
             {comments?.length} replies
           </p>
         </Link>

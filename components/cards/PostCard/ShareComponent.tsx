@@ -1,32 +1,31 @@
-import React from "react";
 import {
   Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
   DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
 } from "@nextui-org/react";
 import Image from "next/image";
+import { IoCopyOutline } from "react-icons/io5";
 import {
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
   XIcon,
 } from "react-share";
-import { IoCopyOutline } from "react-icons/io5";
-import useCopyClipboard from "@/hooks/useCopyClipboard";
 import { toast } from "sonner";
+import useCopyClipboard from "@/hooks/useCopyClipboard";
 
 const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
   const { copyToClipboard } = useCopyClipboard();
   return (
-    <Dropdown className="border border-dark-4 bg-background text-foreground dark">
+    <Dropdown className="dark border border-dark-4 bg-background text-foreground">
       <DropdownTrigger>
         <Image
-          src="/assets/repost.svg"
           alt="repost"
-          width={24}
-          height={24}
           className="cursor-pointer object-contain"
+          height={24}
+          src="/assets/repost.svg"
+          width={24}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
@@ -52,11 +51,11 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
         </DropdownItem>
         <DropdownItem
           key="copy"
-          startContent={<IoCopyOutline size={"1.5rem"} />}
           onClick={() => {
             copyToClipboard(shareUrl);
             toast.success("Url Copied to clipboard.", { duration: 1500 });
           }}
+          startContent={<IoCopyOutline size={"1.5rem"} />}
         >
           Copy to Clipboard
         </DropdownItem>

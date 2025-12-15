@@ -31,11 +31,10 @@ export function formatDateString(dateString: string) {
 export function formatThreadCount(count: number): string {
   if (count === 0) {
     return "No Threads";
-  } else {
-    const threadCount = count.toString().padStart(2, "0");
-    const threadWord = count === 1 ? "Thread" : "Threads";
-    return `${threadCount} ${threadWord}`;
   }
+  const threadCount = count.toString().padStart(2, "0");
+  const threadWord = count === 1 ? "Thread" : "Threads";
+  return `${threadCount} ${threadWord}`;
 }
 
 export const getTimestamp = (createdAt: string | number | Date): string => {
@@ -49,36 +48,36 @@ export const getTimestamp = (createdAt: string | number | Date): string => {
   const secondsPast = (now.getTime() - createdAt.getTime()) / 1000;
 
   if (secondsPast < 60) {
-    return Math.round(secondsPast) + " seconds ago";
+    return `${Math.round(secondsPast)} seconds ago`;
   }
 
   const minutesPast = secondsPast / 60;
   if (minutesPast < 60) {
-    return Math.round(minutesPast) + " minutes ago";
+    return `${Math.round(minutesPast)} minutes ago`;
   }
 
   const hoursPast = minutesPast / 60;
   if (hoursPast < 24) {
-    return Math.round(hoursPast) + " hours ago";
+    return `${Math.round(hoursPast)} hours ago`;
   }
 
   const daysPast = hoursPast / 24;
   if (daysPast < 7) {
-    return Math.round(daysPast) + " days ago";
+    return `${Math.round(daysPast)} days ago`;
   }
 
   const weeksPast = daysPast / 7;
   if (weeksPast < 5) {
-    return Math.round(weeksPast) + " weeks ago";
+    return `${Math.round(weeksPast)} weeks ago`;
   }
 
   const monthsPast = daysPast / 30;
   if (monthsPast < 12) {
-    return Math.round(monthsPast) + " months ago";
+    return `${Math.round(monthsPast)} months ago`;
   }
 
   const yearsPast = daysPast / 365;
-  return Math.round(yearsPast) + " years ago";
+  return `${Math.round(yearsPast)} years ago`;
 };
 
 export function formatNumberShort(num: number): string {
@@ -96,9 +95,7 @@ export function formatNumberShort(num: number): string {
   const item = lookup
     .slice()
     .reverse()
-    .find(function (item) {
-      return num >= item.value;
-    });
+    .find((item) => num >= item.value);
   return item
     ? (num / item.value).toFixed(1).replace(rx, "$1") + item.symbol
     : "0";

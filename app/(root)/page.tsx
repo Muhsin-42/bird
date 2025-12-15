@@ -1,14 +1,14 @@
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import CreatePost2 from "@/components/forms/CreatePost2";
 import ListPosts from "@/components/shared/ListPosts";
 import { fetchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 
 export const revalidate = 0;
 
 export default async function Home() {
-  let user;
+  let user = null;
   try {
     user = await currentUser();
   } catch (error) {

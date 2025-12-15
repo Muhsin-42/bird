@@ -1,8 +1,9 @@
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/shared/Profile/ProfileHeader";
 import ProfileTabs from "@/components/shared/Profile/ProfileTabs";
 import { fetchUser, fetchUserByUsername } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+
 type Props = {
   params: Promise<{ id: string }>;
 };
@@ -15,17 +16,27 @@ async function Page({ params }: Props) {
   const { data: mongoCurrentUser } = await fetchUser(user.id);
   if (!userInfo) redirect("/onboarding");
 
+  const followersCount = userInfo?.followingId?.followers?.length || 0;
+  const followingCount = userInfo?.followingId?.following?.length || 0;
+
   return (
     <section>
       <ProfileHeader
         accountId={userInfo.id}
         authUserId={user.id}
+        mongoCurrentUser={userInfo._id?.toString()}
+        mongoLoggedInUser={mongoCurrentUser?._id?.toString()}
+        bio={userInfo.bio}
+        imgUrl={userInfo.image}
         name={userInfo.name}
         username={userInfo.username}
-        imgUrl={userInfo.image}
-        bio={userInfo.bio}
+        followersCount={followersCount}
+        followingCount={followingCount}
+        following={userInfo.followingId?.following?.map((ele: string) =>
+          ele.toString()
+        )}
       />
-      <ProfileTabs userInfo={userInfo} mongoCurrentUser={mongoCurrentUser} />
+      <ProfileTabs mongoCurrentUser={mongoCurrentUser} userInfo={userInfo} />
     </section>
   );
 }

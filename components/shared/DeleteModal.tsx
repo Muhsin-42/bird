@@ -1,10 +1,10 @@
 "use client";
+import { usePathname } from "next/navigation";
+import { toast } from "sonner";
 import useClickOutsideModal from "@/hooks/useClickOutsideModal";
 import useLoading from "@/hooks/useLoading";
 import { deletePost } from "@/lib/actions/thread.actions";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { toast } from "sonner";
+
 const DeleteModal = ({
   onClose,
   show,
@@ -27,8 +27,8 @@ const DeleteModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-600/25">
       <div
+        className="-translate-x-2/4 fixed top-1/4 left-2/4 z-50 flex h-fit w-11/12 flex-col rounded-2xl bg-black px-8 py-5 shadow-primary-500 shadow-xl sm:w-6/12 md:w-5/12 xl:w-4/12 "
         ref={popupRef}
-        className="fixed left-2/4 top-1/4 z-50 flex h-fit w-11/12 -translate-x-2/4 flex-col rounded-2xl bg-black px-8 py-5 shadow-xl shadow-primary-500 sm:w-6/12 md:w-5/12 xl:w-4/12 "
       >
         <h3 className="text-heading3-bold text-white">Delete Post?</h3>
         <p className="py-1 text-white opacity-50">
@@ -38,24 +38,24 @@ const DeleteModal = ({
         `}
         </p>
         <button
-          type="button"
           className="my-2 flex justify-center gap-3 rounded-full bg-red-500 py-2 font-bold text-white"
-          onClick={handleDelete}
           disabled={isLoading}
+          onClick={handleDelete}
+          type="button"
         >
           {isLoading ? (
             <>
-              Deleting <span className="loader-primary"></span>
+              Deleting <span className="loader-primary" />
             </>
           ) : (
-            <>Delete</>
+            "Delete"
           )}
         </button>
         <button
-          type="button"
           className="mb-2 rounded-full border bg-dark-4 py-2 font-bold text-white"
-          onClick={onClose}
           disabled={isLoading}
+          onClick={onClose}
+          type="button"
         >
           Cancel
         </button>

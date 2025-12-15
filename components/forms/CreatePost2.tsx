@@ -1,12 +1,18 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import GifPicker from "gif-picker-react";
+import { SmilePlus, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { type ChangeEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaPaperPlane } from "react-icons/fa";
 import { MdOutlineGifBox } from "react-icons/md";
+import type * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,25 +21,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "../ui/textarea";
-import { usePathname, useRouter } from "next/navigation";
-import { ThreadValidation } from "@/lib/validations/thread";
-import { ChangeEvent, useState } from "react";
-import { createThread } from "@/lib/actions/thread.actions";
-import { SmilePlus, X } from "lucide-react";
-import { FaPaperPlane } from "react-icons/fa";
-import useLoading from "@/hooks/useLoading";
-import Image from "next/image";
-import Link from "next/link";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Input } from "../ui/input";
-import { isBase64Image } from "@/lib/utils/utils";
-import { useUploadThing } from "@/lib/uploadthing";
 import conf from "@/conf/config";
+import useLoading from "@/hooks/useLoading";
+import { createThread } from "@/lib/actions/thread.actions";
+import { useUploadThing } from "@/lib/uploadthing";
+import { isBase64Image } from "@/lib/utils/utils";
+import { ThreadValidation } from "@/lib/validations/thread";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 const CreatePost2 = ({ user }: any) => {
   const { startUpload } = useUploadThing("media");
@@ -60,7 +60,7 @@ const CreatePost2 = ({ user }: any) => {
         if (hasImageChanged) {
           const imgRes = await startUpload(files);
 
-          if (imgRes && imgRes[0].url) {
+          if (imgRes?.[0].url) {
             values.image = imgRes[0].url;
           }
         }
@@ -84,7 +84,7 @@ const CreatePost2 = ({ user }: any) => {
       router.push("/");
     } catch (error) {
       setIsLoading(false);
-      throw new Error("Error Creating Thread " + error);
+      throw new Error(`Error Creating Thread ${error}`);
     }
   };
 
@@ -114,21 +114,21 @@ const CreatePost2 = ({ user }: any) => {
   return (
     <div className="flex gap-4">
       <div className="">
-        <Link href={`/profile/${user?.username}`} className="relative size-11">
+        <Link className="relative size-11" href={`/profile/${user?.username}`}>
           <Image
-            src={user?.image}
             alt="Profile Image"
+            className="cursor-pointer rounded-full"
             height={50}
+            src={user?.image}
             width={50}
-            className="cursor-pointer  rounded-full"
           />
         </Link>
       </div>
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
           className="flex w-full flex-col items-end justify-start gap-6 border-b border-b-dark-4 pb-2 "
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
             control={form.control}
@@ -137,9 +137,9 @@ const CreatePost2 = ({ user }: any) => {
               <FormItem className="flex w-full flex-col gap-3 ">
                 <FormControl className="no-focus border border-dark-4 bg-dark-1 text-light-1">
                   <Textarea
-                    rows={3}
                     className="account-form_input no-focus !bg-green-500"
                     placeholder="What's in your mind?"
+                    rows={3}
                     {...field}
                   />
                 </FormControl>
@@ -151,7 +151,7 @@ const CreatePost2 = ({ user }: any) => {
           {((files && files.length > 0) || gif.set) && (
             <div className="relative w-full">
               <div
-                className="absolute right-4 top-4 cursor-pointer rounded-full bg-slate-500 p-1 hover:scale-105 "
+                className="absolute top-4 right-4 cursor-pointer rounded-full bg-slate-500 p-1 hover:scale-105 "
                 onClick={() => {
                   form.setValue("image", "");
                   setFiles([]);
@@ -161,20 +161,20 @@ const CreatePost2 = ({ user }: any) => {
                 <X color="white" size={"1.4rem"} />
               </div>
               <Image
+                alt="Image"
+                className="w-full rounded-2xl"
+                height={300}
                 src={
                   files && files?.length > 0
                     ? URL.createObjectURL(files[0])
                     : gif.preview
                 }
                 width={500}
-                height={300}
-                alt="Image"
-                className="w-full rounded-2xl"
               />
             </div>
           )}
 
-          <div className="sticky  bottom-0 flex w-full items-center justify-between bg-dark-1">
+          <div className="sticky bottom-0 flex w-full items-center justify-between bg-dark-1">
             <div className="flex gap-4 text-white">
               <div className="flex ">
                 <FormField
@@ -184,24 +184,24 @@ const CreatePost2 = ({ user }: any) => {
                     <FormItem className="flex items-center gap-4">
                       <FormLabel className=" cursor-pointer">
                         <Image
-                          src={"/assets/profile.svg"}
                           alt="profile pic"
-                          width={24}
-                          height={24}
                           className={`object-contain ${
                             (files && files.length > 0) || !!gif.set
                               ? "opacity-40"
                               : ""
                           } `}
+                          height={24}
+                          src={"/assets/profile.svg"}
+                          width={24}
                         />
                       </FormLabel>
                       <FormControl className="hidden flex-1 text-base-semibold text-gray-200">
                         <Input
-                          type="file"
                           accept="image/**"
-                          placeholder="Upload Image."
-                          onChange={(e) => handleImage(e, field.onChange)}
                           onBlur={field.onBlur}
+                          onChange={(e) => handleImage(e, field.onChange)}
+                          placeholder="Upload Image."
+                          type="file"
                           // disabled={(files && files.length > 0) || gif.set}
                         />
                       </FormControl>
@@ -219,8 +219,6 @@ const CreatePost2 = ({ user }: any) => {
                 </PopoverTrigger>
                 <PopoverContent className="">
                   <GifPicker
-                    theme={Theme.DARK}
-                    tenorApiKey={conf.TENOR_API_KEY}
                     onGifClick={(gif) => {
                       setGif({
                         set: true,
@@ -228,6 +226,8 @@ const CreatePost2 = ({ user }: any) => {
                         url: gif?.url,
                       });
                     }}
+                    tenorApiKey={conf.TENOR_API_KEY}
+                    theme={Theme.DARK}
                   />
                 </PopoverContent>
               </Popover>
@@ -237,30 +237,30 @@ const CreatePost2 = ({ user }: any) => {
                 </PopoverTrigger>
                 <PopoverContent className="m-0 p-0">
                   <EmojiPicker
-                    theme={Theme.DARK}
                     onEmojiClick={(emo) => {
                       form.setValue(
                         "thread",
                         form.getValues().thread + emo.emoji
                       );
                     }}
+                    theme={Theme.DARK}
                   />
                 </PopoverContent>
               </Popover>
             </div>
             <Button
-              type="submit"
-              className="btn-primary  group flex w-fit gap-2 px-5"
+              className="btn-primary group flex w-fit gap-2 px-5"
               disabled={isLoading}
+              type="submit"
             >
               {isLoading ? (
                 <>
-                  Posting <span className="loader-primary"></span>
+                  Posting <span className="loader-primary" />
                 </>
               ) : (
                 <>
                   Post
-                  <FaPaperPlane className="opacity-70 transition delay-150 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  <FaPaperPlane className="group-hover:-translate-y-1 opacity-70 transition delay-150 group-hover:translate-x-1" />
                 </>
               )}
             </Button>

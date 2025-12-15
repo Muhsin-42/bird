@@ -1,8 +1,9 @@
 "use client";
-import { bookmarkPost } from "@/lib/actions/thread.actions";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { bookmarkPost } from "@/lib/actions/thread.actions";
+
 const useBookmark = (
   bookmark: string[],
   threadId: string,
@@ -31,7 +32,7 @@ const useBookmark = (
         toast.success("Post is Boookmarked.", { duration: 1500 });
       }
       await bookmarkPost(threadId, currentUserId, pathName);
-    } catch (error) {
+    } catch (_error) {
       toast.error("Something Went Wrong! Try Again!");
     }
   }

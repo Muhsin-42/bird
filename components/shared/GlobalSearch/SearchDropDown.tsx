@@ -1,8 +1,7 @@
-import { IUserGeneral } from "@/interfaces/propInterfaces";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import type { IUserGeneral } from "@/interfaces/propInterfaces";
 
 function SearchDropDown({
   users,
@@ -15,10 +14,10 @@ function SearchDropDown({
     <ul className="flex max-h-56 w-full flex-col overflow-y-auto rounded-2xl border border-dark-4 bg-dark-1 shadow-md shadow-white">
       {searchKey && (
         <li
-          key={Math.random()}
           className="cursor-pointer rounded-2xl px-3 py-2 text-white hover:bg-dark-4 "
+          key={Math.random()}
         >
-          <Link href={`/search?q=${searchKey}`} className="flex gap-3">
+          <Link className="flex gap-3" href={`/search?q=${searchKey}`}>
             <div className="flex items-center">
               <Search />
             </div>
@@ -32,17 +31,17 @@ function SearchDropDown({
         users.length > 0 &&
         users?.map((user: IUserGeneral) => (
           <li
-            key={user._id}
             className="cursor-pointer rounded-2xl px-3 py-2 text-white hover:bg-dark-4 "
+            key={user._id}
           >
-            <Link href={`/profile/${user?.username}`} className="flex gap-3">
+            <Link className="flex gap-3" href={`/profile/${user?.username}`}>
               <div className="flex items-center">
                 <Image
-                  src={user?.image}
                   alt="Profile Image"
-                  height={30}
-                  width={30}
                   className="cursor-pointer rounded-full"
+                  height={30}
+                  src={user?.image}
+                  width={30}
                 />
               </div>
               <div className="flex flex-col ">

@@ -1,22 +1,21 @@
 "use client";
-import React from "react";
-import { sidebarLinks } from "@/constants/constants";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import {
-  SignInButton,
-  SignOutButton,
   SignedIn,
   SignedOut,
+  SignInButton,
+  SignOutButton,
   // useAuth,
 } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
-import { IUserGeneral } from "@/interfaces/propInterfaces";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { sidebarLinks } from "@/constants/constants";
+import type { IUserGeneral } from "@/interfaces/propInterfaces";
+
 const LeftSideBar = ({ currentUser }: { currentUser: IUserGeneral }) => {
   // const LeftSideBar = () => {
   // const { userId } = useAuth();
-  const router = useRouter();
   const pathName = usePathname();
 
   return (
@@ -32,15 +31,15 @@ const LeftSideBar = ({ currentUser }: { currentUser: IUserGeneral }) => {
 
           return (
             <Link
+              className={`leftsidebar_link ${isActive && "bg-primary-500"}`}
               href={link.route}
               key={link.label}
-              className={`leftsidebar_link ${isActive && "bg-primary-500"}`}
             >
               <Image
-                src={link.imgURL}
                 alt={link.label}
-                width={24}
                 height={24}
+                src={link.imgURL}
+                width={24}
               />
               <p className="text-light-1 max-lg:hidden">{link.label}</p>
             </Link>
@@ -50,13 +49,13 @@ const LeftSideBar = ({ currentUser }: { currentUser: IUserGeneral }) => {
 
       <div className="mt-10 px-6">
         <SignedIn>
-          <SignOutButton signOutCallback={() => router.push("/sign-in")}>
+          <SignOutButton redirectUrl="/sign-in">
             <div className="flex cursor-pointer gap-4 p-4">
               <Image
-                src={"/assets/logout.svg"}
                 alt="logout"
-                width={24}
                 height={24}
+                src={"/assets/logout.svg"}
+                width={24}
               />
               <p className="mx-lg:hidden text-light-2">Logout</p>
             </div>
