@@ -1,6 +1,6 @@
-import { connectToDB } from '../mongoose';
-import { ApiError } from './ApiErrors';
-import { ApiResponse } from './ApiResponse';
+import { connectToDB } from "../mongoose";
+import { ApiError } from "./ApiErrors";
+import { ApiResponse } from "./ApiResponse";
 
 export async function asyncHandler<T>(
   operation: () => Promise<T>,

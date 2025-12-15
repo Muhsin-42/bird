@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderIcon } from 'lucide-react';
-import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { type ChangeEvent, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import type * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderIcon } from "lucide-react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { type ChangeEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,14 +15,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import useLoading from '@/hooks/useLoading';
-import { updateUser } from '@/lib/actions/user.actions';
-import { useUploadThing } from '@/lib/uploadthing';
-import { isBase64Image } from '@/lib/utils/utils';
-import { UserValidation } from '@/lib/validations/user';
-import { Textarea } from '../ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import useLoading from "@/hooks/useLoading";
+import { updateUser } from "@/lib/actions/user.actions";
+import { useUploadThing } from "@/lib/uploadthing";
+import { isBase64Image } from "@/lib/utils/utils";
+import { UserValidation } from "@/lib/validations/user";
+import { Textarea } from "../ui/textarea";
 
 interface Props {
   user: {
@@ -38,7 +38,7 @@ interface Props {
 
 const AccountProfile = ({ user, btnTitle }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathName = usePathname();
   const { isLoading, setIsLoading } = useLoading();
@@ -46,10 +46,10 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user?.image || '',
-      name: user?.name || '',
-      username: user?.username || '',
-      bio: user?.bio || '',
+      profile_photo: user?.image || "",
+      name: user?.name || "",
+      username: user?.username || "",
+      bio: user?.bio || "",
     },
   });
 
@@ -66,10 +66,10 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 
       setFiles(Array.from(e.target.files));
 
-      if (!file.type.includes('image')) return;
+      if (!file.type.includes("image")) return;
 
       fileReader.onload = async (event) => {
-        const imageDataUrl = event?.target?.result?.toString() || '';
+        const imageDataUrl = event?.target?.result?.toString() || "";
 
         fieldChange(imageDataUrl);
       };
@@ -86,7 +86,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
 
-      if (imgRes && imgRes[0].url) {
+      if (imgRes?.[0].url) {
         values.profile_photo = imgRes[0].url;
       }
     }
@@ -100,8 +100,8 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       path: pathName,
     });
 
-    if (pathName === '/profile/edit') router.back();
-    else router.push('/');
+    if (pathName === "/profile/edit") router.back();
+    else router.push("/");
     setIsLoading(false);
   }
 
@@ -131,7 +131,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                     alt="profile pic"
                     className="object-contain"
                     height={24}
-                    src={'/assets/profile.svg'}
+                    src={"/assets/profile.svg"}
                     width={24}
                   />
                 )}
@@ -209,8 +209,8 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
           )}
         />
         <Button className="bg-primary-500" disabled={isLoading} type="submit">
-          {isLoading ? <LoaderIcon className="mr-2 size-4 animate-spin" /> : ''}
-          {isLoading ? 'Creating your profile...' : 'Create Profile'}
+          {isLoading ? <LoaderIcon className="mr-2 size-4 animate-spin" /> : ""}
+          {isLoading ? "Creating your profile..." : btnTitle}
         </Button>
       </form>
     </Form>

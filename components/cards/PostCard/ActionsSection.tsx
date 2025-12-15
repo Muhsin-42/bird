@@ -1,14 +1,14 @@
-'use client';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { GoBookmark, GoBookmarkFill } from 'react-icons/go';
-import DeleteModal from '@/components/shared/DeleteModal';
-import conf from '@/conf/config';
-import useBookmark from '@/hooks/useBookmark';
-import useLike from '@/hooks/useLike';
-import type { IActionsSection } from '@/interfaces/propInterfaces';
-import ShareComponent from './ShareComponent';
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { GoBookmark, GoBookmarkFill } from "react-icons/go";
+import DeleteModal from "@/components/shared/DeleteModal";
+import conf from "@/conf/config";
+import useBookmark from "@/hooks/useBookmark";
+import useLike from "@/hooks/useLike";
+import type { IActionsSection } from "@/interfaces/propInterfaces";
+import ShareComponent from "./ShareComponent";
 
 const ActionsSection = ({
   isComment,
@@ -30,7 +30,7 @@ const ActionsSection = ({
   const shareUrl = `${conf.BASE_URL}/thread/${author?.name}/${id}`;
 
   return (
-    <div className={`mt-5 flex flex-col gap-3 ${isComment && 'pb-3'}`}>
+    <div className={`mt-5 flex flex-col gap-3 ${isComment && "pb-3"}`}>
       <div className="flex gap-4">
         <div className="flex gap-1">
           <Image
@@ -38,7 +38,7 @@ const ActionsSection = ({
             className="animate-pulse cursor-pointer object-contain"
             height={24}
             onClick={handleLike}
-            src={`/assets/heart${isLiked ? '-filled' : '-gray'}.svg`}
+            src={`/assets/heart${isLiked ? "-filled" : "-gray"}.svg`}
             width={24}
           />
           <span className="text-gray-1">{likeCount}</span>
@@ -59,15 +59,15 @@ const ActionsSection = ({
         <div className="flex items-center gap-1">
           {isBookmarked ? (
             <GoBookmarkFill
-              className={'cursor-pointer text-[#5C5C7B]'}
+              className={"cursor-pointer text-[#5C5C7B]"}
               onClick={handleBookmark}
-              size={'1.2rem'}
+              size={"1.2rem"}
             />
           ) : (
             <GoBookmark
-              className={'cursor-pointer text-[#5C5C7B]'}
+              className={"cursor-pointer text-[#5C5C7B]"}
               onClick={handleBookmark}
-              size={'1.2rem'}
+              size={"1.2rem"}
             />
           )}
           <span className="text-gray-1">{bookmarkCount}</span>
@@ -81,7 +81,7 @@ const ActionsSection = ({
             onClick={() => setDeleteModalShow(true)}
             onMouseLeave={() => setDeleteHover(false)}
             onMouseOver={() => setDeleteHover(true)}
-            src={`/assets/delete${deleteHover ? '' : '-gray'}.svg`}
+            src={`/assets/delete${deleteHover ? "" : "-gray"}.svg`}
             width={20}
           />
         )}

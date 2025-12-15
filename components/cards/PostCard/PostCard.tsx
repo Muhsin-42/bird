@@ -1,18 +1,15 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import PostContent from '@/components/ui/PostContent';
-import type { IPostCard } from '@/interfaces/propInterfaces';
-import { getTimestamp } from '@/lib/utils/utils';
-import ActionsSection from './ActionsSection';
+import Image from "next/image";
+import Link from "next/link";
+import PostContent from "@/components/ui/PostContent";
+import type { IPostCard } from "@/interfaces/propInterfaces";
+import { getTimestamp } from "@/lib/utils/utils";
+import ActionsSection from "./ActionsSection";
 
 const PostCard = ({
   id,
   currentUserId,
-  parentId,
   content,
   author,
-  community,
   comments,
   like,
   isComment,
@@ -24,7 +21,7 @@ const PostCard = ({
   return (
     <article
       className={`flex w-full flex-col overflow-auto rounded-xl ${
-        isComment ? 'px-0 xs:px-7' : 'bg-dark-1 p-5 sm:p-7'
+        isComment ? "px-0 xs:px-7" : "bg-dark-1 p-5 sm:p-7"
       }`}
     >
       <div className="flex items-start justify-between">
@@ -57,7 +54,7 @@ const PostCard = ({
             {isDeleted ? (
               <p
                 className={
-                  'mt-2 font-semibold text-dark-4 text-heading4-medium'
+                  "mt-2 font-semibold text-dark-4 text-heading4-medium"
                 }
               >
                 This post was deleted by the author.
@@ -67,7 +64,7 @@ const PostCard = ({
                 author={author}
                 content={content}
                 id={id}
-                image={image || ''}
+                image={image || ""}
               />
             )}
 

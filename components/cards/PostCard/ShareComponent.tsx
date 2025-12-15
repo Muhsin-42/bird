@@ -3,18 +3,17 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/react';
-import Image from 'next/image';
-import React from 'react';
-import { IoCopyOutline } from 'react-icons/io5';
+} from "@nextui-org/react";
+import Image from "next/image";
+import { IoCopyOutline } from "react-icons/io5";
 import {
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
   XIcon,
-} from 'react-share';
-import { toast } from 'sonner';
-import useCopyClipboard from '@/hooks/useCopyClipboard';
+} from "react-share";
+import { toast } from "sonner";
+import useCopyClipboard from "@/hooks/useCopyClipboard";
 
 const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
   const { copyToClipboard } = useCopyClipboard();
@@ -30,7 +29,7 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="twitter" startContent={<XIcon size={'1.5rem'} />}>
+        <DropdownItem key="twitter" startContent={<XIcon size={"1.5rem"} />}>
           <TwitterShareButton
             title="Check out this post @ Bird 🐦"
             url={shareUrl}
@@ -41,7 +40,7 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
         <DropdownItem
           className="!hover:text-sky-500"
           key="Whatsapp"
-          startContent={<WhatsappIcon size={'1.5rem'} />}
+          startContent={<WhatsappIcon size={"1.5rem"} />}
         >
           <WhatsappShareButton
             title="Check out this post @ Bird 🐦"
@@ -54,9 +53,9 @@ const ShareComponent = ({ shareUrl }: { shareUrl: string }) => {
           key="copy"
           onClick={() => {
             copyToClipboard(shareUrl);
-            toast.success('Url Copied to clipboard.', { duration: 1500 });
+            toast.success("Url Copied to clipboard.", { duration: 1500 });
           }}
-          startContent={<IoCopyOutline size={'1.5rem'} />}
+          startContent={<IoCopyOutline size={"1.5rem"} />}
         >
           Copy to Clipboard
         </DropdownItem>

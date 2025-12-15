@@ -1,8 +1,7 @@
-import { Search } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import type { IUserGeneral } from '@/interfaces/propInterfaces';
+import { Search } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import type { IUserGeneral } from "@/interfaces/propInterfaces";
 
 function SearchDropDown({
   users,

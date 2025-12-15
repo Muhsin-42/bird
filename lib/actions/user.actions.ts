@@ -1,8 +1,11 @@
-'use server';
+"use server";
 
-import type { SortOrder } from 'mongoose';
-import type { IPutUser, IGetFollowListProps } from '@/interfaces/actions/user.interface';
-import { GET, PUT } from './controllers/user.controller';
+import type { SortOrder } from "mongoose";
+import type {
+  IGetFollowListProps,
+  IPutUser,
+} from "@/interfaces/actions/user.interface";
+import { GET, PUT } from "./controllers/user.controller";
 // import User from "@/lib/models/user.modle";
 
 /* ======================
@@ -16,10 +19,10 @@ export const fetchUserByUsername = async (username: string) =>
 
 export async function fetchUsers({
   userId,
-  searchString = '',
+  searchString = "",
   pageNumber = 1,
   pageSize = 20,
-  sortBy = 'desc',
+  sortBy = "desc",
 }: {
   userId: string;
   searchString?: string;
@@ -38,9 +41,11 @@ export async function fetchUsers({
 
 export const getActivity = async (userId: string) => await GET.activity(userId);
 
-export const fetchFollowers = async (props: IGetFollowListProps) => await GET.followers(props);
+export const fetchFollowers = async (props: IGetFollowListProps) =>
+  await GET.followers(props);
 
-export const fetchFollowing = async (props: IGetFollowListProps) => await GET.following(props);
+export const fetchFollowing = async (props: IGetFollowListProps) =>
+  await GET.following(props);
 
 /* =========================
           PUT 

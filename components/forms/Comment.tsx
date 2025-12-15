@@ -1,23 +1,22 @@
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderIcon } from 'lucide-react';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import type * as z from 'zod';
-import { Button } from '@/components/ui/button';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderIcon } from "lucide-react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import useLoading from '@/hooks/useLoading';
-import { addCommentToThread } from '@/lib/actions/thread.actions';
-import { CommentValidation } from '@/lib/validations/thread';
-import { Input } from '../ui/input';
+} from "@/components/ui/form";
+import useLoading from "@/hooks/useLoading";
+import { addCommentToThread } from "@/lib/actions/thread.actions";
+import { CommentValidation } from "@/lib/validations/thread";
+import { Input } from "../ui/input";
 
 type Props = {
   threadId: string;
@@ -34,7 +33,7 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
   const form = useForm({
     resolver: zodResolver(CommentValidation),
     defaultValues: {
-      thread: '',
+      thread: "",
     },
   });
 
@@ -48,9 +47,9 @@ const Comment = ({ threadId, currentUserImg, currentUserId }: Props) => {
         pathName
       );
       setIsLoading(false);
-      console.log('rsssss = ', res);
+      console.log("rsssss = ", res);
       form.reset();
-    } catch (error) {
+    } catch (_error) {
       setIsLoading(false);
     }
   };

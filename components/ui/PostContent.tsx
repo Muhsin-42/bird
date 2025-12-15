@@ -1,8 +1,7 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import type { IUserGeneral } from '@/interfaces/propInterfaces';
-import LinkPreview from '../shared/LinkPreview';
+import Image from "next/image";
+import Link from "next/link";
+import type { IUserGeneral } from "@/interfaces/propInterfaces";
+import LinkPreview from "../shared/LinkPreview";
 
 const PostContent = ({
   content,
@@ -22,17 +21,17 @@ const PostContent = ({
 
   return (
     <>
-      <p className={'mt-2 break-words text-light-2 text-small-regular'}>
+      <p className={"mt-2 break-words text-light-2 text-small-regular"}>
         {splitContent?.map((word, index) => {
           const trimmedWord = word.trim();
-          if (trimmedWord[0] === '#') {
+          if (trimmedWord[0] === "#") {
             return (
               <Link
                 className="cursor-pointer text-sky-500"
                 href={`/search?q=${word.slice(1)}`}
                 key={index}
               >
-                {word}{' '}
+                {word}{" "}
               </Link>
             );
           }
@@ -45,13 +44,13 @@ const PostContent = ({
                 target="_blank"
               >
                 {word.slice(0, 50)}
-                {word?.length > 50 ? '...' : ' '}
+                {word?.length > 50 ? "..." : " "}
               </Link>
             );
           }
           return (
             <Link href={`/thread/${author?.name}/${id}`} key={index}>
-              {word + ' '}
+              {`${word} `}
             </Link>
           );
         })}
@@ -67,7 +66,7 @@ const PostContent = ({
           />
         </div>
       ) : (
-        <>{links?.length > 0 && <LinkPreview link={links[0]} />}</>
+        links?.length > 0 && <LinkPreview link={links[0]} />
       )}
     </>
   );

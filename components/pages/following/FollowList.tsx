@@ -1,5 +1,5 @@
-import UserCard from '@/components/cards/UserCard';
-import BackButton from './backButton';
+import UserCard from "@/components/cards/UserCard";
+import BackButton from "./backButton";
 
 interface User {
   id: string;
@@ -16,11 +16,10 @@ interface Props {
 }
 
 const FollowList = ({ title, users, isNext, username }: Props) => {
-
   return (
     <section className="head-text mb-10">
       <div className="flex items-center gap-4 mb-8">
-     <BackButton />
+        <BackButton />
         <div>
           <h1 className="text-heading2-bold text-light-1">{username}</h1>
           <p className="text-small-regular text-gray-1">{title}</p>
@@ -31,18 +30,16 @@ const FollowList = ({ title, users, isNext, username }: Props) => {
         {users.length === 0 ? (
           <p className="no-result">No users found</p>
         ) : (
-          <>
-            {users.map((user) => (
-              <UserCard
-                key={user.id}
-                id={user.username}
-                name={user.name}
-                username={user.username}
-                imgUrl={user.image}
-                personType="User"
-              />
-            ))}
-          </>
+          users.map((user) => (
+            <UserCard
+              key={user.id}
+              id={user.username}
+              name={user.name}
+              username={user.username}
+              imgUrl={user.image}
+              personType="User"
+            />
+          ))
         )}
       </div>
 

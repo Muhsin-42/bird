@@ -1,32 +1,32 @@
-import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
-import NextTopLoader from 'nextjs-toploader';
-import type React from 'react';
-import { Toaster } from 'sonner';
-import Footer from '@/components/shared/Footer';
-import LeftSideBar from '@/components/shared/LeftSideBar';
-import NavBar from '@/components/shared/NavBar';
-import RightSideBar from '@/components/shared/RightSideBar';
-import { fetchUser, fetchUsers } from '@/lib/actions/user.actions';
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import NextTopLoader from "nextjs-toploader";
+import type React from "react";
+import { Toaster } from "sonner";
+import Footer from "@/components/shared/Footer";
+import LeftSideBar from "@/components/shared/LeftSideBar";
+import NavBar from "@/components/shared/NavBar";
+import RightSideBar from "@/components/shared/RightSideBar";
+import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 
 const subLayout = async ({ children }: { children: React.ReactNode }) => {
-  let user;
+  let user = null;
   try {
     user = await currentUser();
-  } catch (error) {
-    return redirect('/sign-in');
+  } catch (_error) {
+    return redirect("/sign-in");
   }
-  if (!user) return redirect('/sign-in');
+  if (!user) return redirect("/sign-in");
 
   const { data: userInfo } = await fetchUser(user?.id);
-  if (!userInfo?.onboarded) redirect('/onboarding');
+  if (!userInfo?.onboarded) redirect("/onboarding");
 
   const { data: users } = await fetchUsers({
     userId: user.id,
-    searchString: '',
+    searchString: "",
     pageNumber: 1,
     pageSize: 25,
-    sortBy: 'desc',
+    sortBy: "desc",
   });
 
   return (

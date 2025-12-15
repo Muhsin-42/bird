@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import type { IUserMongo } from '@/interfaces/propInterfaces';
-import { Input } from '../../ui/input';
-import SearchDropDown from './SearchDropDown';
-import useReducerProvider from './useReducerProvider';
+import type { IUserMongo } from "@/interfaces/propInterfaces";
+import { Input } from "../../ui/input";
+import SearchDropDown from "./SearchDropDown";
+import useReducerProvider from "./useReducerProvider";
 
 const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
   const { state, dispatch } = useReducerProvider({ users });
@@ -17,13 +16,13 @@ const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
           className="!bg-dark-1 rounded-full text-white"
           onBlur={() =>
             setTimeout(() => {
-              dispatch({ type: 'BLUR' });
+              dispatch({ type: "BLUR" });
             }, 200)
           }
           onChange={(e) =>
-            dispatch({ type: 'SET_SEARCH_KEY', value: e.target.value })
+            dispatch({ type: "SET_SEARCH_KEY", value: e.target.value })
           }
-          onFocus={() => dispatch({ type: 'FOCUS' })}
+          onFocus={() => dispatch({ type: "FOCUS" })}
           placeholder="Search.."
           type="search"
           value={searchKey}
@@ -31,7 +30,7 @@ const GlobalSearch = ({ users }: { users: IUserMongo[] }) => {
         {isFocused && (
           <div
             className={`transition-all duration-300 ease-in-out ${
-              isFocused ? 'visible opacity-100' : 'invisible opacity-0'
+              isFocused ? "visible opacity-100" : "invisible opacity-0"
             }`}
           >
             <SearchDropDown searchKey={searchKey} users={filteredUsers} />

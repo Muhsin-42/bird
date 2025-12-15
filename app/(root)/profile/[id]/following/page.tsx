@@ -1,7 +1,10 @@
-import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
-import FollowList from '@/components/pages/following/FollowList';
-import { fetchFollowing, fetchUserByUsername } from '@/lib/actions/user.actions';
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import FollowList from "@/components/pages/following/FollowList";
+import {
+  fetchFollowing,
+  fetchUserByUsername,
+} from "@/lib/actions/user.actions";
 
 type Props = {
   params: { id: string };
@@ -10,10 +13,10 @@ type Props = {
 
 async function Page({ params, searchParams }: Props) {
   const user = await currentUser();
-  if (!user) return redirect('/sign-in');
+  if (!user) return redirect("/sign-in");
 
   const { data: userInfo } = await fetchUserByUsername(params.id);
-  if (!userInfo) redirect('/onboarding');
+  if (!userInfo) redirect("/onboarding");
 
   const pageNumber = Number(searchParams?.page) || 1;
   const { data: followingData } = await fetchFollowing({

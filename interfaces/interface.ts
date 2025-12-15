@@ -1,4 +1,4 @@
-import type { IUserGeneral } from './propInterfaces';
+import type { IUserGeneral } from "./propInterfaces";
 
 interface IPostCommon {
   _id: string;

@@ -1,7 +1,7 @@
-'use client';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { likePost } from '@/lib/actions/thread.actions';
+"use client";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { likePost } from "@/lib/actions/thread.actions";
 
 const useLike = (like: string[], threadId: string, currentUserId: string) => {
   const [isLiked, setIsLiked] = useState(

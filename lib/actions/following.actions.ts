@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import type { IPutFollow } from '@/interfaces/actions/following.interface';
-import { PUT } from './controllers/following.controller';
+import type { IPutFollow } from "@/interfaces/actions/following.interface";
+import { PUT } from "./controllers/following.controller";
 
 /* =========================
           PUT 

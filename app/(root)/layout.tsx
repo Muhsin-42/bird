@@ -1,16 +1,16 @@
-import { Analytics } from '@vercel/analytics/react';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import '../globals.css';
-import { ClerkProvider } from '@clerk/nextjs';
-import type React from 'react';
-import SubLayout from './subLayout';
+import { Analytics } from "@vercel/analytics/react";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "../globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import type React from "react";
+import SubLayout from "./subLayout";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Bird',
-  description: 'NextJs 14 Social Media App.',
+  title: "Bird",
+  description: "NextJs 16 Social Media App.",
 };
 
 export default function RootLayout({

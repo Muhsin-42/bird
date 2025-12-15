@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderIcon } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import type * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,11 +13,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import useLoading from '@/hooks/useLoading';
-import { createThread } from '@/lib/actions/thread.actions';
-import { ThreadValidation } from '@/lib/validations/thread';
-import { Textarea } from '../ui/textarea';
+} from "@/components/ui/form";
+import useLoading from "@/hooks/useLoading";
+import { createThread } from "@/lib/actions/thread.actions";
+import { ThreadValidation } from "@/lib/validations/thread";
+import { Textarea } from "../ui/textarea";
 
 type props = {
   userId: string;
@@ -31,7 +31,7 @@ const CreatePost = ({ userId }: props) => {
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
-      thread: '',
+      thread: "",
     },
   });
 
@@ -44,48 +44,46 @@ const CreatePost = ({ userId }: props) => {
     });
 
     setIsLoading(true);
-    router.push('/');
+    router.push("/");
   };
 
   return (
-    <>
-      <Form {...form}>
-        <form
-          className="flex flex-col items-end justify-start gap-10"
-          onSubmit={form.handleSubmit(onSubmit)}
+    <Form {...form}>
+      <form
+        className="flex flex-col items-end justify-start gap-10"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        {/* Name */}
+        <FormField
+          control={form.control}
+          name="thread"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col gap-3">
+              <FormLabel className="font-semibold text-light-2">
+                Thread content
+              </FormLabel>
+              <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                <Textarea
+                  className="account-form_input no-focus"
+                  placeholder="Enter you name."
+                  rows={15}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          className="btn-primary flex w-fit gap-2 px-5 hover:bg-primary-600"
+          disabled={isLoading}
+          type="submit"
         >
-          {/* Name */}
-          <FormField
-            control={form.control}
-            name="thread"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col gap-3">
-                <FormLabel className="font-semibold text-light-2">
-                  Thread content
-                </FormLabel>
-                <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                  <Textarea
-                    className="account-form_input no-focus"
-                    placeholder="Enter you name."
-                    rows={15}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            className="btn-primary flex w-fit gap-2 px-5 hover:bg-primary-600"
-            disabled={isLoading}
-            type="submit"
-          >
-            Post
-            {isLoading && <LoaderIcon className="animate-spin" />}
-          </Button>
-        </form>
-      </Form>
-    </>
+          Post
+          {isLoading && <LoaderIcon className="animate-spin" />}
+        </Button>
+      </form>
+    </Form>
   );
 };
 

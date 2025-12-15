@@ -1,12 +1,12 @@
-import { redirect } from 'next/navigation';
-import type { PROFILE_TABS } from '@/constants/constants';
-import PostCard from '../../cards/PostCard/PostCard';
+import { redirect } from "next/navigation";
+import type { PROFILE_TABS } from "@/constants/constants";
+import PostCard from "../../cards/PostCard/PostCard";
 
 interface Props {
   currentUserId: string;
   accountId: string;
   accountType: string;
-  section: (typeof PROFILE_TABS)[number]['value'];
+  section: (typeof PROFILE_TABS)[number]["value"];
   profilePosts: any;
 }
 async function ThreadsTab({
@@ -15,14 +15,14 @@ async function ThreadsTab({
   section,
   profilePosts,
 }: Props) {
-  if (!profilePosts) redirect('/');
+  if (!profilePosts) redirect("/");
 
   return (
     <section className="mt-9 flex flex-col gap-10">
       {profilePosts[section].map((post: any) => (
         <PostCard
           author={
-            accountType === 'User'
+            accountType === "User"
               ? {
                   name: post?.author?.name,
                   image: post?.author?.image,
@@ -40,7 +40,7 @@ async function ThreadsTab({
           community={post?.createdAt}
           content={post?.text}
           createdAt={post?.createdAt}
-          currentUserId={currentUserId?.toString() || ''}
+          currentUserId={currentUserId?.toString() || ""}
           id={post?._id}
           image={post?.image}
           isDeleted={post?.deleted}

@@ -1,7 +1,7 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import { followUser } from '@/lib/actions/following.actions';
+"use client";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { followUser } from "@/lib/actions/following.actions";
 
 const useFollow = (userId: string, following: string[]) => {
   const [isFollowed, setIsFollowed] = useState(
@@ -22,11 +22,11 @@ const useFollow = (userId: string, following: string[]) => {
       } else {
         setFollowCount((prev) => prev + 1);
         setIsFollowed(true);
-        toast.success('Followed.', { duration: 1500 });
+        toast.success("Followed.", { duration: 1500 });
       }
       await followUser({ currentUserId, userId });
-    } catch (error) {
-      toast.error('Something Went Wrong! Try Again!');
+    } catch (_error) {
+      toast.error("Something Went Wrong! Try Again!");
     }
   }
 

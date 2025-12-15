@@ -1,6 +1,5 @@
-import React from 'react';
-import type { IPostCard } from '@/interfaces/propInterfaces';
-import PostCard from '../cards/PostCard/PostCard';
+import type { IPostCard } from "@/interfaces/propInterfaces";
+import PostCard from "../cards/PostCard/PostCard";
 
 interface IListPosts {
   posts: IPostCard[];

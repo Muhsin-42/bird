@@ -1,10 +1,9 @@
-'use client';
-import { usePathname } from 'next/navigation';
-import React from 'react';
-import { toast } from 'sonner';
-import useClickOutsideModal from '@/hooks/useClickOutsideModal';
-import useLoading from '@/hooks/useLoading';
-import { deletePost } from '@/lib/actions/thread.actions';
+"use client";
+import { usePathname } from "next/navigation";
+import { toast } from "sonner";
+import useClickOutsideModal from "@/hooks/useClickOutsideModal";
+import useLoading from "@/hooks/useLoading";
+import { deletePost } from "@/lib/actions/thread.actions";
 
 const DeleteModal = ({
   onClose,
@@ -21,7 +20,7 @@ const DeleteModal = ({
   const handleDelete = async () => {
     setIsLoading(true);
     await deletePost(id, path);
-    toast.success('Post is Deleted', { duration: 1500 });
+    toast.success("Post is Deleted", { duration: 1500 });
     setIsLoading(false);
     onClose();
   };
@@ -49,7 +48,7 @@ const DeleteModal = ({
               Deleting <span className="loader-primary" />
             </>
           ) : (
-            <>Delete</>
+            "Delete"
           )}
         </button>
         <button

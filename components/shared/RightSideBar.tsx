@@ -1,6 +1,5 @@
-import React from 'react';
-import type { IUserMongo } from '@/interfaces/propInterfaces';
-import UserRow from './UserRow';
+import type { IUserMongo } from "@/interfaces/propInterfaces";
+import UserRow from "./UserRow";
 
 const RightSideBar = ({
   users,

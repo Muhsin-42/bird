@@ -1,9 +1,9 @@
-'use client';
+"use client";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import clsx from 'clsx';
-import useFollow from '@/hooks/useFollow';
-import { Button } from '../../ui/button';
+import useFollow from "@/hooks/useFollow";
+import { Button } from "../../ui/button";
 
 interface Props {
   accountId: string; // clerk id of the user profile
@@ -52,7 +52,7 @@ const ProfileHeader = ({
             </h2>
             <p className="text-base-medium text-gray-1">@{username}</p>
             <div className=" flex gap-6">
-              <Link 
+              <Link
                 href={`/profile/${username}/followers`}
                 className="flex items-center gap-1 hover:underline cursor-pointer"
               >
@@ -63,7 +63,7 @@ const ProfileHeader = ({
                   Followers
                 </span>
               </Link>
-              <Link 
+              <Link
                 href={`/profile/${username}/following`}
                 className="flex items-center gap-1 hover:underline cursor-pointer"
               >
@@ -81,17 +81,18 @@ const ProfileHeader = ({
         {!isOwnProfile && (
           <div className="group">
             <Button
-              className={clsx(isFollowed ? 'btn-transparent' : 'btn-secondary')}
+              className={clsx(isFollowed ? "btn-transparent" : "btn-secondary")}
               onClick={() => {
-                console.log({mongoCurrentUser, mongoLoggedInUser});
-                handleFollow(mongoCurrentUser, mongoLoggedInUser)}}
+                console.log({ mongoCurrentUser, mongoLoggedInUser });
+                handleFollow(mongoCurrentUser, mongoLoggedInUser);
+              }}
               type="button"
             >
               <span className="group-hover:hidden">
-                {isFollowed ? 'Following' : 'Follow'}
+                {isFollowed ? "Following" : "Follow"}
               </span>
               <span className="hidden group-hover:block">
-                {isFollowed ? 'Unfollow' : 'Follow'}
+                {isFollowed ? "Unfollow" : "Follow"}
               </span>
             </Button>
           </div>

@@ -1,7 +1,7 @@
-'use client';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Button } from '../ui/button';
+"use client";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 interface Props {
   id: string;
@@ -10,7 +10,7 @@ interface Props {
   imgUrl: string;
   personType: string;
 }
-const UserCard = ({ id, name, username, imgUrl, personType }: Props) => {
+const UserCard = ({ id, name, username, imgUrl }: Props) => {
   const router = useRouter();
   return (
     <article className="user-card">

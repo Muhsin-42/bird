@@ -1,10 +1,9 @@
-'use client';
-import clsx from 'clsx';
-import Image from 'next/image';
-import React from 'react';
-import useFollow from '@/hooks/useFollow';
-import type { IUserMongo } from '@/interfaces/propInterfaces';
-import { Button } from '../ui/button';
+"use client";
+import clsx from "clsx";
+import Image from "next/image";
+import useFollow from "@/hooks/useFollow";
+import type { IUserMongo } from "@/interfaces/propInterfaces";
+import { Button } from "../ui/button";
 
 const UserRow = ({
   currentUser,
@@ -13,7 +12,7 @@ const UserRow = ({
   user: IUserMongo;
   currentUser: IUserMongo;
 }) => {
-  console.log('userr ', currentUser?.followingId?.following);
+  console.log("userr ", currentUser?.followingId?.following);
   const { handleFollow, isFollowed } = useFollow(
     user._id!,
     currentUser.followingId?.following!
@@ -36,15 +35,15 @@ const UserRow = ({
 
       <div className="group">
         <Button
-          className={clsx(isFollowed ? 'btn-transparent' : 'btn-secondary')}
+          className={clsx(isFollowed ? "btn-transparent" : "btn-secondary")}
           onClick={() => handleFollow(currentUser._id!, user?._id!)}
           type="button"
         >
           <span className="group-hover:hidden">
-            {isFollowed ? 'Following' : 'Follow'}
+            {isFollowed ? "Following" : "Follow"}
           </span>
           <span className="hidden group-hover:block">
-            {isFollowed ? 'Un-follow' : 'Follow'}
+            {isFollowed ? "Un-follow" : "Follow"}
           </span>
         </Button>
       </div>

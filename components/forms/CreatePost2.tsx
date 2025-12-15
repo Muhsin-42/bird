@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import EmojiPicker, { Theme } from 'emoji-picker-react';
-import GifPicker from 'gif-picker-react';
-import { SmilePlus, X } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { type ChangeEvent, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { FaPaperPlane } from 'react-icons/fa';
-import { MdOutlineGifBox } from 'react-icons/md';
-import type * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from "@hookform/resolvers/zod";
+import EmojiPicker, { Theme } from "emoji-picker-react";
+import GifPicker from "gif-picker-react";
+import { SmilePlus, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { type ChangeEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaPaperPlane } from "react-icons/fa";
+import { MdOutlineGifBox } from "react-icons/md";
+import type * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -20,33 +20,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import conf from '@/conf/config';
-import useLoading from '@/hooks/useLoading';
-import { createThread } from '@/lib/actions/thread.actions';
-import { useUploadThing } from '@/lib/uploadthing';
-import { isBase64Image } from '@/lib/utils/utils';
-import { ThreadValidation } from '@/lib/validations/thread';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
+} from "@/components/ui/popover";
+import conf from "@/conf/config";
+import useLoading from "@/hooks/useLoading";
+import { createThread } from "@/lib/actions/thread.actions";
+import { useUploadThing } from "@/lib/uploadthing";
+import { isBase64Image } from "@/lib/utils/utils";
+import { ThreadValidation } from "@/lib/validations/thread";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 const CreatePost2 = ({ user }: any) => {
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathName = usePathname();
   const { isLoading, setIsLoading } = useLoading();
   const [files, setFiles] = useState<File[]>([]);
-  const [gif, setGif] = useState({ set: false, preview: '', url: '' });
+  const [gif, setGif] = useState({ set: false, preview: "", url: "" });
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
-      image: '',
-      thread: '',
+      image: "",
+      thread: "",
     },
   });
 
@@ -55,12 +55,12 @@ const CreatePost2 = ({ user }: any) => {
       setIsLoading(true);
       if (files.length > 0 && !gif.set) {
         const blob = values.image;
-        const hasImageChanged = isBase64Image(blob || '');
+        const hasImageChanged = isBase64Image(blob || "");
 
         if (hasImageChanged) {
           const imgRes = await startUpload(files);
 
-          if (imgRes && imgRes[0].url) {
+          if (imgRes?.[0].url) {
             values.image = imgRes[0].url;
           }
         }
@@ -75,16 +75,16 @@ const CreatePost2 = ({ user }: any) => {
         path: pathName,
       });
 
-      console.log('data ', data);
+      console.log("data ", data);
 
       setIsLoading(false);
       form.reset();
       setFiles([]);
-      setGif({ set: false, preview: '', url: '' });
-      router.push('/');
+      setGif({ set: false, preview: "", url: "" });
+      router.push("/");
     } catch (error) {
       setIsLoading(false);
-      throw new Error('Error Creating Thread ' + error);
+      throw new Error(`Error Creating Thread ${error}`);
     }
   };
 
@@ -101,10 +101,10 @@ const CreatePost2 = ({ user }: any) => {
 
       setFiles(Array.from(e.target.files));
 
-      if (!file.type.includes('image')) return;
+      if (!file.type.includes("image")) return;
 
       fileReader.onload = async (event) => {
-        const imageDataUrl = event?.target?.result?.toString() || '';
+        const imageDataUrl = event?.target?.result?.toString() || "";
         fieldChange(imageDataUrl);
       };
 
@@ -153,12 +153,12 @@ const CreatePost2 = ({ user }: any) => {
               <div
                 className="absolute top-4 right-4 cursor-pointer rounded-full bg-slate-500 p-1 hover:scale-105 "
                 onClick={() => {
-                  form.setValue('image', '');
+                  form.setValue("image", "");
                   setFiles([]);
-                  setGif({ set: false, preview: '', url: '' });
+                  setGif({ set: false, preview: "", url: "" });
                 }}
               >
-                <X color="white" size={'1.4rem'} />
+                <X color="white" size={"1.4rem"} />
               </div>
               <Image
                 alt="Image"
@@ -187,11 +187,11 @@ const CreatePost2 = ({ user }: any) => {
                           alt="profile pic"
                           className={`object-contain ${
                             (files && files.length > 0) || !!gif.set
-                              ? 'opacity-40'
-                              : ''
+                              ? "opacity-40"
+                              : ""
                           } `}
                           height={24}
-                          src={'/assets/profile.svg'}
+                          src={"/assets/profile.svg"}
                           width={24}
                         />
                       </FormLabel>
@@ -215,7 +215,7 @@ const CreatePost2 = ({ user }: any) => {
                   // disabled={(files && files.length > 0) || gif.set}
                   className="disabled:opacity-40"
                 >
-                  <MdOutlineGifBox size={'1.7rem'} />
+                  <MdOutlineGifBox size={"1.7rem"} />
                 </PopoverTrigger>
                 <PopoverContent className="">
                   <GifPicker
@@ -239,7 +239,7 @@ const CreatePost2 = ({ user }: any) => {
                   <EmojiPicker
                     onEmojiClick={(emo) => {
                       form.setValue(
-                        'thread',
+                        "thread",
                         form.getValues().thread + emo.emoji
                       );
                     }}

@@ -1,10 +1,10 @@
-import React, { useReducer, useState } from 'react';
+import { useState } from "react";
 
 const useCopyClipboard = () => {
   const [isCopied, setIsCopied] = useState(false);
 
   function copyToClipboard(text: string) {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       navigator.clipboard.writeText(text).then(
         () => {
           setIsCopied(true);
@@ -12,7 +12,7 @@ const useCopyClipboard = () => {
             setIsCopied(false);
           }, 1000);
         },
-        (err) => {}
+        (_err) => {}
       );
     }
   }

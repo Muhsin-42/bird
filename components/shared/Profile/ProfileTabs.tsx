@@ -1,10 +1,9 @@
-import Image from 'next/image';
-import React from 'react';
-import ThreadsTab from '@/components/shared/Profile/ThreadsTab';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PROFILE_TABS } from '@/constants/constants';
-import type { IUserMongo } from '@/interfaces/propInterfaces';
-import { fetchProfilePosts } from '@/lib/actions/thread.actions';
+import Image from "next/image";
+import ThreadsTab from "@/components/shared/Profile/ThreadsTab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PROFILE_TABS } from "@/constants/constants";
+import type { IUserMongo } from "@/interfaces/propInterfaces";
+import { fetchProfilePosts } from "@/lib/actions/thread.actions";
 
 const ProfileTabs = async ({
   userInfo,
@@ -21,7 +20,7 @@ const ProfileTabs = async ({
   );
 
   const tabsToRender = PROFILE_TABS.filter(
-    (tab) => tab.value !== 'bookmark' || isLoggedInUser
+    (tab) => tab.value !== "bookmark" || isLoggedInUser
   );
 
   return (

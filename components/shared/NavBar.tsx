@@ -3,19 +3,18 @@ import {
   SignedOut,
   SignInButton,
   SignOutButton,
-} from '@clerk/nextjs';
-import { LogIn } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import type { IUserMongo } from '@/interfaces/propInterfaces';
-import GlobalSearch from './GlobalSearch/GlobalSearch';
+} from "@clerk/nextjs";
+import { LogIn } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import type { IUserMongo } from "@/interfaces/propInterfaces";
+import GlobalSearch from "./GlobalSearch/GlobalSearch";
 
 const NavBar = async ({ users }: { users: IUserMongo[] }) => {
   return (
     <nav className="topbar">
-      <Link className="flex items-center gap-4 " href={'/'}>
-        <Image alt="logo" height={32} src={'/assets/bird.webp'} width={32} />
+      <Link className="flex items-center gap-4 " href={"/"}>
+        <Image alt="logo" height={32} src={"/assets/bird.webp"} width={32} />
         <p className="text-heading3-bold text-light-1 max-xs:hidden">Bird</p>
       </Link>
 
@@ -29,7 +28,7 @@ const NavBar = async ({ users }: { users: IUserMongo[] }) => {
                 <Image
                   alt="logout"
                   height={24}
-                  src={'/assets/logout.svg'}
+                  src={"/assets/logout.svg"}
                   width={24}
                 />
               </div>
