@@ -1,0 +1,12 @@
+[phases.setup]
+nixPkgs = ['pnpm']
+aptPkgs = ['build-essential']
+
+[phases.install]
+cmds = ["pnpm install"]
+
+[phases.build]
+cmds = ["pnpm run build"]
+
+[start]
+cmd = "pnpm run start"
