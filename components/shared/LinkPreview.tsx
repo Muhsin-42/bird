@@ -1,6 +1,7 @@
-import { getLinkPreview } from "link-preview-js";
 import Image from "next/image";
 import Link from "next/link";
+
+import conf from "@/conf/config";
 
 interface IPreviewData {
   url: string;
@@ -15,20 +16,92 @@ interface IPreviewData {
   domain: string;
 }
 
+async function fetchLinkPreview(url: string): Promise<any> {
+  const response = await fetch(
+    `${conf.BASE_URL}/api/link-preview?url=${encodeURIComponent(url)}`,
+    {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch link preview");
+  }
+
+  return response.json();
+}
+
 const LinkPreview = async ({ link }: { link: string }) => {
-  let domain = new URL(link).hostname;
-  domain = domain.replace(/^www\./, "");
-  if (!domain) return null;
+  let domain: string;
+  try {
+    domain = new URL(link).hostname.replace(/^www\./, "");
+  } catch {
+    // Invalid URL - show fallback link
+    return (
+      <div className="mt-3">
+        <Link
+          className="cursor-pointer break-words text-sky-500"
+          href={link}
+          target="_blank"
+        >
+          {link.slice(0, 50)}
+          {link.length > 50 ? "..." : ""}
+        </Link>
+      </div>
+    );
+  }
+
+  if (!domain) {
+    return (
+      <div className="mt-3">
+        <Link
+          className="cursor-pointer break-words text-sky-500"
+          href={link}
+          target="_blank"
+        >
+          {link.slice(0, 50)}
+          {link.length > 50 ? "..." : ""}
+        </Link>
+      </div>
+    );
+  }
 
   let data: any;
   try {
-    data = await getLinkPreview(link);
+    data = await fetchLinkPreview(link);
   } catch (_error) {
-    return null;
+    // Preview failed - show fallback link
+    return (
+      <div className="mt-3">
+        <Link
+          className="cursor-pointer break-words text-sky-500"
+          href={link}
+          target="_blank"
+        >
+          {link.slice(0, 50)}
+          {link.length > 50 ? "..." : ""}
+        </Link>
+      </div>
+    );
   }
-  const previewData: IPreviewData = { ...data, domain };
 
-  if (!data) return null;
+  if (!data || !data.title) {
+    // No preview data - show fallback link
+    return (
+      <div className="mt-3">
+        <Link
+          className="cursor-pointer break-words text-sky-500"
+          href={link}
+          target="_blank"
+        >
+          {link.slice(0, 50)}
+          {link.length > 50 ? "..." : ""}
+        </Link>
+      </div>
+    );
+  }
+
+  const previewData: IPreviewData = { ...data, domain };
 
   return (
     <div className="mt-3 w-full">

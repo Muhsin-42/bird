@@ -19,6 +19,9 @@ const PostContent = ({
     /^(https?:\/\/|www\.)/i.test(word.trim())
   );
 
+  // Get the first link that will be shown in preview (only when no image)
+  const previewLink = !image && links?.length > 0 ? links[0] : null;
+
   return (
     <>
       <p className={"mt-2 break-words text-light-2 text-small-regular"}>
@@ -36,6 +39,10 @@ const PostContent = ({
             );
           }
           if (/^(https?:\/\/|www\.)/i.test(trimmedWord)) {
+            // Skip rendering the first link inline - it will be shown in LinkPreview
+            if (trimmedWord === previewLink) {
+              return null;
+            }
             return (
               <Link
                 className="cursor-pointer break-words text-sky-500"
